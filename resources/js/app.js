@@ -1,10 +1,11 @@
-import { createApp } from 'vue';
+import Vue from 'vue';
+import vuetify from '@/js/plugins/vuetify'
+
 import App from '@/js/App.vue';
-import axios from 'axios';
-import VueAxios from 'vue-axios';
 
-const app = createApp(App);
+console.log(vuetify)
 
-app.use(VueAxios, axios);
-
-app.mount('#app');
+new Vue({
+    vuetify,
+    render: h => h(App)
+}).$mount('#app');
