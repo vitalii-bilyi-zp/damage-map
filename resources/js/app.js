@@ -1,9 +1,8 @@
 import Vue from 'vue';
-import vuetify from '@/js/plugins/vuetify'
+import vuetify from '@/js/plugins/vuetify';
+import '@/js/plugins/vuelidate';
 
 import App from '@/js/App.vue';
-
-console.log(vuetify)
 
 new Vue({
     vuetify,
