@@ -19,10 +19,11 @@ class ObjectTypeSeeder extends Seeder
         $secondCategory = ObjectCategory::firstWhere('name', 'Нежитловий фонд');
 
         $types = [
+            // first category
             ['name' => 'багатоповерховий будинок', 'objectCategoryId' => $firstCategory['id']],
             ['name' => 'приватний будинок', 'objectCategoryId' => $firstCategory['id']],
             ['name' => 'гуртожиток', 'objectCategoryId' => $firstCategory['id']],
-
+            // second category
             ['name' => 'адміністративна будівля', 'objectCategoryId' => $secondCategory['id']],
             ['name' => 'бізнес-центр', 'objectCategoryId' => $secondCategory['id']],
             ['name' => 'господарча споруда', 'objectCategoryId' => $secondCategory['id']],

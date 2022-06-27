@@ -133,6 +133,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'DamageForm',
@@ -142,10 +149,9 @@ __webpack_require__.r(__webpack_exports__);
       objectCategoryItems: [],
       objectType: null,
       objectTypeItems: [],
-      region: null,
-      regionItems: [],
+      community: null,
+      communityItems: [],
       city: null,
-      cityItems: [],
       streetName: null,
       buildingNumber: null,
       damageType: null,
@@ -160,7 +166,7 @@ __webpack_require__.r(__webpack_exports__);
     objectType: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__.required
     },
-    region: {
+    community: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__.required
     },
     city: {
@@ -192,10 +198,10 @@ __webpack_require__.r(__webpack_exports__);
       !this.$v.objectType.required && errors.push('Це поле обов\'язкове');
       return errors;
     },
-    regionErrors: function regionErrors() {
+    communityErrors: function communityErrors() {
       var errors = [];
-      if (!this.$v.region.$dirty) return errors;
-      !this.$v.region.required && errors.push('Це поле обов\'язкове');
+      if (!this.$v.community.$dirty) return errors;
+      !this.$v.community.required && errors.push('Це поле обов\'язкове');
       return errors;
     },
     cityErrors: function cityErrors() {
@@ -234,7 +240,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$v.$reset();
       this.objectCategory = null;
       this.objectType = null;
-      this.region = null;
+      this.community = null;
       this.city = null;
       this.streetName = null;
       this.buildingNumber = null;
@@ -713,6 +719,7 @@ var render = function () {
           "error-messages": _vm.objectCategoryErrors,
           label: "Категорія об’єкта",
           required: "",
+          outlined: "",
         },
         on: {
           change: function ($event) {
@@ -737,6 +744,7 @@ var render = function () {
           "error-messages": _vm.objectTypeErrors,
           label: "Тип об’єкта",
           required: "",
+          outlined: "",
         },
         on: {
           change: function ($event) {
@@ -755,39 +763,40 @@ var render = function () {
         },
       }),
       _vm._v(" "),
-      _c("v-select", {
+      _c("v-autocomplete", {
         attrs: {
-          items: _vm.regionItems,
-          "error-messages": _vm.regionErrors,
-          label: "Область",
+          items: _vm.communityItems,
+          "error-messages": _vm.communityErrors,
+          label: "Територіальна громада",
           required: "",
+          outlined: "",
         },
         on: {
           change: function ($event) {
-            return _vm.$v.region.$touch()
+            return _vm.$v.community.$touch()
           },
           blur: function ($event) {
-            return _vm.$v.region.$touch()
+            return _vm.$v.community.$touch()
           },
         },
         model: {
-          value: _vm.region,
+          value: _vm.community,
           callback: function ($$v) {
-            _vm.region = $$v
+            _vm.community = $$v
           },
-          expression: "region",
+          expression: "community",
         },
       }),
       _vm._v(" "),
-      _c("v-select", {
+      _c("v-text-field", {
         attrs: {
-          items: _vm.cityItems,
           "error-messages": _vm.cityErrors,
           label: "Місто / селище",
           required: "",
+          outlined: "",
         },
         on: {
-          change: function ($event) {
+          input: function ($event) {
             return _vm.$v.city.$touch()
           },
           blur: function ($event) {
@@ -808,6 +817,7 @@ var render = function () {
           "error-messages": _vm.streetNameErrors,
           label: "Вулиця",
           required: "",
+          outlined: "",
         },
         on: {
           input: function ($event) {
@@ -831,6 +841,7 @@ var render = function () {
           "error-messages": _vm.buildingNumberErrors,
           label: "Будівля",
           required: "",
+          outlined: "",
         },
         on: {
           input: function ($event) {
@@ -855,6 +866,7 @@ var render = function () {
           "error-messages": _vm.damageTypeErrors,
           label: "Тип пошкодження",
           required: "",
+          outlined: "",
         },
         on: {
           change: function ($event) {
@@ -878,6 +890,7 @@ var render = function () {
           "error-messages": _vm.restorationСostErrors,
           label: "Вартість відновлення",
           required: "",
+          outlined: "",
         },
         on: {
           input: function ($event) {
