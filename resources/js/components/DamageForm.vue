@@ -6,6 +6,7 @@
             :error-messages="objectCategoryErrors"
             label="Категорія об’єкта"
             required
+            outlined
             @change="$v.objectCategory.$touch()"
             @blur="$v.objectCategory.$touch()"
         ></v-select>
@@ -16,35 +17,38 @@
             :error-messages="objectTypeErrors"
             label="Тип об’єкта"
             required
+            outlined
             @change="$v.objectType.$touch()"
             @blur="$v.objectType.$touch()"
         ></v-select>
 
-        <v-select
-            v-model="region"
-            :items="regionItems"
-            :error-messages="regionErrors"
-            label="Область"
+        <v-autocomplete
+            v-model="community"
+            :items="communityItems"
+            :error-messages="communityErrors"
+            label="Територіальна громада"
             required
-            @change="$v.region.$touch()"
-            @blur="$v.region.$touch()"
-        ></v-select>
+            outlined
+            @change="$v.community.$touch()"
+            @blur="$v.community.$touch()"
+        ></v-autocomplete>
 
-        <v-select
+        <v-text-field
             v-model="city"
-            :items="cityItems"
             :error-messages="cityErrors"
             label="Місто / селище"
             required
-            @change="$v.city.$touch()"
+            outlined
+            @input="$v.city.$touch()"
             @blur="$v.city.$touch()"
-        ></v-select>
+        ></v-text-field>
 
         <v-text-field
             v-model="streetName"
             :error-messages="streetNameErrors"
             label="Вулиця"
             required
+            outlined
             @input="$v.streetName.$touch()"
             @blur="$v.streetName.$touch()"
         ></v-text-field>
@@ -54,6 +58,7 @@
             :error-messages="buildingNumberErrors"
             label="Будівля"
             required
+            outlined
             @input="$v.buildingNumber.$touch()"
             @blur="$v.buildingNumber.$touch()"
         ></v-text-field>
@@ -64,6 +69,7 @@
             :error-messages="damageTypeErrors"
             label="Тип пошкодження"
             required
+            outlined
             @change="$v.damageType.$touch()"
             @blur="$v.damageType.$touch()"
         ></v-select>
@@ -73,6 +79,7 @@
             :error-messages="restorationСostErrors"
             label="Вартість відновлення"
             required
+            outlined
             @input="$v.restorationСost.$touch()"
             @blur="$v.restorationСost.$touch()"
         ></v-text-field>
@@ -99,10 +106,9 @@
                 objectCategoryItems: [],
                 objectType: null,
                 objectTypeItems: [],
-                region: null,
-                regionItems: [],
+                community: null,
+                communityItems: [],
                 city: null,
-                cityItems: [],
                 streetName: null,
                 buildingNumber: null,
                 damageType: null,
@@ -118,7 +124,7 @@
         validations: {
             objectCategory: { required },
             objectType: { required },
-            region: { required },
+            community: { required },
             city: { required },
             streetName: { required },
             buildingNumber: { required },
@@ -141,10 +147,10 @@
                 return errors;
             },
 
-            regionErrors() {
+            communityErrors() {
                 const errors = [];
-                if (!this.$v.region.$dirty) return errors;
-                !this.$v.region.required && errors.push('Це поле обов\'язкове')
+                if (!this.$v.community.$dirty) return errors;
+                !this.$v.community.required && errors.push('Це поле обов\'язкове')
                 return errors;
             },
 
@@ -189,7 +195,7 @@
                 this.$v.$reset();
                 this.objectCategory = null;
                 this.objectType = null;
-                this.region = null;
+                this.community = null;
                 this.city = null;
                 this.streetName = null;
                 this.buildingNumber = null;
