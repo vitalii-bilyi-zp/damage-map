@@ -2,22 +2,28 @@
     <form>
         <v-select
             v-model="objectCategory"
-            :items="objectCategoryItems"
+            :items="objectCategoryItemsComputed"
             :error-messages="objectCategoryErrors"
             label="Категорія об’єкта"
             required
             outlined
+            item-text="name"
+            item-value="id"
+            :disabled="objectTypesLoading"
             @change="$v.objectCategory.$touch()"
             @blur="$v.objectCategory.$touch()"
         ></v-select>
 
         <v-select
             v-model="objectType"
-            :items="objectTypeItems"
+            :items="objectTypeItemsComputed"
             :error-messages="objectTypeErrors"
             label="Тип об’єкта"
             required
             outlined
+            item-text="name"
+            item-value="id"
+            :disabled="objectTypesLoading || !objectCategory"
             @change="$v.objectType.$touch()"
             @blur="$v.objectType.$touch()"
         ></v-select>
@@ -29,6 +35,9 @@
             label="Територіальна громада"
             required
             outlined
+            item-text="name"
+            item-value="id"
+            :disabled="communitiesLoading"
             @change="$v.community.$touch()"
             @blur="$v.community.$touch()"
         ></v-autocomplete>
@@ -102,8 +111,10 @@
 
         data() {
             return {
+                objectTypesLoading: false,
+                communitiesLoading: false,
+
                 objectCategory: null,
-                objectCategoryItems: [],
                 objectType: null,
                 objectTypeItems: [],
                 community: null,
@@ -188,9 +199,62 @@
                 !this.$v.restorationСost.required && errors.push('Це поле обов\'язкове')
                 return errors;
             },
+
+            objectCategoryItemsComputed() {
+                const objectCategories = this.objectTypeItems.reduce((prev, curr) => {
+                    if (curr.object_category && !prev[curr.object_category.id]) {
+                        prev[curr.object_category.id] = curr.object_category;
+                    }
+
+                    return prev;
+                }, {})
+
+                return Object.values(objectCategories);
+            },
+
+            objectTypeItemsComputed() {
+                if (!this.objectCategory) {
+                    return [];
+                }
+
+                return this.objectTypeItems.filter((item) => item.object_category_id === this.objectCategory);
+            }
+        },
+
+        mounted() {
+            this.loadObjectTypes();
+            this.loadCommunities();
         },
 
         methods: {
+            loadObjectTypes() {
+                this.objectTypesLoading = true;
+                this.$store.dispatch('loadObjectTypes')
+                    .then((response) => {
+                        this.objectTypeItems = response.data || [];
+                    })
+                    .catch(() => {
+                        //
+                    })
+                    .finally(() => {
+                        this.objectTypesLoading = false;
+                    });
+            },
+
+            loadCommunities() {
+                this.communitiesLoading = true;
+                this.$store.dispatch('loadCommunities')
+                    .then((response) => {
+                        this.communityItems = response.data || [];
+                    })
+                    .catch(() => {
+                        //
+                    })
+                    .finally(() => {
+                        this.communitiesLoading = false;
+                    });
+            },
+
             clear() {
                 this.$v.$reset();
                 this.objectCategory = null;

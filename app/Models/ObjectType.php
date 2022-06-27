@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\ObjectCategory;
 
 class ObjectType extends Model
 {
@@ -32,4 +33,9 @@ class ObjectType extends Model
     protected $casts = [
 
     ];
+
+    public function objectCategory()
+    {
+        return $this->belongsTo(ObjectCategory::class);
+    }
 }

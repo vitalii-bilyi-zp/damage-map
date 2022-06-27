@@ -20,15 +20,15 @@ class ObjectTypeSeeder extends Seeder
 
         $types = [
             // first category
-            ['name' => 'багатоповерховий будинок', 'objectCategoryId' => $firstCategory['id']],
-            ['name' => 'приватний будинок', 'objectCategoryId' => $firstCategory['id']],
-            ['name' => 'гуртожиток', 'objectCategoryId' => $firstCategory['id']],
+            ['name' => 'Багатоповерховий будинок', 'objectCategoryId' => $firstCategory['id']],
+            ['name' => 'Приватний будинок', 'objectCategoryId' => $firstCategory['id']],
+            ['name' => 'Гуртожиток', 'objectCategoryId' => $firstCategory['id']],
             // second category
-            ['name' => 'адміністративна будівля', 'objectCategoryId' => $secondCategory['id']],
-            ['name' => 'бізнес-центр', 'objectCategoryId' => $secondCategory['id']],
-            ['name' => 'господарча споруда', 'objectCategoryId' => $secondCategory['id']],
-            ['name' => 'готель / ресторан', 'objectCategoryId' => $secondCategory['id']],
-            ['name' => 'магазин', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Адміністративна будівля', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Бізнес-центр', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Господарча споруда', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Готель / ресторан', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Магазин', 'objectCategoryId' => $secondCategory['id']],
             ['name' => 'ТРЦ', 'objectCategoryId' => $secondCategory['id']]
         ];
 
