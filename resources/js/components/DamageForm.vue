@@ -1,4 +1,37 @@
 <template>
+<div>
+    <v-snackbar
+        v-model="snackbarSuccess"
+        color="success"
+        top
+    >
+        <v-icon dark class="mr-2">mdi-checkbox-marked-circle</v-icon>
+        Інформація прийнята в обробку.
+        <v-btn
+            text
+            icon
+            dark
+            @click="snackbarSuccess = false">
+            <v-icon size="20">mdi-close</v-icon>
+        </v-btn>
+    </v-snackbar>
+
+    <v-snackbar
+        v-model="snackbarError"
+        color="error"
+        top
+    >
+        <v-icon dark class="mr-2">mdi-alert-circle</v-icon>
+        Сталася помилка. Будь ласка, спробуйте пізніше.
+        <v-btn
+            text
+            icon
+            dark
+            @click="snackbarError = false">
+            <v-icon size="20">mdi-close</v-icon>
+        </v-btn>
+    </v-snackbar>
+
     <form>
         <v-select
             v-model="objectCategory"
@@ -53,13 +86,13 @@
         ></v-text-field>
 
         <v-text-field
-            v-model="streetName"
-            :error-messages="streetNameErrors"
+            v-model="street"
+            :error-messages="streetErrors"
             label="Вулиця"
             required
             outlined
-            @input="$v.streetName.$touch()"
-            @blur="$v.streetName.$touch()"
+            @input="$v.street.$touch()"
+            @blur="$v.street.$touch()"
         ></v-text-field>
 
         <v-text-field
@@ -79,6 +112,8 @@
             label="Тип пошкодження"
             required
             outlined
+            item-text="name"
+            item-value="id"
             @change="$v.damageType.$touch()"
             @blur="$v.damageType.$touch()"
         ></v-select>
@@ -87,6 +122,8 @@
             v-model="restorationСost"
             :error-messages="restorationСostErrors"
             label="Вартість відновлення"
+            type="number"
+            prefix="₴"
             required
             outlined
             @input="$v.restorationСost.$touch()"
@@ -97,10 +134,21 @@
             Clear
         </v-btn>
 
-        <v-btn @click="submit">
+        <v-btn
+            color="success"
+            :loading="formLoading"
+            :disabled="formLoading"
+            @click="submit"
+        >
             Submit
+            <template v-slot:loader>
+                <span class="custom-loader">
+                    <v-icon light>mdi-cached</v-icon>
+                </span>
+            </template>
         </v-btn>
     </form>
+</div>
 </template>
 
 <script>
@@ -113,6 +161,7 @@
             return {
                 objectTypesLoading: false,
                 communitiesLoading: false,
+                formLoading: false,
 
                 objectCategory: null,
                 objectType: null,
@@ -120,15 +169,27 @@
                 community: null,
                 communityItems: [],
                 city: null,
-                streetName: null,
+                street: null,
                 buildingNumber: null,
                 damageType: null,
                 damageTypeItems: [
-                    'Повне руйнування',
-                    'Сильне руйнування',
-                    'Слабке руйнування',
+                    {
+                        id: 'high',
+                        name: 'Повне руйнування',
+                    },
+                    {
+                        id: 'medium',
+                        name: 'Сильне руйнування',
+                    },
+                    {
+                        id: 'low',
+                        name: 'Слабке руйнування',
+                    }
                 ],
                 restorationСost: null,
+
+                snackbarSuccess: false,
+                snackbarError: false,
             }
         },
 
@@ -137,7 +198,7 @@
             objectType: { required },
             community: { required },
             city: { required },
-            streetName: { required },
+            street: { required },
             buildingNumber: { required },
             damageType: { required },
             restorationСost: { required },
@@ -172,10 +233,10 @@
                 return errors;
             },
 
-            streetNameErrors() {
+            streetErrors() {
                 const errors = [];
-                if (!this.$v.streetName.$dirty) return errors;
-                !this.$v.streetName.required && errors.push('Це поле обов\'язкове')
+                if (!this.$v.street.$dirty) return errors;
+                !this.$v.street.required && errors.push('Це поле обов\'язкове')
                 return errors;
             },
 
@@ -261,7 +322,7 @@
                 this.objectType = null;
                 this.community = null;
                 this.city = null;
-                this.streetName = null;
+                this.street = null;
                 this.buildingNumber = null;
                 this.damageType = null;
                 this.restorationСost = null;
@@ -269,12 +330,77 @@
 
             submit() {
                 this.$v.$touch();
+
+                if (this.$v.$invalid) {
+                    return;
+                }
+
+                this.formLoading = true;
+                let data = this.prepareData();
+                this.$store.dispatch('saveDamageNotes', data)
+                    .then(() => {
+                        this.clear();
+                        this.snackbarSuccess = true;
+                    })
+                    .catch(() => {
+                        this.snackbarError = true;
+                    })
+                    .finally(() => {
+                        this.formLoading = false;
+                    });
+            },
+
+            prepareData() {
+                return {
+                    object_type_id: this.objectType,
+                    community_id: this.community,
+                    city: this.city,
+                    street: this.street,
+                    building_number: this.buildingNumber,
+                    damage_type: this.damageType,
+                    restoration_cost: this.restorationСost,
+                };
             },
         }
     }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+}
+@-moz-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@-o-keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@keyframes loader {
+    from {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 </style>
 

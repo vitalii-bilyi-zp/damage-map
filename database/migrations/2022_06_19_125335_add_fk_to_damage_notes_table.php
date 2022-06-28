@@ -19,9 +19,9 @@ return new class extends Migration
                 ->on('object_types')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreign('city_id')
+            $table->foreign('community_id')
                 ->references('id')
-                ->on('cities')
+                ->on('communities')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
         });
@@ -36,7 +36,7 @@ return new class extends Migration
     {
         Schema::table('damage_notes', function (Blueprint $table) {
             $table->dropForeign(['object_type_id']);
-            $table->dropForeign(['city_id']);
+            $table->dropForeign(['community_id']);
         });
     }
 };

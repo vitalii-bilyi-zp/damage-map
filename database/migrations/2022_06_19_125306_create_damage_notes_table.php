@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('damage_notes', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('object_type_id')->unsigned()->index()->nullable();
-            $table->bigInteger('city_id')->unsigned()->index()->nullable();
+            $table->bigInteger('community_id')->unsigned()->index()->nullable();
+            $table->string('city');
             $table->string('street');
             $table->string('building_number');
             $table->enum('damage_type', ['low', 'medium', 'high']);
