@@ -14,6 +14,12 @@
 </template>
 
 <script>
+    import regions from '@/js/data/regions.json';
+    import districts from '@/js/data/districts.json';
+    import districtTitles from '@/js/data/district-titles.json';
+    import communities from '@/js/data/communities.json';
+    import communityTitles from '@/js/data/community-titles.json';
+
     export default {
         name: 'Map',
 
@@ -76,22 +82,12 @@
                     zoom: 5.5
                 });
 
-                var zoomStep0 = 5.5;
+                // var zoomStep0 = 5.5;
                 var zoomStep1 = 6;
                 var zoomStep2 = 7;
-                var zoomStep3 = 8;
+                // var zoomStep3 = 8;
 
-                var urlregion = 'geojson/region-ukraine-s-v5.geojson';
-
-                var urlrayon = 'geojson/rayon-ukraine-s-v5.geojson';
-
-                var titlerayon = 'geojson/rayon-title.geojson';
-
-                var urlhromada = 'geojson/hromady-ukraine-s-v6.geojson';
-
-                var titlehromada = 'geojson/all-hromady-titles-v3.geojson';
-
-                var hoveredStateId = null;
+                const self = this;
 
                 map.on('load', function() {
                     var layers = map.getStyle().layers;
@@ -105,27 +101,31 @@
                         }
                     }
 
+                    const regionsComputed = self.getRegionsGeojson();
+                    const districtsComputed = self.getDistrictsGeojson();
+                    const communitiesComputed = self.getCommunitiesGeojson();
+
                     map.addControl(new mapboxgl.NavigationControl(), 'top-left');
                     map.addControl(new mapboxgl.FullscreenControl(), 'top-left');
                     map.addSource('region', {
                         'type': 'geojson',
-                        'data': urlregion
+                        'data': regionsComputed,
                     });
                     map.addSource('titlerayon', {
                         'type': 'geojson',
-                        'data': titlerayon
+                        'data': districtTitles
                     });
                     map.addSource('rayon', {
                         'type': 'geojson',
-                        'data': urlrayon
+                        'data': districtsComputed
                     });
                     map.addSource('titlehromada', {
                         'type': 'geojson',
-                        'data': titlehromada
+                        'data': communityTitles
                     });
                     map.addSource('hromada', {
                         'type': 'geojson',
-                        'data': urlhromada
+                        'data': communitiesComputed
                     });
 
                     map.addLayer({
@@ -138,7 +138,7 @@
                             'fill-color': [
                                 'interpolate',
                                 ['linear'],
-                                ['get', 'kv'],
+                                ['get', 'restorationСost'],
                                 0,
                                 '#F2F12D',
                                 245000,
@@ -163,7 +163,6 @@
                                 0.65,
                                 0.5
                             ],
-
                             'fill-outline-color': '#3A3A33'
                         }
                     },
@@ -217,7 +216,7 @@
                             'fill-color': [
                                 'interpolate',
                                 ['linear'],
-                                ['get', 'kv'],
+                                ['get', 'restorationСost'],
                                 0,
                                 '#FCFCFB',
                                 19800,
@@ -294,7 +293,7 @@
                             'fill-color': [
                                 'interpolate',
                                 ['linear'],
-                                ['get', 'voters'],
+                                ['get', 'restorationСost'],
                                 0,
                                 '#fdfdb0',
                                 5000,
@@ -329,13 +328,13 @@
                     map.on('click', 'region', function(e) {
                         const properties = e.features[0].properties;
                         const html = `
-                            <h4 class="region">${properties.region}</h4>
+                            <h4 class="region">${ properties.region }</h4>
                             <div>
                                 <table>
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${ 0 }</span> грн.</td>
+                                            <td><span>${ properties.restorationСost }</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -351,13 +350,13 @@
                     map.on('click', 'rayon', function(e) {
                         const properties = e.features[0].properties;
                         const html = `
-                            <h4 class="rayon">${properties.rayon}</h4>
+                            <h4 class="rayon">${ properties.rayon }</h4>
                             <div>
                                 <table>
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${ 0 }</span> грн.</td>
+                                            <td><span>${ properties.restorationСost }</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -373,11 +372,11 @@
                     map.on('click', 'hromada', function(e) {
                         const properties = e.features[0].properties;
                         const html = `
-                            <h4 class="region">${properties.hromada}</h4>
+                            <h4 class="region">${ properties.hromada }</h4>
                             <div>
                                 <p>
-                                    <span>${properties.region}</span><br>
-                                    ${properties.rayon}
+                                    <span>${ properties.region }</span><br>
+                                    ${ properties.rayon }
                                 </p>
                             </div>
                             <div>
@@ -385,7 +384,7 @@
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${ 0 }</span> грн.</td>
+                                            <td><span>${ properties.restorationСost }</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -399,6 +398,94 @@
                     });
                 });
             },
+
+            getRegionsGeojson() {
+                const regionsMapping = this.regionsData.reduce((prev, curr) => {
+                    prev[curr.name] = curr;
+                    return prev;
+                }, {});
+
+                const newFeatures = regions.features.map((item) => {
+                    let restorationСost = 0;
+
+                    if (regionsMapping[item.properties.region]) {
+                        restorationСost = +regionsMapping[item.properties.region].restoration_cost || 0;
+                    }
+
+                    return {
+                        ...item,
+                        properties: {
+                            fid: item.properties.fid,
+                            region: item.properties.region,
+                            restorationСost,
+                        }
+                    }
+                })
+
+                return {
+                    ...regions,
+                    features: newFeatures,
+                }
+            },
+
+            getDistrictsGeojson() {
+                const districtsMapping = this.districtsData.reduce((prev, curr) => {
+                    prev[curr.name] = curr;
+                    return prev;
+                }, {});
+
+                const newFeatures = districts.features.map((item) => {
+                    let restorationСost = 0;
+
+                    if (districtsMapping[item.properties.rayon]) {
+                        restorationСost = +districtsMapping[item.properties.rayon].restoration_cost || 0;
+                    }
+
+                    return {
+                        ...item,
+                        properties: {
+                            fid: item.properties.fid,
+                            rayon: item.properties.rayon,
+                            restorationСost,
+                        }
+                    }
+                })
+
+                return {
+                    ...districts,
+                    features: newFeatures,
+                }
+            },
+
+            getCommunitiesGeojson() {
+                const communitiesMapping = this.communitiesData.reduce((prev, curr) => {
+                    prev[curr.name] = curr;
+                    return prev;
+                }, {});
+
+                const newFeatures = communities.features.map((item) => {
+                    let restorationСost = 0;
+
+                    if (communitiesMapping[item.properties.hromada]) {
+                        restorationСost = +communitiesMapping[item.properties.hromada].restoration_cost || 0;
+                    }
+
+                    return {
+                        ...item,
+                        properties: {
+                            region: item.properties.region,
+                            rayon: item.properties.rayon,
+                            hromada: item.properties.hromada,
+                            restorationСost,
+                        }
+                    }
+                })
+
+                return {
+                    ...communities,
+                    features: newFeatures,
+                }
+            }
         },
     }
 </script>
@@ -478,12 +565,14 @@
     }
 
     .mapboxgl-popup {
-        max-width: 400px;
         font-size: 12px;
+
+        @media screen and (min-width: 768px) {
+            max-width: 320px !important;
+        }
     }
 
     .mapboxgl-popup-content {
-        width: 300px;
         padding: 15px;
     }
 
