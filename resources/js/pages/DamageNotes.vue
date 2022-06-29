@@ -1,161 +1,174 @@
 <template>
-<div>
-    <v-snackbar
-        v-model="snackbarSuccess"
-        color="success"
-        top
-    >
-        <v-icon dark class="mr-2">mdi-checkbox-marked-circle</v-icon>
-        Інформація прийнята в обробку.
-        <v-btn
-            text
-            icon
-            dark
-            @click="snackbarSuccess = false">
-            <v-icon size="20">mdi-close</v-icon>
-        </v-btn>
-    </v-snackbar>
-
-    <v-snackbar
-        v-model="snackbarError"
-        color="error"
-        top
-    >
-        <v-icon dark class="mr-2">mdi-alert-circle</v-icon>
-        Сталася помилка. Будь ласка, спробуйте пізніше.
-        <v-btn
-            text
-            icon
-            dark
-            @click="snackbarError = false">
-            <v-icon size="20">mdi-close</v-icon>
-        </v-btn>
-    </v-snackbar>
-
-    <form>
-        <v-select
-            v-model="objectCategory"
-            :items="objectCategoryItemsComputed"
-            :error-messages="objectCategoryErrors"
-            label="Категорія об’єкта"
-            required
-            outlined
-            item-text="name"
-            item-value="id"
-            :disabled="objectTypesLoading"
-            @change="$v.objectCategory.$touch()"
-            @blur="$v.objectCategory.$touch()"
-        ></v-select>
-
-        <v-select
-            v-model="objectType"
-            :items="objectTypeItemsComputed"
-            :error-messages="objectTypeErrors"
-            label="Тип об’єкта"
-            required
-            outlined
-            item-text="name"
-            item-value="id"
-            :disabled="objectTypesLoading || !objectCategory"
-            @change="$v.objectType.$touch()"
-            @blur="$v.objectType.$touch()"
-        ></v-select>
-
-        <v-autocomplete
-            v-model="community"
-            :items="communityItems"
-            :error-messages="communityErrors"
-            label="Територіальна громада"
-            required
-            outlined
-            item-text="name"
-            item-value="id"
-            :disabled="communitiesLoading"
-            @change="$v.community.$touch()"
-            @blur="$v.community.$touch()"
-        ></v-autocomplete>
-
-        <v-text-field
-            v-model="city"
-            :error-messages="cityErrors"
-            label="Місто / селище"
-            required
-            outlined
-            @input="$v.city.$touch()"
-            @blur="$v.city.$touch()"
-        ></v-text-field>
-
-        <v-text-field
-            v-model="street"
-            :error-messages="streetErrors"
-            label="Вулиця"
-            required
-            outlined
-            @input="$v.street.$touch()"
-            @blur="$v.street.$touch()"
-        ></v-text-field>
-
-        <v-text-field
-            v-model="buildingNumber"
-            :error-messages="buildingNumberErrors"
-            label="Будівля"
-            required
-            outlined
-            @input="$v.buildingNumber.$touch()"
-            @blur="$v.buildingNumber.$touch()"
-        ></v-text-field>
-
-        <v-select
-            v-model="damageType"
-            :items="damageTypeItems"
-            :error-messages="damageTypeErrors"
-            label="Тип пошкодження"
-            required
-            outlined
-            item-text="name"
-            item-value="id"
-            @change="$v.damageType.$touch()"
-            @blur="$v.damageType.$touch()"
-        ></v-select>
-
-        <v-text-field
-            v-model="restorationСost"
-            :error-messages="restorationСostErrors"
-            label="Вартість відновлення"
-            type="number"
-            prefix="₴"
-            required
-            outlined
-            @input="$v.restorationСost.$touch()"
-            @blur="$v.restorationСost.$touch()"
-        ></v-text-field>
-
-        <v-btn class="mr-4" @click="clear">
-            Clear
-        </v-btn>
-
-        <v-btn
+    <div class="damage-notes">
+        <v-snackbar
+            v-model="snackbarSuccess"
             color="success"
-            :loading="formLoading"
-            :disabled="formLoading"
-            @click="submit"
+            top
         >
-            Submit
-            <template v-slot:loader>
-                <span class="custom-loader">
-                    <v-icon light>mdi-cached</v-icon>
-                </span>
-            </template>
-        </v-btn>
-    </form>
-</div>
+            <v-icon dark class="mr-2">mdi-checkbox-marked-circle</v-icon>
+            Інформація прийнята в обробку.
+            <v-btn
+                text
+                icon
+                dark
+                @click="snackbarSuccess = false">
+                <v-icon size="20">mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+        <v-snackbar
+            v-model="snackbarError"
+            color="error"
+            top
+        >
+            <v-icon dark class="mr-2">mdi-alert-circle</v-icon>
+            Сталася помилка. Будь ласка, спробуйте пізніше.
+            <v-btn
+                text
+                icon
+                dark
+                @click="snackbarError = false">
+                <v-icon size="20">mdi-close</v-icon>
+            </v-btn>
+        </v-snackbar>
+
+        <v-card color="damage-notes__card">
+            <v-card-text class="damage-notes__card-text">
+                <v-form>
+                    <v-select
+                        v-model="objectCategory"
+                        :items="objectCategoryItemsComputed"
+                        :error-messages="objectCategoryErrors"
+                        label="Категорія об’єкта"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        :disabled="objectTypesLoading"
+                        @change="$v.objectCategory.$touch()"
+                        @blur="$v.objectCategory.$touch()"
+                    ></v-select>
+
+                    <v-select
+                        v-model="objectType"
+                        :items="objectTypeItemsComputed"
+                        :error-messages="objectTypeErrors"
+                        label="Тип об’єкта"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        :disabled="objectTypesLoading || !objectCategory"
+                        @change="$v.objectType.$touch()"
+                        @blur="$v.objectType.$touch()"
+                    ></v-select>
+
+                    <v-autocomplete
+                        v-model="community"
+                        :items="communityItems"
+                        :error-messages="communityErrors"
+                        label="Територіальна громада"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        :disabled="communitiesLoading"
+                        @change="$v.community.$touch()"
+                        @blur="$v.community.$touch()"
+                    ></v-autocomplete>
+
+                    <v-text-field
+                        v-model="city"
+                        :error-messages="cityErrors"
+                        label="Місто / селище"
+                        dense
+                        required
+                        outlined
+                        @input="$v.city.$touch()"
+                        @blur="$v.city.$touch()"
+                    ></v-text-field>
+
+                    <v-text-field
+                        v-model="street"
+                        :error-messages="streetErrors"
+                        label="Вулиця"
+                        dense
+                        required
+                        outlined
+                        @input="$v.street.$touch()"
+                        @blur="$v.street.$touch()"
+                    ></v-text-field>
+
+                    <v-text-field
+                        v-model="buildingNumber"
+                        :error-messages="buildingNumberErrors"
+                        label="Будівля"
+                        dense
+                        required
+                        outlined
+                        @input="$v.buildingNumber.$touch()"
+                        @blur="$v.buildingNumber.$touch()"
+                    ></v-text-field>
+
+                    <v-select
+                        v-model="damageType"
+                        :items="damageTypeItems"
+                        :error-messages="damageTypeErrors"
+                        label="Тип пошкодження"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        @change="$v.damageType.$touch()"
+                        @blur="$v.damageType.$touch()"
+                    ></v-select>
+
+                    <v-text-field
+                        v-model="restorationСost"
+                        :error-messages="restorationСostErrors"
+                        label="Вартість відновлення"
+                        type="number"
+                        dense
+                        prefix="₴"
+                        required
+                        outlined
+                        @input="$v.restorationСost.$touch()"
+                        @blur="$v.restorationСost.$touch()"
+                    ></v-text-field>
+                </v-form>
+            </v-card-text>
+
+            <v-divider/>
+
+            <v-card-actions class="damage-notes__card-actions">
+                <v-spacer></v-spacer>
+                <v-btn
+                    color="success"
+                    :loading="formLoading"
+                    :disabled="formLoading"
+                    @click="submit"
+                >
+                    Надіслати
+                    <template v-slot:loader>
+                        <span class="custom-loader">
+                            <v-icon light>mdi-cached</v-icon>
+                        </span>
+                    </template>
+                </v-btn>
+            </v-card-actions>
+        </v-card>
+    </div>
 </template>
 
 <script>
     import { required } from 'vuelidate/lib/validators'
 
     export default {
-        name: 'DamageForm',
+        name: 'DamageNotes',
 
         data() {
             return {
@@ -366,10 +379,32 @@
 </script>
 
 <style lang="scss" scoped>
+.damage-notes {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.damage-notes__card {
+    width: 100%;
+    max-width: 400px;
+}
+
+.damage-notes__card-text {
+    padding-bottom: 0;
+}
+
+.damage-notes__card-actions {
+    padding: 16px;
+}
+
 .custom-loader {
     animation: loader 1s infinite;
     display: flex;
 }
+
 @-moz-keyframes loader {
     from {
         transform: rotate(0);
