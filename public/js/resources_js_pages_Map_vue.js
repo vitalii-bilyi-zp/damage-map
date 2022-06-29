@@ -11,6 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -23,6 +25,7 @@ function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Sy
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
+//
 //
 //
 //
@@ -69,10 +72,185 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
         if (!_this.dataLoaded) {
           _this.dataLoaded = true;
+
+          _this.initMap();
         }
       })["catch"](function () {//
       })["finally"](function () {
         _this.isLoading = false;
+      });
+    },
+    initMap: function initMap() {
+      mapboxgl.accessToken = "pk.eyJ1IjoiYmVseXktdnYiLCJhIjoiY2wyeGM1YTJ6MDBiNjNibHBwdTZ5cG9uYiJ9.cYoj0o4mWMYonTsAzQO2eg"; // var bounds = [
+      //     [20.435, 42.779],
+      //     [42.935, 53.278]
+      // ];
+
+      var map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v10',
+        center: [33.124, 48.742],
+        //maxBounds: bounds,
+        minZoom: 1,
+        zoom: 5.5
+      });
+      var zoomStep0 = 5.5;
+      var zoomStep1 = 6;
+      var zoomStep2 = 7;
+      var zoomStep3 = 8;
+      var urlregion = 'geojson/region-ukraine-s-v5.geojson';
+      var urlrayon = 'geojson/rayon-ukraine-s-v5.geojson';
+      var titlerayon = 'geojson/rayon-title.geojson';
+      var urlhromada = 'geojson/hromady-ukraine-s-v6.geojson';
+      var titlehromada = 'geojson/all-hromady-titles-v3.geojson';
+      var hoveredStateId = null;
+      map.on('load', function () {
+        var _map$addLayer;
+
+        var layers = map.getStyle().layers; // Find the index of the first symbol layer in the map style
+
+        var firstSymbolId;
+
+        for (var i = 0; i < layers.length; i++) {
+          if (layers[i].type === 'symbol') {
+            firstSymbolId = layers[i].id;
+            break;
+          }
+        }
+
+        map.addControl(new mapboxgl.NavigationControl(), 'top-left');
+        map.addControl(new mapboxgl.FullscreenControl(), 'top-left');
+        map.addSource('region', {
+          'type': 'geojson',
+          'data': urlregion
+        });
+        map.addSource('titlerayon', {
+          'type': 'geojson',
+          'data': titlerayon
+        });
+        map.addSource('rayon', {
+          'type': 'geojson',
+          'data': urlrayon
+        });
+        map.addSource('titlehromada', {
+          'type': 'geojson',
+          'data': titlehromada
+        });
+        map.addSource('hromada', {
+          'type': 'geojson',
+          'data': urlhromada
+        });
+        map.addLayer({
+          'id': 'region',
+          'type': 'fill',
+          'source': 'region',
+          'maxzoom': zoomStep1,
+          'layout': {},
+          'paint': {
+            'fill-color': ['interpolate', ['linear'], ['get', 'kv'], 0, '#F2F12D', 245000, '#EED322', 490000, '#E6B71E', 735000, '#DA9C20', 980000, '#CA8323', 1225000, '#B86B25', 1470000, '#A25626', 1710000, '#8B4225', 2200000, '#723122'],
+            'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.65, 0.5],
+            'fill-outline-color': '#3A3A33'
+          }
+        }, firstSymbolId);
+        map.addLayer({
+          'id': 'region-border',
+          'type': 'line',
+          'source': 'region',
+          'minzoom': zoomStep1,
+          'maxzoom': zoomStep2,
+          'layout': {},
+          'paint': {
+            'line-color': '#3A3A33',
+            'line-width': 1
+          }
+        }, firstSymbolId);
+        map.addLayer({
+          'id': 'title-rayon',
+          'type': 'symbol',
+          'source': 'titlerayon',
+          'minzoom': zoomStep1,
+          'maxzoom': zoomStep2,
+          'layout': {
+            'text-field': ['get', 'titlerayon'],
+            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-size': 10,
+            'text-transform': 'uppercase',
+            'text-offset': [0, 1.25],
+            'text-anchor': 'top'
+          },
+          'paint': {
+            'text-color': '#57574D',
+            'text-opacity': 0.75
+          }
+        });
+        map.addLayer({
+          'id': 'rayon',
+          'type': 'fill',
+          'source': 'rayon',
+          'minzoom': zoomStep1,
+          'maxzoom': zoomStep2,
+          'layout': {},
+          'paint': {
+            'fill-color': ['interpolate', ['linear'], ['get', 'kv'], 0, '#FCFCFB', 19800, '#F9F9F7', 96000, '#F0F0EA', 120000, '#E7E7DD', 147000, '#D4D4C4', 170000, '#C2C2AB', 220000, '#AFAF9A', 360000, '#747467', 1200000, '#57574D'],
+            'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.65, 0.5],
+            'fill-outline-color': '#3A3A33'
+          }
+        }, firstSymbolId);
+        map.addLayer({
+          'id': 'rayon-border',
+          'type': 'line',
+          'source': 'rayon',
+          'minzoom': zoomStep2,
+          'layout': {},
+          'paint': {
+            'line-color': '#3A3A33',
+            'line-width': 1
+          }
+        }, firstSymbolId);
+        map.addLayer({
+          'id': 'title-hromada',
+          'type': 'symbol',
+          'source': 'titlehromada',
+          'minzoom': zoomStep2,
+          'layout': {
+            'text-field': ['get', 'hromada'],
+            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
+            'text-size': 9,
+            'text-transform': 'uppercase',
+            'text-offset': [0, 1.25],
+            'text-anchor': 'top'
+          },
+          'paint': {
+            'text-color': '#57574D',
+            'text-opacity': 0.9
+          }
+        });
+        map.addLayer((_map$addLayer = {
+          'id': 'hromada',
+          'type': 'fill',
+          'source': 'hromada',
+          'minzoom': zoomStep2,
+          'layout': {}
+        }, _defineProperty(_map$addLayer, "layout", {}), _defineProperty(_map$addLayer, 'paint', {
+          'fill-color': ['interpolate', ['linear'], ['get', 'voters'], 0, '#fdfdb0', 5000, '#EED322', 10000, '#E6B71E', 20000, '#DA9C20', 50000, '#CA8323', 100000, '#B86B25', 500000, '#A25626', 1000000, '#8B4225', 2500000, '#723122'],
+          'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.65, 0.5],
+          'fill-outline-color': '#723122'
+        }), _map$addLayer), firstSymbolId);
+        map.on('click', 'region', function (e) {
+          var properties = e.features[0].properties;
+          var html = "\n                        <h4 class=\"region\">".concat(properties.region, "</h4>\n                        <div>\n                            <table>\n                                <tbody>\n                                    <tr>\n                                        <td>\u0412\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u0432\u0456\u0434\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u044F</td>\n                                        <td><span>", 0, "</span> \u0433\u0440\u043D.</td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    ");
+          new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
+        });
+        map.on('click', 'rayon', function (e) {
+          var properties = e.features[0].properties;
+          var html = "\n                        <h4 class=\"rayon\">".concat(properties.rayon, "</h4>\n                        <div>\n                            <table>\n                                <tbody>\n                                    <tr>\n                                        <td>\u0412\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u0432\u0456\u0434\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u044F</td>\n                                        <td><span>", 0, "</span> \u0433\u0440\u043D.</td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    ");
+          new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
+        });
+        map.on('click', 'hromada', function (e) {
+          var properties = e.features[0].properties;
+          var html = "\n                        <h4 class=\"region\">".concat(properties.hromada, "</h4>\n                        <div>\n                            <p>\n                                <span>").concat(properties.region, "</span><br>\n                                ").concat(properties.rayon, "\n                            </p>\n                        </div>\n                        <div>\n                            <table>\n                                <tbody>\n                                    <tr>\n                                        <td>\u0412\u0430\u0440\u0442\u0456\u0441\u0442\u044C \u0432\u0456\u0434\u043D\u043E\u0432\u043B\u0435\u043D\u043D\u044F</td>\n                                        <td><span>", 0, "</span> \u0433\u0440\u043D.</td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    ");
+          new mapboxgl.Popup().setLngLat(e.lngLat).setHTML(html).addTo(map);
+        });
       });
     }
   }
@@ -96,7 +274,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".map[data-v-405bff63] {\n  position: relative;\n  height: 100%;\n}\n.map__loader[data-v-405bff63] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, ".map[data-v-405bff63] {\n  position: relative;\n  height: 100%;\n}\n.map__loader[data-v-405bff63] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1;\n}\n#map[data-v-405bff63] {\n  position: absolute;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n}\n[data-v-405bff63] .mapboxgl-popup-content div {\n  padding: 10px;\n}\n[data-v-405bff63] .mapboxgl-popup-content .region {\n  background-color: #f4e470;\n}\n[data-v-405bff63] .mapboxgl-popup-content .rayon {\n  background-color: #C2C2AB;\n}\n[data-v-405bff63] .mapboxgl-popup-content h4 {\n  text-transform: uppercase;\n  padding: 10px;\n  margin-top: 0px;\n}\n[data-v-405bff63] .mapboxgl-popup-content ul {\n  padding-left: 10px;\n  list-style: none;\n}\n[data-v-405bff63] .mapboxgl-popup-content table {\n  width: 100%;\n  box-sizing: border-box;\n}\n[data-v-405bff63] .mapboxgl-popup-content table td {\n  border: 1px solid #dbdbdb;\n  border-width: 0 0 1px;\n}\n[data-v-405bff63] .mapboxgl-popup-content thead tr th:first-child,[data-v-405bff63] tbody tr td:first-child {\n  width: 150px;\n  min-width: 150px;\n  max-width: 150px;\n}\n[data-v-405bff63] .mapboxgl-popup-content p {\n  margin-bottom: 0;\n}\n[data-v-405bff63] .mapboxgl-popup-content span {\n  text-transform: uppercase;\n}\n[data-v-405bff63] .mapboxgl-popup {\n  max-width: 400px;\n  font-size: 12px;\n}\n[data-v-405bff63] .mapboxgl-popup-content {\n  width: 300px;\n  padding: 15px;\n}\n[data-v-405bff63] .mapboxgl-popup-close-button {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 16px;\n  height: 16px;\n  font-size: 16px;\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -248,6 +426,8 @@ var render = function () {
           1
         )
       : _vm._e(),
+    _vm._v(" "),
+    _c("div", { attrs: { id: "map" } }),
   ])
 }
 var staticRenderFns = []
