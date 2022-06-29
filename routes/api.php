@@ -18,3 +18,7 @@ use App\Http\Controllers\Api\DamageNotesController;
 Route::get('/communities', [CommunitiesController::class, 'index']);
 Route::get('/object-types', [ObjectTypesController::class, 'index']);
 Route::post('/damage-notes', [DamageNotesController::class, 'store']);
+
+Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
+Route::get('/damage-notes/districts', [DamageNotesController::class, 'showDistricts']);
+Route::get('/damage-notes/communities', [DamageNotesController::class, 'showCommunities']);

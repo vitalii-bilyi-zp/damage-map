@@ -2727,6 +2727,15 @@ var actions = {
   saveDamageNotes: function saveDamageNotes(_ref, payload) {
     var commit = _ref.commit;
     return window.httpClient.post('/api/damage-notes', payload);
+  },
+  loadRegionsData: function loadRegionsData() {
+    return window.httpClient.get('/api/damage-notes/regions');
+  },
+  loadDistrictsData: function loadDistrictsData() {
+    return window.httpClient.get('/api/damage-notes/districts');
+  },
+  loadCommunitiesData: function loadCommunitiesData() {
+    return window.httpClient.get('/api/damage-notes/communities');
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (actions);

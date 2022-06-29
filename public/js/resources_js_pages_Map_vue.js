@@ -20,7 +20,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Map',
   data: function data() {
-    return {};
+    return {
+      isLoading: false
+    };
+  },
+  mounted: function mounted() {
+    this.loadMapData();
+  },
+  methods: {
+    loadMapData: function loadMapData() {
+      var _this = this;
+
+      var promises = [this.$store.dispatch('loadRegionsData'), this.$store.dispatch('loadDistrictsData'), this.$store.dispatch('loadCommunitiesData')];
+      this.isLoading = true;
+      Promise.all(promises).then(function () {//
+      })["catch"](function () {//
+      })["finally"](function () {
+        _this.isLoading = false;
+      });
+    }
   }
 });
 
@@ -110,7 +128,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", [_vm._v("\n    " + _vm._s(_vm.isLoading) + "\n")])
 }
 var staticRenderFns = []
 render._withStripped = true
