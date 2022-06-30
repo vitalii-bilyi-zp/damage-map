@@ -2728,6 +2728,10 @@ var actions = {
     var commit = _ref.commit;
     return window.httpClient.post('/api/damage-notes', payload);
   },
+  saveDamageNotesFromFile: function saveDamageNotesFromFile(_ref2, payload) {
+    var commit = _ref2.commit;
+    return window.httpClient.post('/api/damage-notes/file-upload', payload);
+  },
   loadRegionsData: function loadRegionsData() {
     return window.httpClient.get('/api/damage-notes/regions');
   },

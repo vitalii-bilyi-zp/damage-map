@@ -4,11 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DamageNotes\Store as DamageNotesStore;
+use App\Http\Requests\DamageNotes\StoreFromFile as DamageNotesStoreFromFile;
 use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
 use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
 use App\Models\DamageNote;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+
+use PhpOffice\PhpSpreadsheet\Reader\Csv as CsvReader;
 
 use F9Web\ApiResponseHelpers;
 use Illuminate\Http\JsonResponse;
@@ -28,6 +32,31 @@ class DamageNotesController extends Controller
             'damage_type' => $request->damage_type,
             'restoration_cost' => $request->restoration_cost
         ]);
+
+        return $this->respondWithSuccess();
+    }
+
+    public function storeFromFile(DamageNotesStoreFromFile $request): JsonResponse
+    {
+        $file = $request->file('file');
+        $path = $file->storeAs('tmp', \Str::random(40) . '.' . $file->getClientOriginalExtension());
+        $fullPath = storage_path() . '/app/' . $path;
+
+        $reader = new CsvReader();
+        $reader->setDelimiter(',');
+        $reader->setEnclosure('');
+        $spreadsheet = $reader->load($fullPath);
+        $worksheet = $spreadsheet->getActiveSheet();
+
+        foreach ($worksheet->getRowIterator() as $row) {
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(FALSE);
+            foreach ($cellIterator as $cell) {
+                info($cell->getValue());
+            }
+        }
+
+        Storage::delete($path);
 
         return $this->respondWithSuccess();
     }

@@ -380,10 +380,25 @@
                 }
 
                 this.formLoading = true;
-                setTimeout(() => {
-                    this.clearFile();
-                    this.formLoading = false;
-                }, 5000)
+                let data = this.prepareFileData();
+                this.$store.dispatch('saveDamageNotesFromFile', data)
+                    .then(() => {
+                        this.clearFile();
+                        this.snackbarSuccess = true;
+                    })
+                    .catch(() => {
+                        this.snackbarError = true;
+                    })
+                    .finally(() => {
+                        this.formLoading = false;
+                    });
+            },
+
+            prepareFileData() {
+                let data = new FormData();
+                data.append('file', this.file);
+
+                return data;
             },
 
             clearFile() {
@@ -399,7 +414,7 @@
                 }
 
                 this.formLoading = true;
-                let data = this.prepareData();
+                let data = this.prepareFormData();
                 this.$store.dispatch('saveDamageNotes', data)
                     .then(() => {
                         this.clearForm();
@@ -413,7 +428,7 @@
                     });
             },
 
-            prepareData() {
+            prepareFormData() {
                 return {
                     object_type_id: this.objectType,
                     community_id: this.community,

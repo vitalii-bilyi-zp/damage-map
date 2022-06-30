@@ -388,11 +388,21 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.formLoading = true;
-      setTimeout(function () {
+      var data = this.prepareFileData();
+      this.$store.dispatch('saveDamageNotesFromFile', data).then(function () {
         _this4.clearFile();
 
+        _this4.snackbarSuccess = true;
+      })["catch"](function () {
+        _this4.snackbarError = true;
+      })["finally"](function () {
         _this4.formLoading = false;
-      }, 5000);
+      });
+    },
+    prepareFileData: function prepareFileData() {
+      var data = new FormData();
+      data.append('file', this.file);
+      return data;
     },
     clearFile: function clearFile() {
       this.$v.file.$reset();
@@ -408,7 +418,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.formLoading = true;
-      var data = this.prepareData();
+      var data = this.prepareFormData();
       this.$store.dispatch('saveDamageNotes', data).then(function () {
         _this5.clearForm();
 
@@ -419,7 +429,7 @@ __webpack_require__.r(__webpack_exports__);
         _this5.formLoading = false;
       });
     },
-    prepareData: function prepareData() {
+    prepareFormData: function prepareFormData() {
       return {
         object_type_id: this.objectType,
         community_id: this.community,

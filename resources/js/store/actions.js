@@ -11,6 +11,10 @@ const actions = {
         return window.httpClient.post('/api/damage-notes', payload);
     },
 
+    saveDamageNotesFromFile: ({ commit }, payload) => {
+        return window.httpClient.post('/api/damage-notes/file-upload', payload);
+    },
+
     loadRegionsData: () => {
         return window.httpClient.get('/api/damage-notes/regions');
     },
