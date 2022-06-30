@@ -33,8 +33,37 @@
         </v-snackbar>
 
         <v-card color="damage-notes__card">
+            <v-card-title :class="[fileUploading ? '' : 'd-flex justify-center']">
+                <v-btn v-if="fileUploading" key="back" icon @click="fileUploading = false">
+                    <v-icon>mdi-arrow-left</v-icon>
+                </v-btn>
+
+                <v-btn v-else key="upload" outlined color="primary" @click="fileUploading = true">
+                    Завантажити файл
+                    <v-icon right dark>
+                        mdi-upload
+                    </v-icon>
+                </v-btn>
+            </v-card-title>
+
+            <v-divider/>
+
             <v-card-text class="damage-notes__card-text">
-                <v-form>
+                <v-form v-if="fileUploading">
+                    <v-file-input
+                        v-model="file"
+                        :error-messages="fileErrors"
+                        placeholder="Оберіть файл"
+                        dense
+                        filled
+                        prepend-icon="mdi-file-table"
+                        accept=".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                        @change="$v.file.$touch()"
+                        @blur="$v.file.$touch()"
+                    ></v-file-input>
+                </v-form>
+
+                <v-form v-else>
                     <v-select
                         v-model="objectCategory"
                         :items="objectCategoryItemsComputed"
@@ -175,7 +204,6 @@
                 objectTypesLoading: false,
                 communitiesLoading: false,
                 formLoading: false,
-
                 objectCategory: null,
                 objectType: null,
                 objectTypeItems: [],
@@ -200,9 +228,10 @@
                     }
                 ],
                 restorationСost: null,
-
                 snackbarSuccess: false,
                 snackbarError: false,
+                fileUploading: false,
+                file: null,
             }
         },
 
@@ -215,6 +244,9 @@
             buildingNumber: { required },
             damageType: { required },
             restorationСost: { required },
+            file: { required },
+
+            formValidationGroup: ['objectCategory', 'objectType', 'community', 'city', 'street', 'buildingNumber', 'damageType', 'restorationСost']
         },
 
         computed: {
@@ -274,6 +306,13 @@
                 return errors;
             },
 
+            fileErrors() {
+                const errors = [];
+                if (!this.$v.file.$dirty) return errors;
+                !this.$v.file.required && errors.push('Це поле обов\'язкове')
+                return errors;
+            },
+
             objectCategoryItemsComputed() {
                 const objectCategories = this.objectTypeItems.reduce((prev, curr) => {
                     if (curr.object_category && !prev[curr.object_category.id]) {
@@ -329,22 +368,33 @@
                     });
             },
 
-            clear() {
-                this.$v.$reset();
-                this.objectCategory = null;
-                this.objectType = null;
-                this.community = null;
-                this.city = null;
-                this.street = null;
-                this.buildingNumber = null;
-                this.damageType = null;
-                this.restorationСost = null;
+            submit() {
+                this.fileUploading ? this.submitFile() : this.submitForm();
             },
 
-            submit() {
-                this.$v.$touch();
+            submitFile() {
+                this.$v.file.$touch();
 
-                if (this.$v.$invalid) {
+                if (this.$v.file.$invalid) {
+                    return;
+                }
+
+                this.formLoading = true;
+                setTimeout(() => {
+                    this.clearFile();
+                    this.formLoading = false;
+                }, 5000)
+            },
+
+            clearFile() {
+                this.$v.file.$reset();
+                this.file = null;
+            },
+
+            submitForm() {
+                this.$v.formValidationGroup.$touch();
+
+                if (this.$v.formValidationGroup.$invalid) {
                     return;
                 }
 
@@ -352,7 +402,7 @@
                 let data = this.prepareData();
                 this.$store.dispatch('saveDamageNotes', data)
                     .then(() => {
-                        this.clear();
+                        this.clearForm();
                         this.snackbarSuccess = true;
                     })
                     .catch(() => {
@@ -373,6 +423,18 @@
                     damage_type: this.damageType,
                     restoration_cost: this.restorationСost,
                 };
+            },
+
+            clearForm() {
+                this.$v.formValidationGroup.$reset();
+                this.objectCategory = null;
+                this.objectType = null;
+                this.community = null;
+                this.city = null;
+                this.street = null;
+                this.buildingNumber = null;
+                this.damageType = null;
+                this.restorationСost = null;
             },
         }
     }

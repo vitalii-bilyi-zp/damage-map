@@ -178,6 +178,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'DamageNotes',
@@ -207,7 +236,9 @@ __webpack_require__.r(__webpack_exports__);
       }],
       restorationСost: null,
       snackbarSuccess: false,
-      snackbarError: false
+      snackbarError: false,
+      fileUploading: false,
+      file: null
     };
   },
   validations: {
@@ -234,7 +265,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     restorationСost: {
       required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__.required
-    }
+    },
+    file: {
+      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_0__.required
+    },
+    formValidationGroup: ['objectCategory', 'objectType', 'community', 'city', 'street', 'buildingNumber', 'damageType', 'restorationСost']
   },
   computed: {
     objectCategoryErrors: function objectCategoryErrors() {
@@ -283,6 +318,12 @@ __webpack_require__.r(__webpack_exports__);
       var errors = [];
       if (!this.$v.restorationСost.$dirty) return errors;
       !this.$v.restorationСost.required && errors.push('Це поле обов\'язкове');
+      return errors;
+    },
+    fileErrors: function fileErrors() {
+      var errors = [];
+      if (!this.$v.file.$dirty) return errors;
+      !this.$v.file.required && errors.push('Це поле обов\'язкове');
       return errors;
     },
     objectCategoryItemsComputed: function objectCategoryItemsComputed() {
@@ -334,36 +375,48 @@ __webpack_require__.r(__webpack_exports__);
         _this3.communitiesLoading = false;
       });
     },
-    clear: function clear() {
-      this.$v.$reset();
-      this.objectCategory = null;
-      this.objectType = null;
-      this.community = null;
-      this.city = null;
-      this.street = null;
-      this.buildingNumber = null;
-      this.damageType = null;
-      this.restorationСost = null;
-    },
     submit: function submit() {
+      this.fileUploading ? this.submitFile() : this.submitForm();
+    },
+    submitFile: function submitFile() {
       var _this4 = this;
 
-      this.$v.$touch();
+      this.$v.file.$touch();
 
-      if (this.$v.$invalid) {
+      if (this.$v.file.$invalid) {
+        return;
+      }
+
+      this.formLoading = true;
+      setTimeout(function () {
+        _this4.clearFile();
+
+        _this4.formLoading = false;
+      }, 5000);
+    },
+    clearFile: function clearFile() {
+      this.$v.file.$reset();
+      this.file = null;
+    },
+    submitForm: function submitForm() {
+      var _this5 = this;
+
+      this.$v.formValidationGroup.$touch();
+
+      if (this.$v.formValidationGroup.$invalid) {
         return;
       }
 
       this.formLoading = true;
       var data = this.prepareData();
       this.$store.dispatch('saveDamageNotes', data).then(function () {
-        _this4.clear();
+        _this5.clearForm();
 
-        _this4.snackbarSuccess = true;
+        _this5.snackbarSuccess = true;
       })["catch"](function () {
-        _this4.snackbarError = true;
+        _this5.snackbarError = true;
       })["finally"](function () {
-        _this4.formLoading = false;
+        _this5.formLoading = false;
       });
     },
     prepareData: function prepareData() {
@@ -376,6 +429,17 @@ __webpack_require__.r(__webpack_exports__);
         damage_type: this.damageType,
         restoration_cost: this.restorationСost
       };
+    },
+    clearForm: function clearForm() {
+      this.$v.formValidationGroup.$reset();
+      this.objectCategory = null;
+      this.objectType = null;
+      this.community = null;
+      this.city = null;
+      this.street = null;
+      this.buildingNumber = null;
+      this.damageType = null;
+      this.restorationСost = null;
     }
   }
 });
@@ -611,231 +675,313 @@ var render = function () {
         { attrs: { color: "damage-notes__card" } },
         [
           _c(
+            "v-card-title",
+            { class: [_vm.fileUploading ? "" : "d-flex justify-center"] },
+            [
+              _vm.fileUploading
+                ? _c(
+                    "v-btn",
+                    {
+                      key: "back",
+                      attrs: { icon: "" },
+                      on: {
+                        click: function ($event) {
+                          _vm.fileUploading = false
+                        },
+                      },
+                    },
+                    [_c("v-icon", [_vm._v("mdi-arrow-left")])],
+                    1
+                  )
+                : _c(
+                    "v-btn",
+                    {
+                      key: "upload",
+                      attrs: { outlined: "", color: "primary" },
+                      on: {
+                        click: function ($event) {
+                          _vm.fileUploading = true
+                        },
+                      },
+                    },
+                    [
+                      _vm._v(
+                        "\n                Завантажити файл\n                "
+                      ),
+                      _c("v-icon", { attrs: { right: "", dark: "" } }, [
+                        _vm._v(
+                          "\n                    mdi-upload\n                "
+                        ),
+                      ]),
+                    ],
+                    1
+                  ),
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("v-divider"),
+          _vm._v(" "),
+          _c(
             "v-card-text",
             { staticClass: "damage-notes__card-text" },
             [
-              _c(
-                "v-form",
-                [
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.objectCategoryItemsComputed,
-                      "error-messages": _vm.objectCategoryErrors,
-                      label: "Категорія об’єкта",
-                      dense: "",
-                      required: "",
-                      outlined: "",
-                      "item-text": "name",
-                      "item-value": "id",
-                      disabled: _vm.objectTypesLoading,
-                    },
-                    on: {
-                      change: function ($event) {
-                        return _vm.$v.objectCategory.$touch()
-                      },
-                      blur: function ($event) {
-                        return _vm.$v.objectCategory.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.objectCategory,
-                      callback: function ($$v) {
-                        _vm.objectCategory = $$v
-                      },
-                      expression: "objectCategory",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.objectTypeItemsComputed,
-                      "error-messages": _vm.objectTypeErrors,
-                      label: "Тип об’єкта",
-                      dense: "",
-                      required: "",
-                      outlined: "",
-                      "item-text": "name",
-                      "item-value": "id",
-                      disabled: _vm.objectTypesLoading || !_vm.objectCategory,
-                    },
-                    on: {
-                      change: function ($event) {
-                        return _vm.$v.objectType.$touch()
-                      },
-                      blur: function ($event) {
-                        return _vm.$v.objectType.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.objectType,
-                      callback: function ($$v) {
-                        _vm.objectType = $$v
-                      },
-                      expression: "objectType",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("v-autocomplete", {
-                    attrs: {
-                      items: _vm.communityItems,
-                      "error-messages": _vm.communityErrors,
-                      label: "Територіальна громада",
-                      dense: "",
-                      required: "",
-                      outlined: "",
-                      "item-text": "name",
-                      "item-value": "id",
-                      disabled: _vm.communitiesLoading,
-                    },
-                    on: {
-                      change: function ($event) {
-                        return _vm.$v.community.$touch()
-                      },
-                      blur: function ($event) {
-                        return _vm.$v.community.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.community,
-                      callback: function ($$v) {
-                        _vm.community = $$v
-                      },
-                      expression: "community",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      "error-messages": _vm.cityErrors,
-                      label: "Місто / селище",
-                      dense: "",
-                      required: "",
-                      outlined: "",
-                    },
-                    on: {
-                      input: function ($event) {
-                        return _vm.$v.city.$touch()
-                      },
-                      blur: function ($event) {
-                        return _vm.$v.city.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.city,
-                      callback: function ($$v) {
-                        _vm.city = $$v
-                      },
-                      expression: "city",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      "error-messages": _vm.streetErrors,
-                      label: "Вулиця",
-                      dense: "",
-                      required: "",
-                      outlined: "",
-                    },
-                    on: {
-                      input: function ($event) {
-                        return _vm.$v.street.$touch()
-                      },
-                      blur: function ($event) {
-                        return _vm.$v.street.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.street,
-                      callback: function ($$v) {
-                        _vm.street = $$v
-                      },
-                      expression: "street",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      "error-messages": _vm.buildingNumberErrors,
-                      label: "Будівля",
-                      dense: "",
-                      required: "",
-                      outlined: "",
-                    },
-                    on: {
-                      input: function ($event) {
-                        return _vm.$v.buildingNumber.$touch()
-                      },
-                      blur: function ($event) {
-                        return _vm.$v.buildingNumber.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.buildingNumber,
-                      callback: function ($$v) {
-                        _vm.buildingNumber = $$v
-                      },
-                      expression: "buildingNumber",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("v-select", {
-                    attrs: {
-                      items: _vm.damageTypeItems,
-                      "error-messages": _vm.damageTypeErrors,
-                      label: "Тип пошкодження",
-                      dense: "",
-                      required: "",
-                      outlined: "",
-                      "item-text": "name",
-                      "item-value": "id",
-                    },
-                    on: {
-                      change: function ($event) {
-                        return _vm.$v.damageType.$touch()
-                      },
-                      blur: function ($event) {
-                        return _vm.$v.damageType.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.damageType,
-                      callback: function ($$v) {
-                        _vm.damageType = $$v
-                      },
-                      expression: "damageType",
-                    },
-                  }),
-                  _vm._v(" "),
-                  _c("v-text-field", {
-                    attrs: {
-                      "error-messages": _vm.restorationСostErrors,
-                      label: "Вартість відновлення",
-                      type: "number",
-                      dense: "",
-                      prefix: "₴",
-                      required: "",
-                      outlined: "",
-                    },
-                    on: {
-                      input: function ($event) {
-                        _vm.$v.restorationСost.$touch()
-                      },
-                      blur: function ($event) {
-                        _vm.$v.restorationСost.$touch()
-                      },
-                    },
-                    model: {
-                      value: _vm.restorationСost,
-                      callback: function ($$v) {
-                        _vm.restorationСost = $$v
-                      },
-                      expression: "restorationСost",
-                    },
-                  }),
-                ],
-                1
-              ),
+              _vm.fileUploading
+                ? _c(
+                    "v-form",
+                    [
+                      _c("v-file-input", {
+                        attrs: {
+                          "error-messages": _vm.fileErrors,
+                          placeholder: "Оберіть файл",
+                          dense: "",
+                          filled: "",
+                          "prepend-icon": "mdi-file-table",
+                          accept:
+                            ".csv, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        },
+                        on: {
+                          change: function ($event) {
+                            return _vm.$v.file.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.file.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.file,
+                          callback: function ($$v) {
+                            _vm.file = $$v
+                          },
+                          expression: "file",
+                        },
+                      }),
+                    ],
+                    1
+                  )
+                : _c(
+                    "v-form",
+                    [
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.objectCategoryItemsComputed,
+                          "error-messages": _vm.objectCategoryErrors,
+                          label: "Категорія об’єкта",
+                          dense: "",
+                          required: "",
+                          outlined: "",
+                          "item-text": "name",
+                          "item-value": "id",
+                          disabled: _vm.objectTypesLoading,
+                        },
+                        on: {
+                          change: function ($event) {
+                            return _vm.$v.objectCategory.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.objectCategory.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.objectCategory,
+                          callback: function ($$v) {
+                            _vm.objectCategory = $$v
+                          },
+                          expression: "objectCategory",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.objectTypeItemsComputed,
+                          "error-messages": _vm.objectTypeErrors,
+                          label: "Тип об’єкта",
+                          dense: "",
+                          required: "",
+                          outlined: "",
+                          "item-text": "name",
+                          "item-value": "id",
+                          disabled:
+                            _vm.objectTypesLoading || !_vm.objectCategory,
+                        },
+                        on: {
+                          change: function ($event) {
+                            return _vm.$v.objectType.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.objectType.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.objectType,
+                          callback: function ($$v) {
+                            _vm.objectType = $$v
+                          },
+                          expression: "objectType",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("v-autocomplete", {
+                        attrs: {
+                          items: _vm.communityItems,
+                          "error-messages": _vm.communityErrors,
+                          label: "Територіальна громада",
+                          dense: "",
+                          required: "",
+                          outlined: "",
+                          "item-text": "name",
+                          "item-value": "id",
+                          disabled: _vm.communitiesLoading,
+                        },
+                        on: {
+                          change: function ($event) {
+                            return _vm.$v.community.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.community.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.community,
+                          callback: function ($$v) {
+                            _vm.community = $$v
+                          },
+                          expression: "community",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          "error-messages": _vm.cityErrors,
+                          label: "Місто / селище",
+                          dense: "",
+                          required: "",
+                          outlined: "",
+                        },
+                        on: {
+                          input: function ($event) {
+                            return _vm.$v.city.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.city.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.city,
+                          callback: function ($$v) {
+                            _vm.city = $$v
+                          },
+                          expression: "city",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          "error-messages": _vm.streetErrors,
+                          label: "Вулиця",
+                          dense: "",
+                          required: "",
+                          outlined: "",
+                        },
+                        on: {
+                          input: function ($event) {
+                            return _vm.$v.street.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.street.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.street,
+                          callback: function ($$v) {
+                            _vm.street = $$v
+                          },
+                          expression: "street",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          "error-messages": _vm.buildingNumberErrors,
+                          label: "Будівля",
+                          dense: "",
+                          required: "",
+                          outlined: "",
+                        },
+                        on: {
+                          input: function ($event) {
+                            return _vm.$v.buildingNumber.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.buildingNumber.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.buildingNumber,
+                          callback: function ($$v) {
+                            _vm.buildingNumber = $$v
+                          },
+                          expression: "buildingNumber",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("v-select", {
+                        attrs: {
+                          items: _vm.damageTypeItems,
+                          "error-messages": _vm.damageTypeErrors,
+                          label: "Тип пошкодження",
+                          dense: "",
+                          required: "",
+                          outlined: "",
+                          "item-text": "name",
+                          "item-value": "id",
+                        },
+                        on: {
+                          change: function ($event) {
+                            return _vm.$v.damageType.$touch()
+                          },
+                          blur: function ($event) {
+                            return _vm.$v.damageType.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.damageType,
+                          callback: function ($$v) {
+                            _vm.damageType = $$v
+                          },
+                          expression: "damageType",
+                        },
+                      }),
+                      _vm._v(" "),
+                      _c("v-text-field", {
+                        attrs: {
+                          "error-messages": _vm.restorationСostErrors,
+                          label: "Вартість відновлення",
+                          type: "number",
+                          dense: "",
+                          prefix: "₴",
+                          required: "",
+                          outlined: "",
+                        },
+                        on: {
+                          input: function ($event) {
+                            _vm.$v.restorationСost.$touch()
+                          },
+                          blur: function ($event) {
+                            _vm.$v.restorationСost.$touch()
+                          },
+                        },
+                        model: {
+                          value: _vm.restorationСost,
+                          callback: function ($$v) {
+                            _vm.restorationСost = $$v
+                          },
+                          expression: "restorationСost",
+                        },
+                      }),
+                    ],
+                    1
+                  ),
             ],
             1
           ),
