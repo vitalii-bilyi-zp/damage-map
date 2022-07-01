@@ -24,7 +24,7 @@ class StoreFromFile extends FormRequest
     public function rules()
     {
         return [
-            //
+            'file' => 'required|file|mimes:txt,csv,xls,xlsx',
         ];
     }
 }

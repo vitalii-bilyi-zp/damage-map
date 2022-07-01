@@ -4,6 +4,7 @@ namespace App\Http\Requests\DamageNotes;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\DamageNote;
 
 class Store extends FormRequest
 {
@@ -33,7 +34,7 @@ class Store extends FormRequest
             'damage_type' => [
                 'required',
                 'string',
-                Rule::in(['low', 'medium', 'high']),
+                Rule::in(array_keys(DamageNote::DAMAGE_TYPES_MAPPING)),
             ],
             'restoration_cost' => 'required|numeric',
         ];

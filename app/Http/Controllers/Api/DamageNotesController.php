@@ -9,10 +9,12 @@ use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
 use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
 use App\Models\DamageNote;
+use App\Models\ObjectType;
+use App\Models\Community;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
-use PhpOffice\PhpSpreadsheet\Reader\Csv as CsvReader;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 use F9Web\ApiResponseHelpers;
 use Illuminate\Http\JsonResponse;
@@ -39,21 +41,87 @@ class DamageNotesController extends Controller
     public function storeFromFile(DamageNotesStoreFromFile $request): JsonResponse
     {
         $file = $request->file('file');
-        $path = $file->storeAs('tmp', \Str::random(40) . '.' . $file->getClientOriginalExtension());
+        $extension = $file->getClientOriginalExtension();
+        $path = $file->storeAs('tmp', \Str::random(40) . '.' . $extension);
         $fullPath = storage_path() . '/app/' . $path;
 
-        $reader = new CsvReader();
-        $reader->setDelimiter(',');
-        $reader->setEnclosure('');
-        $spreadsheet = $reader->load($fullPath);
-        $worksheet = $spreadsheet->getActiveSheet();
+        try {
+            $spreadsheet = IOFactory::load($fullPath);
+            $worksheet = $spreadsheet->getActiveSheet();
+            $highestRow = $worksheet->getHighestRow();
 
-        foreach ($worksheet->getRowIterator() as $row) {
-            $cellIterator = $row->getCellIterator();
-            $cellIterator->setIterateOnlyExistingCells(FALSE);
-            foreach ($cellIterator as $cell) {
-                info($cell->getValue());
+            for ($row = 1; $row <= $highestRow; ++$row) {
+                // object type
+                $object_type = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+                if (!isset($object_type)) {
+                    continue;
+                }
+                $db_object_type = ObjectType::firstWhere('name', trim($object_type));
+                if (!isset($db_object_type)) {
+                    continue;
+                }
+                $object_type_id = $db_object_type->id;
+
+                // community
+                $community = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+                if (!isset($community)) {
+                    continue;
+                }
+                $db_community = Community::firstWhere('name', trim($community));
+                if (!isset($db_community)) {
+                    continue;
+                }
+                $community_id = $db_community->id;
+
+                // city
+                $city = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+                if (!isset($city)) {
+                    continue;
+                }
+                $city = trim($city);
+
+                // street
+                $street = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+                if (!isset($street)) {
+                    continue;
+                }
+                $street = trim($street);
+
+                // building number
+                $building_number = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+                if (!isset($building_number)) {
+                    continue;
+                }
+                $building_number = trim($building_number);
+
+                // damage type
+                $damage_type = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+                if (!isset($damage_type)) {
+                    continue;
+                }
+                $damage_type_key = array_search(trim($damage_type), DamageNote::DAMAGE_TYPES_MAPPING);
+                if (!$damage_type_key) {
+                    continue;
+                }
+
+                // restoration cost
+                $restoration_cost = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
+                if (!isset($restoration_cost) || !is_numeric($restoration_cost)) {
+                    continue;
+                }
+
+                DamageNote::create([
+                    'object_type_id' => $object_type_id,
+                    'community_id' => $community_id,
+                    'city' => $city,
+                    'street'  => $street,
+                    'building_number' => $building_number,
+                    'damage_type' => $damage_type_key,
+                    'restoration_cost' => $restoration_cost
+                ]);
             }
+        } catch (Exception $e) {
+            return $this->respondError();
         }
 
         Storage::delete($path);

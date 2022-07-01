@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class DamageNote extends Model
 {
+    const LOW_DAMAGE = 'low';
+    const MEDIUM_DAMAGE = 'medium';
+    const HIGH_DAMAGE = 'high';
+
+    const DAMAGE_TYPES_MAPPING = [
+        self::LOW_DAMAGE => 'Слабке руйнування',
+        self::MEDIUM_DAMAGE => 'Сильне руйнування',
+        self::HIGH_DAMAGE => 'Повне руйнування'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *

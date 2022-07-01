@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\DamageNote;
 
 return new class extends Migration
 {
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->string('city');
             $table->string('street');
             $table->string('building_number');
-            $table->enum('damage_type', ['low', 'medium', 'high']);
+            $table->enum('damage_type', array_keys(DamageNote::DAMAGE_TYPES_MAPPING));
             $table->decimal('restoration_cost', 15, 2);
             $table->timestamps();
         });
