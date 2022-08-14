@@ -52,8 +52,23 @@ class DamageNotesController extends Controller
             $highestRow = $worksheet->getHighestRow();
 
             for ($row = 1; $row <= $highestRow; ++$row) {
+                // date
+                $date = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+                if (!isset($date)) {
+                    continue;
+                }
+                $pattern = '/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/';
+                if (!preg_match($pattern, $date)) {
+                    continue;
+                }
+                $startDate = '2022-02-24';
+                $endDate = date('Y-m-d');
+                if ($date < $startDate || $date > $endDate) {
+                    continue;
+                }
+
                 // object type
-                $object_type = $worksheet->getCellByColumnAndRow(1, $row)->getValue();
+                $object_type = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
                 if (!isset($object_type)) {
                     continue;
                 }
@@ -64,7 +79,7 @@ class DamageNotesController extends Controller
                 $object_type_id = $db_object_type->id;
 
                 // community
-                $community = $worksheet->getCellByColumnAndRow(2, $row)->getValue();
+                $community = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
                 if (!isset($community)) {
                     continue;
                 }
@@ -75,28 +90,28 @@ class DamageNotesController extends Controller
                 $community_id = $db_community->id;
 
                 // city
-                $city = $worksheet->getCellByColumnAndRow(3, $row)->getValue();
+                $city = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
                 if (!isset($city)) {
                     continue;
                 }
                 $city = trim($city);
 
                 // street
-                $street = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
+                $street = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
                 if (!isset($street)) {
                     continue;
                 }
                 $street = trim($street);
 
                 // building number
-                $building_number = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
+                $building_number = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
                 if (!isset($building_number)) {
                     continue;
                 }
                 $building_number = trim($building_number);
 
                 // damage type
-                $damage_type = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
+                $damage_type = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
                 if (!isset($damage_type)) {
                     continue;
                 }
@@ -106,12 +121,13 @@ class DamageNotesController extends Controller
                 }
 
                 // restoration cost
-                $restoration_cost = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
+                $restoration_cost = $worksheet->getCellByColumnAndRow(8, $row)->getValue();
                 if (!isset($restoration_cost) || !is_numeric($restoration_cost)) {
                     continue;
                 }
 
                 DamageNote::create([
+                    'date' => $date,
                     'object_type_id' => $object_type_id,
                     'community_id' => $community_id,
                     'city' => $city,
