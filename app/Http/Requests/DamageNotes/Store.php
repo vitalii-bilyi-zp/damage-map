@@ -26,6 +26,7 @@ class Store extends FormRequest
     public function rules()
     {
         return [
+            'date' => 'required|date',
             'object_type_id' => 'required|integer|exists:object_types,id',
             'community_id' => 'required|integer|exists:communities,id',
             'city' => 'required|string|max:255',

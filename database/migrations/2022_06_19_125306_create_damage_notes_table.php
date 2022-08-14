@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('building_number');
             $table->enum('damage_type', array_keys(DamageNote::DAMAGE_TYPES_MAPPING));
             $table->decimal('restoration_cost', 15, 2);
+            $table->date('date');
             $table->timestamps();
         });
     }

@@ -22,7 +22,7 @@ class DamageNote extends Model
      * @var array
      */
     protected $fillable = [
-        'object_type_id', 'community_id', 'city', 'street', 'building_number', 'damage_type', 'restoration_cost'
+        'date', 'object_type_id', 'community_id', 'city', 'street', 'building_number', 'damage_type', 'restoration_cost'
     ];
 
     /**

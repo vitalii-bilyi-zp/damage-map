@@ -26,6 +26,7 @@ class DamageNotesController extends Controller
     public function store(DamageNotesStore $request): JsonResponse
     {
         DamageNote::create([
+            'date' => $request->date,
             'object_type_id' => $request->object_type_id,
             'community_id' => $request->community_id,
             'city' => $request->city,

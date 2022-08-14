@@ -64,6 +64,33 @@
                 </v-form>
 
                 <v-form v-else>
+                    <v-menu
+                        v-model="dateMenu"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="280px"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-text-field
+                                v-on="on"
+                                v-model="date"
+                                :error-messages="dateErrors"
+                                label="Дата"
+                                dense
+                                outlined
+                                readonly
+                                @blur="$v.date.$touch()"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="date"
+                            min="2022-02-24"
+                            :max="new Date().toISOString().substr(0, 10)"
+                            @input="dateMenu = false"
+                        ></v-date-picker>
+                    </v-menu>
+
                     <v-select
                         v-model="objectCategory"
                         :items="objectCategoryItemsComputed"
@@ -194,6 +221,7 @@
 </template>
 
 <script>
+    import moment from 'moment';
     import { required } from 'vuelidate/lib/validators'
 
     export default {
@@ -204,6 +232,8 @@
                 objectTypesLoading: false,
                 communitiesLoading: false,
                 formLoading: false,
+                dateMenu: false,
+                date: moment().format('YYYY-MM-DD'),
                 objectCategory: null,
                 objectType: null,
                 objectTypeItems: [],
@@ -236,6 +266,7 @@
         },
 
         validations: {
+            date: { required },
             objectCategory: { required },
             objectType: { required },
             community: { required },
@@ -246,10 +277,17 @@
             restorationСost: { required },
             file: { required },
 
-            formValidationGroup: ['objectCategory', 'objectType', 'community', 'city', 'street', 'buildingNumber', 'damageType', 'restorationСost']
+            formValidationGroup: ['date', 'objectCategory', 'objectType', 'community', 'city', 'street', 'buildingNumber', 'damageType', 'restorationСost']
         },
 
         computed: {
+            dateErrors() {
+                const errors = [];
+                if (!this.$v.date.$dirty) return errors;
+                !this.$v.date.required && errors.push('Це поле обов\'язкове')
+                return errors;
+            },
+
             objectCategoryErrors() {
                 const errors = [];
                 if (!this.$v.objectCategory.$dirty) return errors;
@@ -430,6 +468,7 @@
 
             prepareFormData() {
                 return {
+                    date: this.date,
                     object_type_id: this.objectType,
                     community_id: this.community,
                     city: this.city,
