@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 const actions = {
     loadObjectTypes: () => {
         return window.httpClient.get('/api/object-types');
@@ -39,13 +41,13 @@ const actions = {
         // @todo implement
         let mockData = {
             data: {},
-        }
+        };
         if (payload.params.objectCategory === 1) {
             mockData.data = {
                 'Багатоповерховий будинок': 3,
                 'Приватний будинок': 2,
                 'Гуртожиток': 1,
-            }
+            };
         } else {
             mockData.data = {
                 'Адміністративна будівля': 3,
@@ -54,14 +56,32 @@ const actions = {
                 'Готель / ресторан': 2,
                 'Магазин': 2,
                 'ТРЦ': 3,
-            }
+            };
         }
 
         return new Promise((resolve) => {
             setTimeout(() => {
                 resolve(mockData)
-            }, 5000)
-        })
+            }, 3000);
+        });
+    },
+
+    loadGlobalStatistics: ({ commit }, payload) => {
+        // @todo implement
+        let mockData = {
+            data: {},
+        };
+        let [startDate, endDate] = payload.params.period;
+        for (let m = moment(startDate); m.isBefore(endDate); m.add(1, 'days')) {
+            const date = m.format('YYYY-MM-DD');
+            mockData.data[date] = Math.random() * 1000;
+        }
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(mockData)
+            }, 3000);
+        });
     },
 };
 

@@ -21,7 +21,7 @@
                 <div v-if="isLoading || objectCategoriesLoading" class="card-progress">
                     <v-progress-circular :size="50" color="primary" indeterminate />
                 </div>
-                <DoughnutChart v-else :chart-data="ratioData" :options="ratioOptions" class="statistic-card__chart" />
+                <DoughnutChart v-else :chart-data="chartData" :options="chartOptions" class="statistic-card__chart" />
             </div>
         </v-card-text>
     </v-card>
@@ -40,6 +40,7 @@ const COLORS = [
 ];
 
 export default {
+    name: 'RatioStatistics',
     components: {
         DoughnutChart,
     },
@@ -51,11 +52,11 @@ export default {
             objectCategory: null,
 
             isLoading: false,
-            ratioData: {
+            chartData: {
                 labels: [],
                 datasets: []
             },
-            ratioOptions: {
+            chartOptions: {
                 responsive: true,
                 maintainAspectRatio: false
             },
@@ -66,11 +67,11 @@ export default {
         filters() {
             return this.$store.state.filters;
         },
-        ratioFilters() {
+        chartFilters() {
             return {
                 ...this.filters,
                 objectCategory: this.objectCategory
-            }
+            };
         }
     },
 
@@ -79,7 +80,7 @@ export default {
     },
 
     watch: {
-        ratioFilters: {
+        chartFilters: {
             handler(newValue) {
                 this.loadChartData(newValue);
             },
@@ -155,7 +156,7 @@ export default {
                 datasets[0].data.push(data[key]);
             });
 
-            this.ratioData = Object.assign({}, this.ratioData, {
+            this.chartData = Object.assign({}, this.chartData, {
                 labels,
                 datasets
             });
