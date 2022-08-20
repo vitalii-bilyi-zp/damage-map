@@ -3,6 +3,10 @@ const actions = {
         return window.httpClient.get('/api/object-types');
     },
 
+    loadRegions: () => {
+        return window.httpClient.get('/api/regions');
+    },
+
     loadCommunities: () => {
         return window.httpClient.get('/api/communities');
     },
@@ -25,6 +29,10 @@ const actions = {
 
     loadCommunitiesData: () => {
         return window.httpClient.get('/api/damage-notes/communities');
+    },
+
+    setFilters: ({ commit }, payload) => {
+        commit('setFilters', payload);
     },
 };
 

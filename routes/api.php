@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RegionsController;
 use App\Http\Controllers\Api\CommunitiesController;
 use App\Http\Controllers\Api\ObjectTypesController;
 use App\Http\Controllers\Api\DamageNotesController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Api\DamageNotesController;
 |
 */
 
+Route::get('/regions', [RegionsController::class, 'index']);
 Route::get('/communities', [CommunitiesController::class, 'index']);
 Route::get('/object-types', [ObjectTypesController::class, 'index']);
 Route::post('/damage-notes', [DamageNotesController::class, 'store']);

@@ -63,91 +63,91 @@
 </template>
 
 <script>
-    import DamageForm from '@/js/components/DamageForm';
+import DamageForm from '@/js/components/DamageForm';
 
-    export default {
-        name: 'DamageNotes',
-        components: {
-            DamageForm,
-        },
+export default {
+    name: 'DamageNotes',
+    components: {
+        DamageForm,
+    },
 
-        data() {
-            return {
-                objectTypesLoading: false,
-                communitiesLoading: false,
-                objectTypeItems: [],
-                communityItems: [],
-                snackbarSuccess: false,
-                snackbarError: false,
-                fileUploading: false,
-            }
-        },
-
-        mounted() {
-            this.loadObjectTypes();
-            this.loadCommunities();
-        },
-
-        methods: {
-            loadObjectTypes() {
-                this.objectTypesLoading = true;
-                this.$store.dispatch('loadObjectTypes')
-                    .then((response) => {
-                        this.objectTypeItems = response.data || [];
-                    })
-                    .catch(() => {
-                        //
-                    })
-                    .finally(() => {
-                        this.objectTypesLoading = false;
-                    });
-            },
-
-            loadCommunities() {
-                this.communitiesLoading = true;
-                this.$store.dispatch('loadCommunities')
-                    .then((response) => {
-                        this.communityItems = response.data || [];
-                    })
-                    .catch(() => {
-                        //
-                    })
-                    .finally(() => {
-                        this.communitiesLoading = false;
-                    });
-            },
-
-            submitFile(data) {
-                this.$refs.damageForm.formLoading = true;
-                this.$store.dispatch('saveDamageNotesFromFile', data)
-                    .then(() => {
-                        this.$refs.damageForm.clearFile();
-                        this.snackbarSuccess = true;
-                    })
-                    .catch(() => {
-                        this.snackbarError = true;
-                    })
-                    .finally(() => {
-                        this.$refs.damageForm.formLoading = false;
-                    });
-            },
-
-            submitForm(data) {
-                this.$refs.damageForm.formLoading = true;
-                this.$store.dispatch('saveDamageNotes', data)
-                    .then(() => {
-                        this.$refs.damageForm.clearForm();
-                        this.snackbarSuccess = true;
-                    })
-                    .catch(() => {
-                        this.snackbarError = true;
-                    })
-                    .finally(() => {
-                        this.$refs.damageForm.formLoading = false;
-                    });
-            },
+    data() {
+        return {
+            objectTypesLoading: false,
+            communitiesLoading: false,
+            objectTypeItems: [],
+            communityItems: [],
+            snackbarSuccess: false,
+            snackbarError: false,
+            fileUploading: false,
         }
+    },
+
+    mounted() {
+        this.loadObjectTypes();
+        this.loadCommunities();
+    },
+
+    methods: {
+        loadObjectTypes() {
+            this.objectTypesLoading = true;
+            this.$store.dispatch('loadObjectTypes')
+                .then((response) => {
+                    this.objectTypeItems = response.data || [];
+                })
+                .catch(() => {
+                    //
+                })
+                .finally(() => {
+                    this.objectTypesLoading = false;
+                });
+        },
+
+        loadCommunities() {
+            this.communitiesLoading = true;
+            this.$store.dispatch('loadCommunities')
+                .then((response) => {
+                    this.communityItems = response.data || [];
+                })
+                .catch(() => {
+                    //
+                })
+                .finally(() => {
+                    this.communitiesLoading = false;
+                });
+        },
+
+        submitFile(data) {
+            this.$refs.damageForm.formLoading = true;
+            this.$store.dispatch('saveDamageNotesFromFile', data)
+                .then(() => {
+                    this.$refs.damageForm.clearFile();
+                    this.snackbarSuccess = true;
+                })
+                .catch(() => {
+                    this.snackbarError = true;
+                })
+                .finally(() => {
+                    this.$refs.damageForm.formLoading = false;
+                });
+        },
+
+        submitForm(data) {
+            this.$refs.damageForm.formLoading = true;
+            this.$store.dispatch('saveDamageNotes', data)
+                .then(() => {
+                    this.$refs.damageForm.clearForm();
+                    this.snackbarSuccess = true;
+                })
+                .catch(() => {
+                    this.snackbarError = true;
+                })
+                .finally(() => {
+                    this.$refs.damageForm.formLoading = false;
+                });
+        },
     }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -15,6 +15,11 @@ const router = new VueRouter({
             path: "/damage-notes",
             name: "damage-notes",
             component: () => import("@/js/pages/DamageNotes"),
+        },
+        {
+            path: "/statistics",
+            name: "statistics",
+            component: () => import("@/js/pages/Statistics"),
         }
     ]
 });

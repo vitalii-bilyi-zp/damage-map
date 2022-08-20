@@ -12,6 +12,16 @@
                     </v-list-item-content>
                 </v-list-item>
 
+                <v-list-item link :to="{name: 'statistics'}" exact>
+                    <v-list-item-icon>
+                        <v-icon>mdi-chart-areaspline</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>Статистика</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
                 <v-list-item link :to="{name: 'damage-notes'}" exact>
                     <v-list-item-icon>
                         <v-icon>mdi-plus-box</v-icon>
