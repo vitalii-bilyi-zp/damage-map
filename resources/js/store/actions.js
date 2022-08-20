@@ -34,6 +34,35 @@ const actions = {
     setFilters: ({ commit }, payload) => {
         commit('setFilters', payload);
     },
+
+    loadRatioStatistics: ({ commit }, payload) => {
+        // @todo implement
+        let mockData = {
+            data: {},
+        }
+        if (payload.params.objectCategory === 1) {
+            mockData.data = {
+                'Багатоповерховий будинок': 3,
+                'Приватний будинок': 2,
+                'Гуртожиток': 1,
+            }
+        } else {
+            mockData.data = {
+                'Адміністративна будівля': 3,
+                'Бізнес-центр': 1,
+                'Господарча споруда': 3,
+                'Готель / ресторан': 2,
+                'Магазин': 2,
+                'ТРЦ': 3,
+            }
+        }
+
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(mockData)
+            }, 5000)
+        })
+    },
 };
 
 export default actions;

@@ -1,1 +1,28 @@
 @import '~vuetify/dist/vuetify.min.css';
+
+.card-progress {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.statistic-card .v-toolbar {
+    height: 100% !important;
+
+    .v-toolbar__content {
+        height: 100% !important;
+        min-height: 72px;
+    }
+}
+
+@media (max-width: 700px) {
+    .statistic-card__chart-wrapper {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .statistic-card__chart {
+        min-width: 700px;
+    }
+}

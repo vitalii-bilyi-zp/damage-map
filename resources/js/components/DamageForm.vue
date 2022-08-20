@@ -316,7 +316,7 @@ export default {
                 }
 
                 return prev;
-            }, {})
+            }, {});
 
             return Object.values(objectCategories);
         },

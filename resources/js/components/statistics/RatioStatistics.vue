@@ -3,14 +3,14 @@
         <v-toolbar flat color="white" height="64">
             <v-select
                 v-model="objectCategory"
-                :items="objectCategoryItemsComputed"
+                :items="objectCategoryItems"
                 dense
                 outlined
                 hide-details
                 item-text="name"
                 item-value="id"
                 placeholder="Категорія об’єкта"
-                :disabled="!objectCategoryItemsComputed || !objectCategoryItemsComputed.length"
+                :disabled="!objectCategoryItems || !objectCategoryItems.length"
             ></v-select>
         </v-toolbar>
 
@@ -18,7 +18,7 @@
 
         <v-card-text>
             <div class="statistic-card__chart-wrapper">
-                <div v-if="isLoading" class="card-progress">
+                <div v-if="isLoading || objectCategoriesLoading" class="card-progress">
                     <v-progress-circular :size="50" color="primary" indeterminate />
                 </div>
                 <DoughnutChart v-else :chart-data="ratioData" :options="ratioOptions" class="statistic-card__chart" />
@@ -46,6 +46,10 @@ export default {
 
     data() {
         return {
+            objectCategoriesLoading: false,
+            objectCategoryItems: [],
+            objectCategory: null,
+
             isLoading: false,
             ratioData: {
                 labels: [],
@@ -55,101 +59,107 @@ export default {
                 responsive: true,
                 maintainAspectRatio: false
             },
-            objectTypesLoading: false,
-            objectTypeItems: [],
-            objectCategory: null,
-
-            // type: null,
-            // TypeSelectOptions: [
-            //     {
-            //         name: "Возраст",
-            //         value: 0
-            //     },
-            //     {
-            //         name: "Пол",
-            //         value: 1
-            //     }
-            // ]
         };
     },
 
     computed: {
-        objectCategoryItemsComputed() {
-            const objectCategories = this.objectTypeItems.reduce((prev, curr) => {
-                if (curr.object_category && !prev[curr.object_category.id]) {
-                    prev[curr.object_category.id] = curr.object_category;
-                }
-
-                return prev;
-            }, {})
-
-            return Object.values(objectCategories);
+        filters() {
+            return this.$store.state.filters;
         },
+        ratioFilters() {
+            return {
+                ...this.filters,
+                objectCategory: this.objectCategory
+            }
+        }
     },
 
     mounted() {
-        this.loadObjectTypes();
+        this.initObjectCategory();
     },
 
     watch: {
-        type(value) {
-            this.loadRatio(value);
+        ratioFilters: {
+            handler(newValue) {
+                this.loadChartData(newValue);
+            },
+            deep: true
         }
     },
 
     methods: {
-        loadObjectTypes() {
-            this.objectTypesLoading = true;
+        initObjectCategory() {
+            this.objectCategoriesLoading = true;
             this.$store.dispatch('loadObjectTypes')
                 .then((response) => {
-                    this.objectTypeItems = response.data || [];
+                    let objectTypeItems = response.data || [];
+                    this.objectCategoryItems = this.getObjectCategories(objectTypeItems);
+                    if (this.objectCategoryItems.length) {
+                        this.objectCategory = this.objectCategoryItems[0].id;
+                    }
                 })
                 .catch(() => {
                     //
                 })
                 .finally(() => {
-                    this.objectTypesLoading = false;
+                    this.objectCategoriesLoading = false;
                 });
         },
 
-        // loadRatio(type) {
-        //     this.isLoading = true;
-        //     this.$store
-        //         .dispatch("loadRatioStatistics", {
-        //             params: { type }
-        //         })
-        //         .then(() => {
-        //             let chartData = this.$store.state.statistics.ratio;
+        getObjectCategories(items) {
+            if (!items) {
+                return [];
+            }
 
-        //             if (chartData) {
-        //                 this.setRatio(chartData);
-        //             }
-        //         })
-        //         .finally(() => {
-        //             this.isLoading = false;
-        //         });
-        // },
+            const objectCategories = items.reduce((prev, curr) => {
+                if (curr.object_category && !prev[curr.object_category.id]) {
+                    prev[curr.object_category.id] = curr.object_category;
+                }
 
-        // setRatio(data) {
-        //     let labels = [];
-        //     let datasets = [
-        //         {
-        //         backgroundColor: [],
-        //         data: []
-        //         }
-        //     ];
+                return prev;
+            }, {});
 
-        //     Object.keys(data).forEach((key, index) => {
-        //         labels.push(key);
-        //         datasets[0].backgroundColor.push(COLORS[index]);
-        //         datasets[0].data.push(data[key]);
-        //     });
+            return Object.values(objectCategories);
+        },
 
-        //     this.ratioData = Object.assign({}, this.ratioData, {
-        //         labels,
-        //         datasets
-        //     });
-        // }
+        loadChartData(filters) {
+            this.isLoading = true;
+            this.$store.dispatch('loadRatioStatistics', {
+                params: filters
+            })
+            .then((response) => {
+                let chartData = response.data;
+
+                if (chartData) {
+                    this.setChartData(chartData);
+                }
+            })
+            .catch(() => {
+                //
+            })
+            .finally(() => {
+                this.isLoading = false;
+            });
+        },
+
+        setChartData(data) {
+            let labels = [];
+            let datasets = [{
+                backgroundColor: [],
+                data: []
+            }];
+
+            Object.keys(data).forEach((key, index) => {
+                labels.push(key);
+                datasets[0].backgroundColor.push(COLORS[index]);
+                datasets[0].data.push(data[key]);
+            });
+
+            this.ratioData = Object.assign({}, this.ratioData, {
+                labels,
+                datasets
+            });
+        }
     }
 };
 </script>
