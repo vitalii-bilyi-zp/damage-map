@@ -17,6 +17,11 @@ const router = new VueRouter({
             component: () => import("@/js/pages/DamageNotes"),
         },
         {
+            path: "/damage-notes/create",
+            name: "create-damage-note",
+            component: () => import("@/js/pages/CreateDamageNote"),
+        },
+        {
             path: "/statistics",
             name: "statistics",
             component: () => import("@/js/pages/Statistics"),

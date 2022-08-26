@@ -13,6 +13,10 @@ const actions = {
         return window.httpClient.get('/api/communities');
     },
 
+    loadDamageNotes: () => {
+        return window.httpClient.get('/api/damage-notes');
+    },
+
     saveDamageNotes: ({ commit }, payload) => {
         return window.httpClient.post('/api/damage-notes', payload);
     },

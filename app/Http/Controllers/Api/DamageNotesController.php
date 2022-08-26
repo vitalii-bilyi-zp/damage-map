@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DamageNotes\Index as DamageNotesIndex;
 use App\Http\Requests\DamageNotes\Store as DamageNotesStore;
 use App\Http\Requests\DamageNotes\StoreFromFile as DamageNotesStoreFromFile;
 use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
@@ -22,6 +23,17 @@ use Illuminate\Http\JsonResponse;
 class DamageNotesController extends Controller
 {
     use ApiResponseHelpers;
+
+    public function index(DamageNotesIndex $request): JsonResponse
+    {
+        $aggregation = DamageNote::query()
+            ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
+            ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+            ->select('communities.name AS community', 'object_types.name AS object_type', 'damage_notes.*')
+            ->get();
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
+    }
 
     public function store(DamageNotesStore $request): JsonResponse
     {

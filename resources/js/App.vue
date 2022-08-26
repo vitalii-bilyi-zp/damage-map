@@ -24,11 +24,11 @@
 
                 <v-list-item link :to="{name: 'damage-notes'}" exact>
                     <v-list-item-icon>
-                        <v-icon>mdi-plus-box</v-icon>
+                        <v-icon>mdi-view-list</v-icon>
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                        <v-list-item-title>Додати запис</v-list-item-title>
+                        <v-list-item-title>Записи пошкоджень</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>

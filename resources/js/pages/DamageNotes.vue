@@ -1,167 +1,228 @@
 <template>
-    <div class="damage-notes">
-        <v-snackbar
-            v-model="snackbarSuccess"
-            color="success"
-            top
-        >
-            <v-icon dark class="mr-2">mdi-checkbox-marked-circle</v-icon>
-            Інформація прийнята в обробку.
-            <v-btn
-                text
-                icon
-                dark
-                @click="snackbarSuccess = false">
-                <v-icon size="20">mdi-close</v-icon>
-            </v-btn>
-        </v-snackbar>
+    <v-container fluid>
+        <v-row class="ma-0" justify="center">
+            <v-col cols="12" class="py-0">
+                <v-card>
+                    <v-toolbar flat color="white">
+                        <v-spacer></v-spacer>
+                        <v-btn color="primary" link :to="{ name: 'create-damage-note' }">
+                            <v-icon left>mdi-plus</v-icon>
+                            Додати запис
+                        </v-btn>
+                    </v-toolbar>
+                    <v-divider></v-divider>
+                    <v-card-text class="pa-0">
+                        <v-data-table
+                            :headers="headers"
+                            :items="damageNotes"
+                            :loading="isLoading"
+                            :items-per-page="15"
+                            :footer-props="footerProps"
+                            no-data-text="Інформація відсутня"
+                            loading-text="Завантаження інформації..."
+                            class="card-table elevation-1"
+                            :mobile-breakpoint="0"
+                        >
+                            <template v-slot:item.date="{ item }">
+                                {{ formatDate(item.date) }}
+                            </template>
 
-        <v-snackbar
-            v-model="snackbarError"
-            color="error"
-            top
-        >
-            <v-icon dark class="mr-2">mdi-alert-circle</v-icon>
-            Сталася помилка. Будь ласка, спробуйте пізніше.
-            <v-btn
-                text
-                icon
-                dark
-                @click="snackbarError = false">
-                <v-icon size="20">mdi-close</v-icon>
-            </v-btn>
-        </v-snackbar>
+                            <template v-slot:item.damage_type="{ item }">
+                                {{ formatDamageType(item.damage_type) }}
+                            </template>
 
-        <v-card color="damage-notes__card">
-            <v-card-title :class="[fileUploading ? '' : 'd-flex justify-center']">
-                <v-btn v-if="fileUploading" key="back" icon @click="fileUploading = false">
-                    <v-icon>mdi-arrow-left</v-icon>
-                </v-btn>
+                            <template v-slot:item.actions="{ item }">
+                                <v-menu left offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
+                                    <template v-slot:activator="{ on }">
+                                        <v-btn text icon v-on="on">
+                                            <v-icon>mdi-dots-vertical</v-icon>
+                                        </v-btn>
+                                    </template>
 
-                <v-btn v-else key="upload" outlined color="primary" @click="fileUploading = true">
-                    Завантажити файл
-                    <v-icon right dark>
-                        mdi-upload
-                    </v-icon>
-                </v-btn>
-            </v-card-title>
+                                    <v-list class="pa-0">
+                                        <template v-for="(menuItem, index) in tableActions">
+                                            <v-divider
+                                                v-if="menuItem.divider"
+                                                :key="index"
+                                            ></v-divider>
+                                            <v-list-item
+                                                v-else
+                                                @click="menuItem.click ? menuItem.click(item.id) : null"
+                                                :key="index"
+                                                ripple="ripple"
+                                            >
+                                                <v-list-item-icon v-if="menuItem.icon" class="mr-4">
+                                                    <v-icon>{{ menuItem.icon }}</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{ menuItem.title }}</v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </template>
+                                    </v-list>
+                                </v-menu>
+                            </template>
 
-            <v-divider/>
-
-            <v-card-text class="damage-notes__card-text">
-                <DamageForm
-                    ref="damageForm"
-                    :file-uploading="fileUploading"
-                    :object-type-items="objectTypeItems"
-                    :community-items="communityItems"
-                    @submit-file="submitFile"
-                    @submit-form="submitForm"
-                />
-            </v-card-text>
-        </v-card>
-    </div>
+                            <template v-slot:footer.page-text="props">
+                                {{props.pageStart}} - {{props.pageStop}} з {{props.itemsLength}}
+                            </template>
+                        </v-data-table>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <script>
-import DamageForm from '@/js/components/DamageForm';
+    import moment from 'moment';
 
-export default {
-    name: 'DamageNotes',
-    components: {
-        DamageForm,
-    },
+    export default {
+        name: 'DamageNotes',
 
-    data() {
-        return {
-            objectTypesLoading: false,
-            communitiesLoading: false,
-            objectTypeItems: [],
-            communityItems: [],
-            snackbarSuccess: false,
-            snackbarError: false,
-            fileUploading: false,
+        data() {
+            return {
+                isLoading: false,
+                damageNotes: [],
+                headers: [
+                    {
+                        text: 'ID',
+                        align: 'left',
+                        sortable: true,
+                        value: 'id',
+                    },
+                    {
+                        text: 'Дата',
+                        align: 'left',
+                        sortable: true,
+                        value: 'date',
+                    },
+                    {
+                        text: 'Тип об’єкта',
+                        align: 'left',
+                        sortable: true,
+                        value: 'object_type',
+                    },
+                    {
+                        text: 'Територіальна громада',
+                        align: 'left',
+                        sortable: true,
+                        value: 'community',
+                    },
+                    {
+                        text: 'Місто / селище',
+                        align: 'left',
+                        sortable: true,
+                        value: 'city',
+                    },
+                    {
+                        text: 'Вулиця',
+                        align: 'left',
+                        sortable: true,
+                        value: 'street',
+                    },
+                    {
+                        text: 'Будівля',
+                        align: 'left',
+                        sortable: true,
+                        value: 'building_number',
+                    },
+                    {
+                        text: 'Тип пошкодження',
+                        align: 'left',
+                        sortable: true,
+                        value: 'damage_type',
+                    },
+                    {
+                        text: 'Вартість відновлення',
+                        align: 'left',
+                        sortable: true,
+                        value: 'restoration_cost',
+                    },
+                    {
+                        text: '',
+                        align: 'left',
+                        sortable: false,
+                        value: 'actions',
+                        width: 70,
+                    },
+                ],
+                footerProps: {
+                    'items-per-page-options': [15, 30, 45],
+                    'items-per-page-text': 'Елементів на сторінці:'
+                },
+                tableActions: [
+                    {
+                        icon: "mdi-pencil",
+                        click: (id) => {
+                            //
+                        },
+                        title: "Редагувати запис",
+                    },
+
+                    { divider: true },
+
+                    {
+                        icon: "mdi-delete",
+                        click: (id) => {
+                            //
+                        },
+                        title: "Видалити запис",
+                    },
+                ],
+                damageTypeItems: [
+                    {
+                        id: 'high',
+                        name: 'Повне руйнування',
+                    },
+                    {
+                        id: 'medium',
+                        name: 'Сильне руйнування',
+                    },
+                    {
+                        id: 'low',
+                        name: 'Слабке руйнування',
+                    }
+                ],
+            }
+        },
+
+        mounted() {
+            this.loadDamageNotes();
+        },
+
+        methods: {
+            loadDamageNotes() {
+                this.isLoading = true;
+                this.$store.dispatch('loadDamageNotes')
+                    .then((response) => {
+                        this.damageNotes = response.data || [];
+                    })
+                    .catch(() => {
+                        //
+                    })
+                    .finally(() => {
+                        this.isLoading = false;
+                    });
+            },
+
+            formatDate(date) {
+                return moment(date).format('YYYY-MM-DD');
+            },
+
+            formatDamageType(type) {
+                const foundItem = this.damageTypeItems.find((item) => item.id === type);
+                return foundItem ? foundItem.name || type : type;
+            }
         }
-    },
-
-    mounted() {
-        this.loadObjectTypes();
-        this.loadCommunities();
-    },
-
-    methods: {
-        loadObjectTypes() {
-            this.objectTypesLoading = true;
-            this.$store.dispatch('loadObjectTypes')
-                .then((response) => {
-                    this.objectTypeItems = response.data || [];
-                })
-                .catch(() => {
-                    //
-                })
-                .finally(() => {
-                    this.objectTypesLoading = false;
-                });
-        },
-
-        loadCommunities() {
-            this.communitiesLoading = true;
-            this.$store.dispatch('loadCommunities')
-                .then((response) => {
-                    this.communityItems = response.data || [];
-                })
-                .catch(() => {
-                    //
-                })
-                .finally(() => {
-                    this.communitiesLoading = false;
-                });
-        },
-
-        submitFile(data) {
-            this.$refs.damageForm.formLoading = true;
-            this.$store.dispatch('saveDamageNotesFromFile', data)
-                .then(() => {
-                    this.$refs.damageForm.clearFile();
-                    this.snackbarSuccess = true;
-                })
-                .catch(() => {
-                    this.snackbarError = true;
-                })
-                .finally(() => {
-                    this.$refs.damageForm.formLoading = false;
-                });
-        },
-
-        submitForm(data) {
-            this.$refs.damageForm.formLoading = true;
-            this.$store.dispatch('saveDamageNotes', data)
-                .then(() => {
-                    this.$refs.damageForm.clearForm();
-                    this.snackbarSuccess = true;
-                })
-                .catch(() => {
-                    this.snackbarError = true;
-                })
-                .finally(() => {
-                    this.$refs.damageForm.formLoading = false;
-                });
-        },
     }
-}
 </script>
 
 <style lang="scss" scoped>
-.damage-notes {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-}
-
-.damage-notes__card {
-    width: 100%;
-    max-width: 400px;
-}
+    .card-table::v-deep {
+        table {
+            table-layout: fixed;
+            min-width: 1265px;
+        }
+    }
 </style>
-

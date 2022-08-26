@@ -22,6 +22,7 @@ Route::get('/object-types', [ObjectTypesController::class, 'index']);
 Route::post('/damage-notes', [DamageNotesController::class, 'store']);
 Route::post('/damage-notes/file-upload', [DamageNotesController::class, 'storeFromFile']);
 
+Route::get('/damage-notes', [DamageNotesController::class, 'index']);
 Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
 Route::get('/damage-notes/districts', [DamageNotesController::class, 'showDistricts']);
 Route::get('/damage-notes/communities', [DamageNotesController::class, 'showCommunities']);
