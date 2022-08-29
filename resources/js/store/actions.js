@@ -25,6 +25,10 @@ const actions = {
         return window.httpClient.post('/api/damage-notes/file-upload', payload);
     },
 
+    deleteDamageNote: ({ commit }, id) => {
+        return window.httpClient.delete(`/api/damage-notes/${id}`);
+    },
+
     loadRegionsData: () => {
         return window.httpClient.get('/api/damage-notes/regions');
     },

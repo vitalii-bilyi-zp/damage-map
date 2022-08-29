@@ -19,10 +19,12 @@ use App\Http\Controllers\Api\DamageNotesController;
 Route::get('/regions', [RegionsController::class, 'index']);
 Route::get('/communities', [CommunitiesController::class, 'index']);
 Route::get('/object-types', [ObjectTypesController::class, 'index']);
-Route::post('/damage-notes', [DamageNotesController::class, 'store']);
-Route::post('/damage-notes/file-upload', [DamageNotesController::class, 'storeFromFile']);
 
 Route::get('/damage-notes', [DamageNotesController::class, 'index']);
+Route::post('/damage-notes', [DamageNotesController::class, 'store']);
+Route::post('/damage-notes/file-upload', [DamageNotesController::class, 'storeFromFile']);
+Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
+
 Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
 Route::get('/damage-notes/districts', [DamageNotesController::class, 'showDistricts']);
 Route::get('/damage-notes/communities', [DamageNotesController::class, 'showCommunities']);

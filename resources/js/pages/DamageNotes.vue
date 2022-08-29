@@ -15,7 +15,7 @@
                         <v-data-table
                             :headers="headers"
                             :items="damageNotes"
-                            :loading="isLoading"
+                            :loading="isLoading || isDeleting"
                             :items-per-page="15"
                             :footer-props="footerProps"
                             no-data-text="Інформація відсутня"
@@ -69,20 +69,29 @@
                         </v-data-table>
                     </v-card-text>
                 </v-card>
+
+                <ConfirmDialog ref="confirmDialog"/>
             </v-col>
         </v-row>
     </v-container>
 </template>
 
 <script>
+    import ConfirmDialog from '@/js/components/ConfirmDialog';
+
     import moment from 'moment';
 
     export default {
         name: 'DamageNotes',
 
+        components: {
+            ConfirmDialog,
+        },
+
         data() {
             return {
                 isLoading: false,
+                isDeleting: false,
                 damageNotes: [],
                 headers: [
                     {
@@ -90,6 +99,7 @@
                         align: 'left',
                         sortable: true,
                         value: 'id',
+                        width: 100,
                     },
                     {
                         text: 'Дата',
@@ -164,9 +174,7 @@
 
                     {
                         icon: "mdi-delete",
-                        click: (id) => {
-                            //
-                        },
+                        click: this.confirmDeletion,
                         title: "Видалити запис",
                     },
                 ],
@@ -213,7 +221,32 @@
             formatDamageType(type) {
                 const foundItem = this.damageTypeItems.find((item) => item.id === type);
                 return foundItem ? foundItem.name || type : type;
-            }
+            },
+
+            confirmDeletion(id) {
+                this.$refs.confirmDialog.open('Підтвердження операції', 'Ви впевнені, що хочете видалити цей запис?')
+                    .then((isConfirmed) => {
+                        if (!isConfirmed) {
+                            return;
+                        }
+
+                        this.deleteDamageNote(id);
+                    })
+            },
+
+            deleteDamageNote(id) {
+                this.isDeleting = true;
+                this.$store.dispatch('deleteDamageNote', id)
+                    .then(() => {
+                        this.loadDamageNotes();
+                    })
+                    .catch(() => {
+                        //
+                    })
+                    .finally(() => {
+                        this.isDeleting = false;
+                    });
+            },
         }
     }
 </script>

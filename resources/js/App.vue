@@ -28,7 +28,7 @@
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                        <v-list-item-title>Записи пошкоджень</v-list-item-title>
+                        <v-list-item-title>Дані пошкоджень</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-list>

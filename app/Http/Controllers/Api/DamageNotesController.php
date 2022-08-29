@@ -9,6 +9,7 @@ use App\Http\Requests\DamageNotes\StoreFromFile as DamageNotesStoreFromFile;
 use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
 use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
+use App\Http\Requests\DamageNotes\Destroy as DamageNotesDestroy;
 use App\Models\DamageNote;
 use App\Models\ObjectType;
 use App\Models\Community;
@@ -192,5 +193,12 @@ class DamageNotesController extends Controller
             ->get();
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
+    }
+
+    public function destroy(DamageNotesDestroy $request, DamageNote $damageNote): JsonResponse
+    {
+        $damageNote->delete();
+
+        return $this->respondWithSuccess();
     }
 }
