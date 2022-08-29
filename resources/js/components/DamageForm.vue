@@ -54,7 +54,7 @@
                 item-text="name"
                 item-value="id"
                 :disabled="!objectCategoryItemsComputed || !objectCategoryItemsComputed.length"
-                @change="$v.objectCategory.$touch()"
+                @change="onObjectCategoryChange"
                 @blur="$v.objectCategory.$touch()"
             ></v-select>
 
@@ -331,6 +331,12 @@ export default {
     },
 
     methods: {
+        onObjectCategoryChange() {
+            this.objectType = null;
+            this.$v.objectType.$reset();
+            this.$v.objectCategory.$touch();
+        },
+
         submit() {
             this.fileUploading ? this.submitFile() : this.submitForm();
         },
