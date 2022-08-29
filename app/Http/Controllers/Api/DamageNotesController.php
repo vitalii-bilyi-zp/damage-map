@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DamageNotes\Index as DamageNotesIndex;
 use App\Http\Requests\DamageNotes\Store as DamageNotesStore;
 use App\Http\Requests\DamageNotes\StoreFromFile as DamageNotesStoreFromFile;
+use App\Http\Requests\DamageNotes\Show as DamageNotesShow;
+use App\Http\Requests\DamageNotes\Update as DamageNotesUpdate;
+use App\Http\Requests\DamageNotes\Destroy as DamageNotesDestroy;
 use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
 use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
-use App\Http\Requests\DamageNotes\Destroy as DamageNotesDestroy;
 use App\Models\DamageNote;
 use App\Models\ObjectType;
 use App\Models\Community;
@@ -159,6 +161,36 @@ class DamageNotesController extends Controller
         return $this->respondWithSuccess();
     }
 
+    public function show(DamageNotesShow $request, DamageNote $damageNote): JsonResponse {
+        if (isset($damageNote->object_type_id)) {
+            $damageNote->object_type = ObjectType::find($damageNote->object_type_id);
+        }
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($damageNote);
+    }
+
+    public function update(DamageNotesUpdate $request, DamageNote $damageNote): JsonResponse {
+        $damageNote->update([
+            'date' => $request->date ?? $damageNote->date,
+            'object_type_id' => $request->object_type_id ?? $damageNote->object_type_id,
+            'community_id' => $request->community_id ?? $damageNote->community_id,
+            'city' => $request->city ?? $damageNote->city,
+            'street'  => $request->street ?? $damageNote->street,
+            'building_number' => $request->building_number ?? $damageNote->building_number,
+            'damage_type' => $request->damage_type ?? $damageNote->damage_type,
+            'restoration_cost' => $request->restoration_cost ?? $damageNote->restoration_cost
+        ]);
+
+        return $this->respondWithSuccess();
+    }
+
+    public function destroy(DamageNotesDestroy $request, DamageNote $damageNote): JsonResponse
+    {
+        $damageNote->delete();
+
+        return $this->respondWithSuccess();
+    }
+
     public function showRegions(DamageNotesShowRegions $request): JsonResponse
     {
         $aggregation = DamageNote::query()
@@ -193,12 +225,5 @@ class DamageNotesController extends Controller
             ->get();
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
-    }
-
-    public function destroy(DamageNotesDestroy $request, DamageNote $damageNote): JsonResponse
-    {
-        $damageNote->delete();
-
-        return $this->respondWithSuccess();
     }
 }

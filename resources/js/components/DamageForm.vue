@@ -189,7 +189,10 @@ export default {
         communityItems: {
             type: Array,
             default: () => []
-        }
+        },
+        damageNote: {
+            type: Object,
+        },
     },
 
     data() {
@@ -330,6 +333,16 @@ export default {
         }
     },
 
+    watch: {
+        damageNote() {
+            this.initForm();
+        },
+    },
+
+    mounted() {
+        this.initForm();
+    },
+
     methods: {
         onObjectCategoryChange() {
             this.objectType = null;
@@ -378,13 +391,14 @@ export default {
         prepareFormData() {
             return {
                 date: this.date,
-                object_type_id: this.objectType,
-                community_id: this.community,
+                objectCategory: this.objectCategory,
+                objectType: this.objectType,
+                community: this.community,
                 city: this.city,
                 street: this.street,
-                building_number: this.buildingNumber,
-                damage_type: this.damageType,
-                restoration_cost: this.restorationСost,
+                buildingNumber: this.buildingNumber,
+                damageType: this.damageType,
+                restorationСost: this.restorationСost,
             };
         },
 
@@ -398,6 +412,22 @@ export default {
             this.buildingNumber = null;
             this.damageType = null;
             this.restorationСost = null;
+        },
+
+        initForm() {
+            if (!this.damageNote) {
+                return;
+            }
+
+            this.date = this.damageNote.date;
+            this.objectCategory = this.damageNote.objectCategory;
+            this.objectType = this.damageNote.objectType;
+            this.community = this.damageNote.community;
+            this.city = this.damageNote.city;
+            this.street = this.damageNote.street;
+            this.buildingNumber = this.damageNote.buildingNumber;
+            this.damageType = this.damageNote.damageType;
+            this.restorationСost = this.damageNote.restorationСost;
         },
     }
 }

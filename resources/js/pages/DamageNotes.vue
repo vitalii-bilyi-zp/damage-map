@@ -164,9 +164,7 @@
                 tableActions: [
                     {
                         icon: "mdi-pencil",
-                        click: (id) => {
-                            //
-                        },
+                        click: this.updateDamageNote,
                         title: "Редагувати запис",
                     },
 
@@ -246,6 +244,10 @@
                     .finally(() => {
                         this.isDeleting = false;
                     });
+            },
+
+            updateDamageNote(id) {
+                this.$router.push({name: 'edit-damage-note', params: { id }});
             },
         }
     }

@@ -18,11 +18,23 @@ const actions = {
     },
 
     saveDamageNotes: ({ commit }, payload) => {
-        return window.httpClient.post('/api/damage-notes', payload);
+        return window.httpClient.post('/api/damage-notes', payload.data);
     },
 
     saveDamageNotesFromFile: ({ commit }, payload) => {
-        return window.httpClient.post('/api/damage-notes/file-upload', payload);
+        return window.httpClient.post('/api/damage-notes/file-upload', payload.data);
+    },
+
+    loadDamageNote: ({ commit }, id) => {
+        return window.httpClient.get(`/api/damage-notes/${id}`);
+    },
+
+    updateDamageNote: ({ commit }, payload) => {
+        const data = {
+            ...payload.data,
+            '_method': 'PUT',
+        }
+        return window.httpClient.post(`/api/damage-notes/${payload.id}`, data);
     },
 
     deleteDamageNote: ({ commit }, id) => {
@@ -41,8 +53,8 @@ const actions = {
         return window.httpClient.get('/api/damage-notes/communities');
     },
 
-    setFilters: ({ commit }, payload) => {
-        commit('setFilters', payload);
+    setFilters: ({ commit }, filters) => {
+        commit('setFilters', filters);
     },
 
     loadRatioStatistics: ({ commit }, payload) => {

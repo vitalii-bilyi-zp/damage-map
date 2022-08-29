@@ -8,7 +8,7 @@
                     top
                 >
                     <v-icon dark class="mr-2">mdi-checkbox-marked-circle</v-icon>
-                    Інформація прийнята в обробку.
+                    Інформацію оновлено успішно.
                     <v-btn
                         text
                         icon
@@ -35,28 +35,16 @@
                 </v-snackbar>
 
                 <v-card color="damage-note-card">
-                    <v-card-title :class="[fileUploading ? '' : 'd-flex justify-center']">
-                        <v-btn v-if="fileUploading" key="back" icon @click="fileUploading = false">
-                            <v-icon>mdi-arrow-left</v-icon>
-                        </v-btn>
-
-                        <v-btn v-else key="upload" outlined color="primary" @click="fileUploading = true">
-                            Завантажити файл
-                            <v-icon right dark>
-                                mdi-upload
-                            </v-icon>
-                        </v-btn>
-                    </v-card-title>
-
-                    <v-divider/>
-
                     <v-card-text>
+                        <div v-if="isLoading || objectTypesLoading || communitiesLoading" class="card-progress">
+                            <v-progress-circular :size="50" color="primary" indeterminate />
+                        </div>
                         <DamageForm
+                            v-else
                             ref="damageForm"
-                            :file-uploading="fileUploading"
                             :object-type-items="objectTypeItems"
                             :community-items="communityItems"
-                            @submit-file="submitFile"
+                            :damage-note="damageNote"
                             @submit-form="submitForm"
                         />
                     </v-card-text>
@@ -69,25 +57,31 @@
 <script>
 import DamageForm from '@/js/components/DamageForm';
 
+import moment from 'moment';
+
 export default {
-    name: 'CreateDamageNote',
+    name: 'EditDamageNote',
     components: {
         DamageForm,
     },
 
+    props: ['id'],
+
     data() {
         return {
+            isLoading: false,
             objectTypesLoading: false,
             communitiesLoading: false,
             objectTypeItems: [],
             communityItems: [],
+            damageNote: null,
             snackbarSuccess: false,
             snackbarError: false,
-            fileUploading: false,
         }
     },
 
     mounted() {
+        this.loadDamageNote();
         this.loadObjectTypes();
         this.loadCommunities();
     },
@@ -121,19 +115,36 @@ export default {
                 });
         },
 
-        submitFile(data) {
-            this.$refs.damageForm.formLoading = true;
-            this.$store.dispatch('saveDamageNotesFromFile', { data })
-                .then(() => {
-                    this.$refs.damageForm.clearFile();
-                    this.snackbarSuccess = true;
+        loadDamageNote() {
+            this.isLoading = true;
+            this.$store.dispatch('loadDamageNote', this.id)
+                .then((response) => {
+                    this.damageNote = this.formatDamageNote(response.data);
                 })
                 .catch(() => {
-                    this.snackbarError = true;
+                    //
                 })
                 .finally(() => {
-                    this.$refs.damageForm.formLoading = false;
+                    this.isLoading = false;
                 });
+        },
+
+        formatDamageNote(data) {
+            if (!data) {
+                return null;
+            }
+
+            return {
+                date: data.date && moment(data.date).format('YYYY-MM-DD'),
+                objectCategory: data.object_type && data.object_type.object_category_id,
+                objectType: data.object_type_id,
+                community: data.community_id,
+                city: data.city,
+                street: data.street,
+                buildingNumber: data.building_number,
+                damageType: data.damage_type,
+                restorationСost: data.restoration_cost,
+            }
         },
 
         submitForm(data) {
@@ -149,9 +160,8 @@ export default {
             };
 
             this.$refs.damageForm.formLoading = true;
-            this.$store.dispatch('saveDamageNotes', { data: formattedData })
+            this.$store.dispatch('updateDamageNote', { id: this.id, data: formattedData })
                 .then(() => {
-                    this.$refs.damageForm.clearForm();
                     this.snackbarSuccess = true;
                 })
                 .catch(() => {

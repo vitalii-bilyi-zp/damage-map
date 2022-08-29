@@ -23,6 +23,8 @@ Route::get('/object-types', [ObjectTypesController::class, 'index']);
 Route::get('/damage-notes', [DamageNotesController::class, 'index']);
 Route::post('/damage-notes', [DamageNotesController::class, 'store']);
 Route::post('/damage-notes/file-upload', [DamageNotesController::class, 'storeFromFile']);
+Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show']);
+Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
 Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
 
 Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
