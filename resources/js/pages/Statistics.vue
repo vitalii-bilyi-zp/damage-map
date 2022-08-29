@@ -3,7 +3,7 @@
         <v-container fluid>
             <v-row class="mx-0 mb-8" justify="center">
                 <v-col cols="12" class="py-0">
-                    <GlobalFilters />
+                    <TopLevelFilters />
                 </v-col>
             </v-row>
             <v-row class="ma-0" justify="center">
@@ -19,13 +19,13 @@
 </template>
 
 <script>
-import GlobalFilters from "@/js/components/statistics/GlobalFilters.vue";
+import TopLevelFilters from "@/js/components/statistics/TopLevelFilters.vue";
 import RatioStatistics from "@/js/components/statistics/RatioStatistics.vue";
 import GlobalStatistics from "@/js/components/statistics/GlobalStatistics.vue";
 
 export default {
     components: {
-        GlobalFilters,
+        TopLevelFilters,
         RatioStatistics,
         GlobalStatistics,
     }

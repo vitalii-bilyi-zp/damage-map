@@ -30,6 +30,8 @@
 <script>
 import DoughnutChart from '@/js/components/charts/DoughnutChart.vue';
 
+import moment from 'moment';
+
 const COLORS = [
     '#0aadd0',
     '#e43e6e',
@@ -82,7 +84,23 @@ export default {
     watch: {
         chartFilters: {
             handler(newValue) {
-                this.loadChartData(newValue);
+                let date = newValue.period;
+
+                if (!date || date.length < 2) {
+                    date = [
+                        moment().startOf('month').format('YYYY-MM-DD'),
+                        moment().format('YYYY-MM-DD')
+                    ];
+                }
+
+                let formattedFilters = {
+                    start_date: date[0],
+                    end_date: date[1],
+                    region_id: newValue.region,
+                    object_category_id: newValue.objectCategory,
+                };
+
+                this.loadChartData(formattedFilters);
             },
             deep: true
         }

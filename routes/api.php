@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\RegionsController;
 use App\Http\Controllers\Api\CommunitiesController;
 use App\Http\Controllers\Api\ObjectTypesController;
 use App\Http\Controllers\Api\DamageNotesController;
+use App\Http\Controllers\Api\StatisticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,10 @@ Route::get('/regions', [RegionsController::class, 'index']);
 Route::get('/communities', [CommunitiesController::class, 'index']);
 Route::get('/object-types', [ObjectTypesController::class, 'index']);
 
+Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
+Route::get('/damage-notes/districts', [DamageNotesController::class, 'showDistricts']);
+Route::get('/damage-notes/communities', [DamageNotesController::class, 'showCommunities']);
+
 Route::get('/damage-notes', [DamageNotesController::class, 'index']);
 Route::post('/damage-notes', [DamageNotesController::class, 'store']);
 Route::post('/damage-notes/file-upload', [DamageNotesController::class, 'storeFromFile']);
@@ -27,6 +32,4 @@ Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show'])
 Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
 Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
 
-Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
-Route::get('/damage-notes/districts', [DamageNotesController::class, 'showDistricts']);
-Route::get('/damage-notes/communities', [DamageNotesController::class, 'showCommunities']);
+Route::get('/statistics/ratio', [StatisticsController::class, 'showRatio']);

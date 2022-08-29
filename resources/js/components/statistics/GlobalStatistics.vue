@@ -29,6 +29,8 @@
 <script>
 import BarChart from '@/js/components/charts/BarChart.vue';
 
+import moment from 'moment';
+
 export default {
     name: 'GlobalStatistics',
     components: {
@@ -91,7 +93,23 @@ export default {
     watch: {
         chartFilters: {
             handler(newValue) {
-                this.loadChartData(newValue);
+                let date = newValue.period;
+
+                if (!date || date.length < 2) {
+                    date = [
+                        moment().startOf('month').format('YYYY-MM-DD'),
+                        moment().format('YYYY-MM-DD')
+                    ];
+                }
+
+                let formattedFilters = {
+                    start_date: date[0],
+                    end_date: date[1],
+                    region_id: newValue.region,
+                    period_type: newValue.periodType,
+                };
+
+                this.loadChartData(formattedFilters);
             },
             deep: true
         }

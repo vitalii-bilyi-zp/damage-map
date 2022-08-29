@@ -41,6 +41,7 @@
                     <v-autocomplete
                         v-model="regionComputed"
                         :items="regionItems"
+                        clearable
                         dense
                         outlined
                         hide-details
@@ -59,6 +60,8 @@
 import moment from 'moment';
 
 export default {
+    name: 'TopLevelFilters',
+
     data() {
         return {
             periodMenu: false,
