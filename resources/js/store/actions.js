@@ -59,26 +59,12 @@ const actions = {
         commit('setFilters', filters);
     },
 
-    loadRatioStatistics: ({ commit }, payload) => {
-        return window.httpClient.get(`/api/statistics/ratio?${queryString.stringify(payload.params, {encode: false})}`);
+    loadGlobalStatistics: ({ commit }, payload) => {
+        return window.httpClient.get(`/api/statistics/global?${queryString.stringify(payload.params, {encode: false})}`);
     },
 
-    loadGlobalStatistics: ({ commit }, payload) => {
-        // @todo implement
-        let mockData = {
-            data: {},
-        };
-
-        for (let m = moment(payload.params.start_date); m.isBefore(payload.params.end_date); m.add(1, 'days')) {
-            const date = m.format('YYYY-MM-DD');
-            mockData.data[date] = Math.random() * 1000;
-        }
-
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(mockData)
-            }, 3000);
-        });
+    loadRatioStatistics: ({ commit }, payload) => {
+        return window.httpClient.get(`/api/statistics/ratio?${queryString.stringify(payload.params, {encode: false})}`);
     },
 };
 

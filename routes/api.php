@@ -32,4 +32,5 @@ Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show'])
 Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
 Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
 
+Route::get('/statistics/global', [StatisticsController::class, 'showGlobal']);
 Route::get('/statistics/ratio', [StatisticsController::class, 'showRatio']);

@@ -42,15 +42,15 @@ export default {
             periodType: null,
             periodTypeItems: [
                 {
-                    id: 1,
+                    id: 0,
                     name: "День",
                 },
                 {
-                    id: 2,
+                    id: 1,
                     name: "Тиждень",
                 },
                 {
-                    id: 3,
+                    id: 2,
                     name: "Місяць",
                 },
             ],
