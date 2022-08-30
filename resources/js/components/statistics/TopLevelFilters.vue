@@ -29,6 +29,7 @@
                             scrollable
                             min="2022-02-24"
                             :max="new Date().toISOString().substr(0, 10)"
+                            locale="uk-UA"
                         >
                             <v-spacer></v-spacer>
                             <v-btn text color="primary" @click="periodMenu = false">Cancel</v-btn>

@@ -39,6 +39,7 @@
                     v-model="date"
                     min="2022-02-24"
                     :max="new Date().toISOString().substr(0, 10)"
+                    locale="uk-UA"
                     @input="dateMenu = false"
                 ></v-date-picker>
             </v-menu>
