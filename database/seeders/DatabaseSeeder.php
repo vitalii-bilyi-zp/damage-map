@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             ObjectCategorySeeder::class,
             ObjectTypeSeeder::class,
             CommunitySeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
