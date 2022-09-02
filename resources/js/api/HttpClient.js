@@ -13,6 +13,14 @@ class HttpClient {
         this._client = axios.create(config);
     }
 
+    bindToken(token) {
+        this._client.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+
+    removeToken() {
+        delete this._client.defaults.headers.common['Authorization'];
+    }
+
     get(url, config = {}) {
         return this._client.get(url, config);
     }

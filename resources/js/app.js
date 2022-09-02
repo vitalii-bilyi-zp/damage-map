@@ -10,6 +10,12 @@ import HttpClient from '@/js/api/HttpClient';
 
 window.httpClient = new HttpClient();
 
+// Bind access_token to requests if user was authorized
+const token = store.state.token || '';
+if (token) {
+    window.httpClient.bindToken(token);
+}
+
 new Vue({
     store,
     router,

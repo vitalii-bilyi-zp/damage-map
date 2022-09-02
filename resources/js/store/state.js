@@ -1,4 +1,5 @@
 import moment from 'moment';
+import Cookies from 'js-cookie';
 
 const state = {
     filters: {
@@ -7,7 +8,9 @@ const state = {
             moment().format('YYYY-MM-DD')
         ],
         region: null
-    }
+    },
+    token: Cookies.get('access_token') || null,
+    user: null,
 };
 
 export default state;

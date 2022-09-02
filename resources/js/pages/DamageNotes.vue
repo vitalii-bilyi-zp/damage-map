@@ -5,7 +5,7 @@
                 <v-card>
                     <v-toolbar flat color="white">
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" link :to="{ name: 'create-damage-note' }">
+                        <v-btn color="primary" link :to="{ name: 'damage-notes.create' }">
                             <v-icon left>mdi-plus</v-icon>
                             Додати запис
                         </v-btn>
@@ -247,7 +247,7 @@
             },
 
             updateDamageNote(id) {
-                this.$router.push({name: 'edit-damage-note', params: { id }});
+                this.$router.push({name: 'damage-notes.edit', params: { id }});
             },
         }
     }

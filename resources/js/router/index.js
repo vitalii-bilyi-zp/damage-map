@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import globalMiddleware from '@/js/router/middlewares/global-middleware';
 
 Vue.use(VueRouter);
 
@@ -7,32 +8,64 @@ const router = new VueRouter({
     mode: 'history',
     routes: [
         {
-            path: '/',
-            name: 'map',
-            component: () => import("@/js/pages/Map"),
+            path: "/",
+            component: () => import("@/js/layouts/DefaultLayout"),
+            children: [
+                {
+                    path: "/",
+                    name: 'map',
+                    component: () => import("@/js/pages/Map"),
+                },
+                {
+                    path: "damage-notes",
+                    name: "damage-notes",
+                    component: () => import("@/js/pages/DamageNotes"),
+                    meta: {
+                        auth: true,
+                    },
+                },
+                {
+                    path: "damage-notes/create",
+                    name: "damage-notes.create",
+                    component: () => import("@/js/pages/CreateDamageNote"),
+                },
+                {
+                    path: "damage-notes/:id/edit",
+                    name: "damage-notes.edit",
+                    component: () => import("@/js/pages/EditDamageNote"),
+                    props: true,
+                    meta: {
+                        auth: true,
+                    },
+                },
+                {
+                    path: "statistics",
+                    name: "statistics",
+                    component: () => import("@/js/pages/Statistics"),
+                }
+            ]
         },
         {
-            path: "/damage-notes",
-            name: "damage-notes",
-            component: () => import("@/js/pages/DamageNotes"),
+            path: "/auth",
+            component: () => import("@/js/layouts/BlankLayout"),
+            children: [
+                {
+                    path: "/",
+                    redirect: { name: "auth.login" },
+                },
+                {
+                    path: "login",
+                    name: "auth.login",
+                    component: () => import("@/js/pages/Login"),
+                    meta: {
+                        guest: true,
+                    },
+                },
+            ],
         },
-        {
-            path: "/damage-notes/create",
-            name: "create-damage-note",
-            component: () => import("@/js/pages/CreateDamageNote"),
-        },
-        {
-            path: "/damage-notes/:id/edit",
-            name: "edit-damage-note",
-            component: () => import("@/js/pages/EditDamageNote"),
-            props: true,
-        },
-        {
-            path: "/statistics",
-            name: "statistics",
-            component: () => import("@/js/pages/Statistics"),
-        }
     ]
 });
+
+globalMiddleware(router);
 
 export default router;

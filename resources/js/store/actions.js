@@ -1,6 +1,8 @@
-import moment from 'moment';
-
 import queryString from 'query-string';
+import Cookies from 'js-cookie';
+
+const ONE_HOUR = 1 / 24;
+const ONE_YEAR = 365;
 
 const actions = {
     loadObjectTypes: () => {
@@ -65,6 +67,63 @@ const actions = {
 
     loadRatioStatistics: ({ commit }, payload) => {
         return window.httpClient.get(`/api/statistics/ratio?${queryString.stringify(payload.params, {encode: false})}`);
+    },
+
+    login: ({ commit }, payload) => {
+        return new Promise((resolve, reject) => {
+            window.httpClient.post('/api/login', payload.data)
+                .then((response) => {
+                    let user = response.data.user;
+                    let token = user.access_token;
+
+                    window.httpClient.bindToken(token);
+
+                    // Check that remember me checkbox is active
+                    let expires = payload.remember ? ONE_YEAR : ONE_HOUR;
+
+                    Cookies.set('access_token', token, { expires });
+
+                    commit('setToken', token);
+                    commit('setUser', user);
+                    resolve();
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    },
+
+    loadUser: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            window.httpClient.get('/api/user')
+                .then((response) => {
+                    let user = response.data.user;
+
+                    commit('setUser', user);
+                    resolve();
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    },
+
+    logout: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            window.httpClient.get('/api/logout')
+                .then(() => {
+                    window.httpClient.removeToken();
+
+                    Cookies.remove('access_token');
+
+                    commit('setToken', null);
+                    commit('setUser', null);
+                    resolve();
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
     },
 };
 

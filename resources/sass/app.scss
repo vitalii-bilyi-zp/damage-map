@@ -16,6 +16,14 @@
     }
 }
 
+.v-snack__wrapper {
+    min-width: 280px;
+}
+
+.v-snack__content {
+    overflow: hidden;
+}
+
 @media (max-width: 700px) {
     .statistic-card__chart-wrapper {
         overflow-x: auto;
