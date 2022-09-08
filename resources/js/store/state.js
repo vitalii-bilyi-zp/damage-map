@@ -7,7 +7,8 @@ const state = {
             moment().startOf('month').format('YYYY-MM-DD'),
             moment().format('YYYY-MM-DD')
         ],
-        region: null
+        region: null,
+        dimensionType: 'objects_number',
     },
     token: Cookies.get('access_token') || null,
     user: null,

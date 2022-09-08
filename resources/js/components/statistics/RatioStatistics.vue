@@ -97,6 +97,7 @@ export default {
                     start_date: date[0],
                     end_date: date[1],
                     region_id: newValue.region,
+                    dimension_type: newValue.dimensionType,
                     object_category_id: newValue.objectCategory,
                 };
 

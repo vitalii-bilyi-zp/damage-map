@@ -2,7 +2,7 @@
     <v-card class="statistic-card">
         <v-toolbar flat color="white" height="64">
             <v-row>
-                <v-col cols="12" sm="6">
+                <v-col cols="12" sm="4">
                     <v-menu
                         v-model="periodMenu"
                         :close-on-content-click="false"
@@ -38,7 +38,20 @@
                     </v-menu>
                 </v-col>
 
-                <v-col cols="12" sm="6">
+                <v-col cols="12" sm="4">
+                    <v-select
+                        v-model="dimensionTypeComputed"
+                        :items="dimensionTypeItems"
+                        dense
+                        outlined
+                        hide-details
+                        item-text="name"
+                        item-value="id"
+                        placeholder="Показник виміру"
+                    ></v-select>
+                </v-col>
+
+                <v-col cols="12" sm="4">
                     <v-autocomplete
                         v-model="regionComputed"
                         :items="regionItems"
@@ -70,6 +83,16 @@ export default {
             isPeriodSaved: false,
             regionsLoading: false,
             regionItems: [],
+            dimensionTypeItems: [
+                {
+                    id: "objects_number",
+                    name: "Кількість об'єктів",
+                },
+                {
+                    id: "restoration_cost",
+                    name: "Вартість відновлення",
+                },
+            ],
         };
     },
 
@@ -87,7 +110,15 @@ export default {
             set: function(newValue) {
                 this.$store.dispatch('setFilters', {...this.filters, region: newValue})
             }
-        }
+        },
+        dimensionTypeComputed: {
+            get: function() {
+                return this.filters.dimensionType;
+            },
+            set: function(newValue) {
+                this.$store.dispatch('setFilters', {...this.filters, dimensionType: newValue})
+            }
+        },
     },
 
     watch: {

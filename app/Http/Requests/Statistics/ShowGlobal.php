@@ -34,6 +34,11 @@ class ShowGlobal extends FormRequest
                 'string',
                 Rule::in(StatisticsController::PERIODS),
             ],
+            'dimension_type' => [
+                'nullable',
+                'string',
+                Rule::in(StatisticsController::DIMENSION_TYPES),
+            ],
         ];
     }
 }

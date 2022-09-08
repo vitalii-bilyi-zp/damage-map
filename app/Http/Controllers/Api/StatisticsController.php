@@ -33,7 +33,15 @@ class StatisticsController extends Controller
     const PERIODS_WORD_MAP = [
         self::DAILY_PERIOD => 'day',
         self::WEEKLY_PERIOD => 'week',
-        self::MONTHLY_PERIOD => 'month'
+        self::MONTHLY_PERIOD => 'month',
+    ];
+
+    const OBJECTS_NUMBER_DIMENSION = 'objects_number';
+    const RESTORATION_COST_DIMENSION = 'restoration_cost';
+
+    const DIMENSION_TYPES = [
+        self::OBJECTS_NUMBER_DIMENSION,
+        self::RESTORATION_COST_DIMENSION,
     ];
 
     protected function getWeekTitle(CarbonInterface $date): string
@@ -56,7 +64,7 @@ class StatisticsController extends Controller
         $endDate = Carbon::parse($request->get('end_date'));
         $periodType = $request->get('period_type');
 
-        $query = DamageNote::query()
+        $dataQuery = DamageNote::query()
             ->whereDate('damage_notes.date', '>=', $request->start_date)
             ->whereDate('damage_notes.date', '<=', $request->end_date)
             ->when($request->get('region_id'), function(Builder $query) use (&$request) {
@@ -69,19 +77,26 @@ class StatisticsController extends Controller
 
         switch($periodType) {
             case self::MONTHLY_PERIOD:
-                $query->groupBy(DB::raw("DATE_FORMAT(damage_notes.date, '%Y-%m')"));
+                $dataQuery->groupBy(DB::raw("DATE_FORMAT(damage_notes.date, '%Y-%m')"));
                 break;
             case self::WEEKLY_PERIOD:
-                $query->groupBy(DB::raw("YEAR(damage_notes.date)"), DB::raw("WEEKOFYEAR(damage_notes.date)"));
+                $dataQuery->groupBy(DB::raw("YEAR(damage_notes.date)"), DB::raw("WEEKOFYEAR(damage_notes.date)"));
                 break;
             default:
-                $query->groupBy(DB::raw("DATE(damage_notes.date)"));
+                $dataQuery->groupBy(DB::raw("DATE(damage_notes.date)"));
                 break;
         }
 
-        $aggregation = $query
-            ->select(DB::raw('MAX(damage_notes.date) AS max_date, SUM(damage_notes.restoration_cost) AS restoration_cost'))
-            ->get();
+        $aggregation = null;
+        if ($request->get('dimension_type') === self::RESTORATION_COST_DIMENSION) {
+            $aggregation = $dataQuery
+                ->select(DB::raw('MAX(damage_notes.date) AS max_date, SUM(damage_notes.restoration_cost) AS chart_value'))
+                ->get();
+        } else {
+            $aggregation = $dataQuery
+                ->select(DB::raw('MAX(damage_notes.date) AS max_date, COUNT(*) AS chart_value'))
+                ->get();
+        }
 
         $preparedData = [];
         switch($periodType) {
@@ -93,7 +108,7 @@ class StatisticsController extends Controller
                     $index = $aggregation->search(function ($item) use ($currentDate) {
                         return Carbon::parse($item->max_date)->between($currentDate->copy()->startOfMonth(), $currentDate->copy()->endOfMonth());
                     });
-                    $preparedData[$key] = $index !== false ? $aggregation->get($index)->restoration_cost : null;
+                    $preparedData[$key] = $index !== false ? $aggregation->get($index)->chart_value : null;
                 }
                 break;
             case self::WEEKLY_PERIOD:
@@ -104,7 +119,7 @@ class StatisticsController extends Controller
                     $index = $aggregation->search(function ($item) use ($currentDate) {
                         return Carbon::parse($item->max_date)->between($currentDate->copy()->startOfWeek(), $currentDate->copy()->endOfWeek());
                     });
-                    $preparedData[$key] = $index !== false ? $aggregation->get($index)->restoration_cost : null;
+                    $preparedData[$key] = $index !== false ? $aggregation->get($index)->chart_value : null;
                 }
                 break;
             default:
@@ -115,7 +130,7 @@ class StatisticsController extends Controller
                     $index = $aggregation->search(function ($item) use ($currentDate) {
                         return Carbon::parse($item->max_date)->eq($currentDate->copy());
                     });
-                    $preparedData[$key] = $index !== false ? $aggregation->get($index)->restoration_cost : null;
+                    $preparedData[$key] = $index !== false ? $aggregation->get($index)->chart_value : null;
                 }
                 break;
         }
@@ -125,7 +140,7 @@ class StatisticsController extends Controller
 
     public function showRatio(StatisticsShowRatio $request): JsonResponse
     {
-        $aggregation = DamageNote::query()
+        $dataQuery = DamageNote::query()
             ->whereDate('damage_notes.date', '>=', $request->start_date)
             ->whereDate('damage_notes.date', '<=', $request->end_date)
             ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
@@ -139,12 +154,21 @@ class StatisticsController extends Controller
                     ->join('regions', 'districts.region_id', '=', 'regions.id')
                     ->where('regions.id', '=', $request->get('region_id'));
             })
-            ->groupBy('damage_notes.object_type_id')
-            ->select(DB::raw('object_types.name, SUM(damage_notes.restoration_cost) AS restoration_cost'))
-            ->get();
+            ->groupBy('damage_notes.object_type_id');
+
+        $aggregation = null;
+        if ($request->get('dimension_type') === self::RESTORATION_COST_DIMENSION) {
+            $aggregation = $dataQuery
+                ->select(DB::raw('object_types.name, SUM(damage_notes.restoration_cost) AS chart_value'))
+                ->get();
+        } else {
+            $aggregation = $dataQuery
+                ->select(DB::raw('object_types.name, COUNT(*) AS chart_value'))
+                ->get();
+        }
 
         $preparedData = $aggregation->reduce(function ($carry, $item) {
-            $carry[$item->name] = $item->restoration_cost;
+            $carry[$item->name] = $item->chart_value;
             return $carry;
         }, []);
 

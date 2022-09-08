@@ -54,6 +54,16 @@ export default {
                     name: "Місяць",
                 },
             ],
+            dimensionTypeItems: [
+                {
+                    id: "objects_number",
+                    name: "Кількість об'єктів",
+                },
+                {
+                    id: "restoration_cost",
+                    name: "Вартість відновлення",
+                },
+            ],
 
             isLoading: false,
             chartData: {
@@ -106,6 +116,7 @@ export default {
                     start_date: date[0],
                     end_date: date[1],
                     region_id: newValue.region,
+                    dimension_type: newValue.dimensionType,
                     period_type: newValue.periodType,
                 };
 
@@ -142,7 +153,7 @@ export default {
 
         setChartData(data) {
             let color = "#f8a421";
-            let label = "Вартість відновлення";
+            let label = this.getChartLabel();
             let dataq = {
                 label: label,
                 backgroundColor: color,
@@ -156,7 +167,19 @@ export default {
                 labels: Object.keys(data),
                 datasets: [dataq]
             });
-        }
+        },
+
+        getChartLabel() {
+            if (!this.filters || !this.filters.dimensionType) {
+                return "Кількість об'єктів";
+            }
+
+            const foundType = this.dimensionTypeItems.find((item) => {
+                return item.id === this.filters.dimensionType;
+            });
+
+            return foundType ? foundType.name : this.filters.dimensionType;
+        },
     }
 };
 </script>
