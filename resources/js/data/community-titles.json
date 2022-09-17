@@ -183,7 +183,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Вільшанська селищна громада",
-                "fid": 727
+                "fid": 583
             },
             "geometry": {
                 "type": "Point",
@@ -458,7 +458,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Кам'янська міська громада",
-                "fid": 1399
+                "fid": 1087
             },
             "geometry": {
                 "type": "Point",
@@ -568,7 +568,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Шевченківська сільська громада",
-                "fid": 864
+                "fid": 142
             },
             "geometry": {
                 "type": "Point",
@@ -1952,7 +1952,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Кам'янська міська громада" },
+            "properties": {
+                "hromada": "Кам'янська міська громада",
+                "fid": 1399
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [34.58692171052631, 48.53395]
@@ -2127,7 +2130,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Новопокровська селищна громада",
-                "fid": 947
+                "fid": 405
             },
             "geometry": {
                 "type": "Point",
@@ -2366,7 +2369,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Слобожанська селищна громада",
-                "fid": 1185
+                "fid": 1117
             },
             "geometry": {
                 "type": "Point",
@@ -2718,7 +2721,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Чернеччинська сільська громада",
-                "fid": 690
+                "fid": 123
             },
             "geometry": {
                 "type": "Point",
@@ -2858,7 +2861,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Покровська міська громада",
-                "fid": 1376
+                "fid": 1297
             },
             "geometry": {
                 "type": "Point",
@@ -3241,7 +3244,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Покровська міська громада" },
+            "properties": {
+                "hromada": "Покровська міська громада",
+                "fid": 1376
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [37.16890236344538, 48.2073]
@@ -3350,7 +3356,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Миколаївська міська громада",
-                "fid": 1413
+                "fid": 978
             },
             "geometry": {
                 "type": "Point",
@@ -3416,7 +3422,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Олександрівська селищна громада",
-                "fid": 1184
+                "fid": 772
             },
             "geometry": {
                 "type": "Point",
@@ -3751,7 +3757,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Солотвинська селищна громада",
-                "fid": 1415
+                "fid": 1172
             },
             "geometry": {
                 "type": "Point",
@@ -4232,7 +4238,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Новопокровська селищна громада" },
+            "properties": {
+                "hromada": "Новопокровська селищна громада",
+                "fid": 947
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [36.507924420222636, 49.8352]
@@ -4555,7 +4564,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Первомайська міська громада",
-                "fid": 1368
+                "fid": 1220
             },
             "geometry": {
                 "type": "Point",
@@ -4597,7 +4606,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Слобожанська селищна громада" },
+            "properties": {
+                "hromada": "Слобожанська селищна громада",
+                "fid": 1185
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [36.57334086106614, 49.6362]
@@ -5383,7 +5395,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Городоцька міська громада",
-                "fid": 1300
+                "fid": 1277
             },
             "geometry": {
                 "type": "Point",
@@ -5559,7 +5571,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Крупецька сільська громада",
-                "fid": 1039
+                "fid": 75
             },
             "geometry": {
                 "type": "Point",
@@ -6140,7 +6152,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Олександрівська селищна громада" },
+            "properties": {
+                "hromada": "Олександрівська селищна громада",
+                "fid": 1184
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [32.236311170212765, 48.8835]
@@ -6271,7 +6286,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Дмитрівська сільська громада",
-                "fid": 749
+                "fid": 361
             },
             "geometry": {
                 "type": "Point",
@@ -6357,7 +6372,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Долинська міська громада" },
+            "properties": {
+                "hromada": "Долинська міська громада",
+                "fid": 1154
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [32.836060606060606, 48.12365]
@@ -6472,7 +6490,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Вільшанська селищна громада" },
+            "properties": {
+                "hromada": "Вільшанська селищна громада",
+                "fid": 727
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [30.85112168748239, 48.3079]
@@ -6609,7 +6630,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Дмитрівська сільська громада" },
+            "properties": {
+                "hromada": "Дмитрівська сільська громада",
+                "fid": 749
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [30.11198870400433, 50.44215]
@@ -7808,7 +7832,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Куликівська селищна громада" },
+            "properties": {
+                "hromada": "Куликівська селищна громада",
+                "fid": 716
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [24.101852857142852, 49.98585]
@@ -7816,7 +7843,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Городоцька міська громада" },
+            "properties": {
+                "hromada": "Городоцька міська громада",
+                "fid": 1300
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [23.61387910447761, 49.77305]
@@ -7953,7 +7983,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Миколаївська міська громада" },
+            "properties": {
+                "hromada": "Миколаївська міська громада",
+                "fid": 1231
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [23.841641304347824, 49.47225]
@@ -8757,7 +8790,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Миколаївська міська громада" },
+            "properties": {
+                "hromada": "Миколаївська міська громада",
+                "fid": 1413
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [32.00150336538462, 46.93195]
@@ -8787,7 +8823,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Первомайська міська громада" },
+            "properties": {
+                "hromada": "Первомайська міська громада",
+                "fid": 1368
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [30.82049523809524, 48.0352]
@@ -8795,7 +8834,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Шевченківська сільська громада" },
+            "properties": {
+                "hromada": "Шевченківська сільська громада",
+                "fid": 864
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [32.341342004606986, 46.89465]
@@ -8836,7 +8878,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Олександрівська селищна громада" },
+            "properties": {
+                "hromada": "Олександрівська селищна громада",
+                "fid": 609
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [31.41266004784689, 47.692]
@@ -8846,7 +8891,7 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Широківська сільська громада",
-                "fid": 854
+                "fid": 819
             },
             "geometry": {
                 "type": "Point",
@@ -9391,7 +9436,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Іванівська селищна громада" },
+            "properties": {
+                "hromada": "Іванівська селищна громада",
+                "fid": 585
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [30.428389377289392, 46.9466]
@@ -9489,7 +9537,8 @@
             "type": "Feature",
             "properties": {
                 "hromada": "Миколаївська селищна громада",
-                "fid": 728
+
+                "fid": 492
             },
             "geometry": {
                 "type": "Point",
@@ -11153,7 +11202,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Крупецька сільська громада" },
+            "properties": {
+                "hromada": "Крупецька сільська громада",
+                "fid": 1039
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [25.305961538461528, 50.2403]
@@ -11488,7 +11540,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Чернеччинська сільська громада" },
+            "properties": {
+                "hromada": "Чернеччинська сільська громада",
+                "fid": 690
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [34.78330011261261, 50.2783]
@@ -11735,7 +11790,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Миколаївська селищна громада" },
+            "properties": {
+                "hromada": "Миколаївська селищна громада",
+                "fid": 728
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [34.289556548757176, 50.92515]
@@ -13866,7 +13924,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Солотвинська селищна громада" },
+            "properties": {
+                "hromada": "Солотвинська селищна громада",
+                "fid": 1415
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [23.845310728619943, 48.02965]
@@ -13874,7 +13935,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Кам'янська сільська громада" },
+            "properties": {
+                "hromada": "Кам'янська сільська громада",
+                "fid": 542
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [22.966192307692307, 48.2932]
@@ -15124,7 +15188,10 @@
         },
         {
             "type": "Feature",
-            "properties": { "hromada": "Широківська сільська громада" },
+            "properties": {
+                "hromada": "Широківська сільська громада",
+                "fid": 854
+            },
             "geometry": {
                 "type": "Point",
                 "coordinates": [34.98648449912907, 47.9821]

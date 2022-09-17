@@ -23,6 +23,7 @@
                             outlined
                             hide-details
                             item-text="name"
+                            item-value="id"
                             placeholder="Регіон"
                             :disabled="!regionItems || !regionItems.length"
                         ></v-autocomplete>
@@ -64,23 +65,45 @@ export default {
             });
         },
         regionsMapping() {
-            return communities.features.reduce((prev, curr) => {
-                if (!prev.has(curr.properties.region)) {
-                    prev.set(curr.properties.region, {
-                        districts: new Set(),
-                        communities: new Set(),
-                    });
+            const communitiesMapping = communities.features.reduce(
+                (prev, curr) => {
+                    if (curr.properties.region_fid) {
+                        if (!prev[curr.properties.region_fid]) {
+                            prev[curr.properties.region_fid] = {};
+                        }
+                        prev[curr.properties.region_fid][
+                            curr.properties.fid
+                        ] = true;
+                    }
+
+                    return prev;
+                },
+                {}
+            );
+            const districtsMapping = districts.features.reduce((prev, curr) => {
+                if (curr.properties.region_fid) {
+                    if (!prev[curr.properties.region_fid]) {
+                        prev[curr.properties.region_fid] = {};
+                    }
+                    prev[curr.properties.region_fid][
+                        curr.properties.fid
+                    ] = true;
                 }
 
-                prev.get(curr.properties.region).districts.add(
-                    curr.properties.rayon
-                );
-                prev.get(curr.properties.region).communities.add(
-                    curr.properties.hromada
-                );
+                return prev;
+            }, {});
+
+            return regions.features.reduce((prev, curr) => {
+                if (!prev[curr.properties.fid]) {
+                    prev[curr.properties.fid] = {};
+                }
+                prev[curr.properties.fid]["districts"] =
+                    districtsMapping[curr.properties.fid] || {};
+                prev[curr.properties.fid]["communities"] =
+                    communitiesMapping[curr.properties.fid] || {};
 
                 return prev;
-            }, new Map());
+            }, {});
         },
     },
 
@@ -165,7 +188,11 @@ export default {
                 }
 
                 const regionsComputed = self.getRegionsGeojson();
+                const districtsTitlesComputed =
+                    self.getDistrictsTitlesGeojson();
                 const districtsComputed = self.getDistrictsGeojson();
+                const communitiesTitlesComputed =
+                    self.getCommunitiesTitlesGeojson();
                 const communitiesComputed = self.getCommunitiesGeojson();
 
                 map.addControl(new mapboxgl.NavigationControl(), "top-left");
@@ -176,7 +203,7 @@ export default {
                 });
                 map.addSource("titlerayon", {
                     type: "geojson",
-                    data: districtTitles,
+                    data: districtsTitlesComputed,
                 });
                 map.addSource("rayon", {
                     type: "geojson",
@@ -184,7 +211,7 @@ export default {
                 });
                 map.addSource("titlehromada", {
                     type: "geojson",
-                    data: communityTitles,
+                    data: communitiesTitlesComputed,
                 });
                 map.addSource("hromada", {
                     type: "geojson",
@@ -482,7 +509,7 @@ export default {
             let oldFeatures = regions.features;
             if (this.region) {
                 const feature = oldFeatures.find(
-                    (item) => item.properties.region === this.region
+                    (item) => item.properties.fid === this.region
                 );
                 oldFeatures = [feature];
             }
@@ -512,6 +539,23 @@ export default {
             };
         },
 
+        getDistrictsTitlesGeojson() {
+            if (!this.region) {
+                return districtTitles;
+            }
+
+            const districts =
+                this.regionsMapping[this.region]["districts"] || {};
+            const newFeatures = districtTitles.features.filter(
+                (item) => !!districts[item.properties.fid]
+            );
+
+            return {
+                ...districtTitles,
+                features: newFeatures,
+            };
+        },
+
         getDistrictsGeojson() {
             const districtsMapping = this.districtsData.reduce((prev, curr) => {
                 prev[curr.name] = curr;
@@ -520,11 +564,10 @@ export default {
 
             let oldFeatures = districts.features;
             if (this.region) {
-                const districts = this.regionsMapping.has(this.region)
-                    ? this.regionsMapping.get(this.region).districts
-                    : new Set();
-                oldFeatures = oldFeatures.filter((item) =>
-                    districts.has(item.properties.rayon)
+                const districts =
+                    this.regionsMapping[this.region]["districts"] || {};
+                oldFeatures = oldFeatures.filter(
+                    (item) => !!districts[item.properties.fid]
                 );
             }
 
@@ -553,6 +596,23 @@ export default {
             };
         },
 
+        getCommunitiesTitlesGeojson() {
+            if (!this.region) {
+                return communityTitles;
+            }
+
+            const communities =
+                this.regionsMapping[this.region]["communities"] || {};
+            const newFeatures = communityTitles.features.filter(
+                (item) => !!communities[item.properties.fid]
+            );
+
+            return {
+                ...communityTitles,
+                features: newFeatures,
+            };
+        },
+
         getCommunitiesGeojson() {
             const communitiesMapping = this.communitiesData.reduce(
                 (prev, curr) => {
@@ -564,13 +624,10 @@ export default {
 
             let oldFeatures = communities.features;
             if (this.region) {
-                const communities = this.regionsMapping.has(this.region)
-                    ? this.regionsMapping.get(this.region).communities
-                    : new Set();
+                const communities =
+                    this.regionsMapping[this.region]["communities"] || {};
                 oldFeatures = oldFeatures.filter(
-                    (item) =>
-                        item.properties.region === this.region &&
-                        communities.has(item.properties.hromada)
+                    (item) => !!communities[item.properties.fid]
                 );
             }
 
