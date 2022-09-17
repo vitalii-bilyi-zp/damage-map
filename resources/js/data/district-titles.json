@@ -1,143 +1,1101 @@
 {
-    "type": "FeatureCollection",
-    "name": "rayon-title",
-    "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-    "features": [
-    { "type": "Feature", "properties": { "titlerayon": "Кременчуцький район" }, "geometry": { "type": "Point", "coordinates": [ 33.222340782152003, 49.3435625 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Полтавський район" }, "geometry": { "type": "Point", "coordinates": [ 34.557367251490064, 49.5453335 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Миргородський район" }, "geometry": { "type": "Point", "coordinates": [ 33.790623592817965, 50.029663 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Лубенський район" }, "geometry": { "type": "Point", "coordinates": [ 32.847292502597739, 50.0213705 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Берегівський район" }, "geometry": { "type": "Point", "coordinates": [ 22.869118639160391, 48.178623 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Володимир-Волинський район" }, "geometry": { "type": "Point", "coordinates": [ 24.43366323944803, 50.817424 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Ковельський район" }, "geometry": { "type": "Point", "coordinates": [ 24.287902248865354, 51.386392 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Луцький район" }, "geometry": { "type": "Point", "coordinates": [ 25.40886748508516, 50.7585815 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Камінь-Каширський район" }, "geometry": { "type": "Point", "coordinates": [ 25.171903298157162, 51.549736 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Василівський район" }, "geometry": { "type": "Point", "coordinates": [ 34.937654851525167, 47.3788955 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Бердянський район" }, "geometry": { "type": "Point", "coordinates": [ 36.543990145329246, 46.9120475 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Мелітопольський район" }, "geometry": { "type": "Point", "coordinates": [ 35.300961430881173, 46.7260085 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Пологівський район" }, "geometry": { "type": "Point", "coordinates": [ 36.446497543339468, 47.4238295 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Запорізький район" }, "geometry": { "type": "Point", "coordinates": [ 35.485716586138224, 47.8518505 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Звенигородський район" }, "geometry": { "type": "Point", "coordinates": [ 31.082513835361503, 49.0938945 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Уманський район" }, "geometry": { "type": "Point", "coordinates": [ 30.08356444059342, 48.893443 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Золотоніський район" }, "geometry": { "type": "Point", "coordinates": [ 32.10213954279557, 49.782841 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Черкаський район" }, "geometry": { "type": "Point", "coordinates": [ 31.754334142228437, 49.4386245 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Ніжинський район" }, "geometry": { "type": "Point", "coordinates": [ 31.736616072707413, 50.981811 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Прилуцький район" }, "geometry": { "type": "Point", "coordinates": [ 32.599020981559192, 50.7144335 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Корюківський район" }, "geometry": { "type": "Point", "coordinates": [ 32.245140212455581, 51.7302905 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Новгород-Сіверський район" }, "geometry": { "type": "Point", "coordinates": [ 32.958758098843433, 51.8494885 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Чернігівський район" }, "geometry": { "type": "Point", "coordinates": [ 31.206256584393856, 51.438079 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Бориспільський район" }, "geometry": { "type": "Point", "coordinates": [ 31.38924781009371, 50.1615995 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Білоцерківський район" }, "geometry": { "type": "Point", "coordinates": [ 30.104351125261502, 49.6482895 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Вишгородський район" }, "geometry": { "type": "Point", "coordinates": [ 29.99136407267833, 51.039316 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Обухівський район" }, "geometry": { "type": "Point", "coordinates": [ 30.934767279419599, 49.8797145 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Броварський район" }, "geometry": { "type": "Point", "coordinates": [ 31.536849970810835, 50.4731745 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Бучанський район" }, "geometry": { "type": "Point", "coordinates": [ 29.898861292922952, 50.545697 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Фастівський район" }, "geometry": { "type": "Point", "coordinates": [ 29.945198669977927, 50.138488 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Дністровський район" }, "geometry": { "type": "Point", "coordinates": [ 26.531376453122888, 48.41993 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Чернівецький район" }, "geometry": { "type": "Point", "coordinates": [ 26.053319359584599, 48.3012575 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Вижницький район" }, "geometry": { "type": "Point", "coordinates": [ 25.159901388712907, 48.0625505 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Куп'янський район" }, "geometry": { "type": "Point", "coordinates": [ 37.622710990446734, 49.8775215 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Чугуївський район" }, "geometry": { "type": "Point", "coordinates": [ 36.890973671340717, 49.9595715 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Богодухівський район" }, "geometry": { "type": "Point", "coordinates": [ 35.366538869917235, 50.047771 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Лозівський район" }, "geometry": { "type": "Point", "coordinates": [ 36.36959420377574, 49.037149 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Красноградський район" }, "geometry": { "type": "Point", "coordinates": [ 35.653784456306553, 49.316929 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Ізюмський район" }, "geometry": { "type": "Point", "coordinates": [ 37.073606542766527, 49.1994855 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Харківський район" }, "geometry": { "type": "Point", "coordinates": [ 36.23088291037584, 49.9944285 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Синельниківський район" }, "geometry": { "type": "Point", "coordinates": [ 36.060569123796483, 48.2390075 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Дніпровський район" }, "geometry": { "type": "Point", "coordinates": [ 34.966187120284602, 48.527136 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Новомосковський район" }, "geometry": { "type": "Point", "coordinates": [ 35.287381637479982, 48.808919 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Криворізький район" }, "geometry": { "type": "Point", "coordinates": [ 33.545593288752841, 47.887476 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Нікопольський район" }, "geometry": { "type": "Point", "coordinates": [ 34.492396488271481, 47.7503835 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Кам'янський район" }, "geometry": { "type": "Point", "coordinates": [ 34.122039706942338, 48.4776275 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Павлоградський район" }, "geometry": { "type": "Point", "coordinates": [ 35.912255517061709, 48.6434645 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Бериславський район" }, "geometry": { "type": "Point", "coordinates": [ 33.402201046809836, 47.1702445 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Джанкойський район" }, "geometry": { "type": "Point", "coordinates": [ 34.271203345075804, 45.80117 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Маріупольський район" }, "geometry": { "type": "Point", "coordinates": [ 37.399862166183837, 47.1682215 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Донецький район" }, "geometry": { "type": "Point", "coordinates": [ 38.20955683682277, 47.908814 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Краматорський район" }, "geometry": { "type": "Point", "coordinates": [ 37.267606226132642, 48.747636 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Покровський район" }, "geometry": { "type": "Point", "coordinates": [ 37.443783590150318, 48.2038995 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Волноваський район" }, "geometry": { "type": "Point", "coordinates": [ 37.157828062312277, 47.7138075 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Бахмутський район" }, "geometry": { "type": "Point", "coordinates": [ 38.023034049785636, 48.6481915 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Горлівський район" }, "geometry": { "type": "Point", "coordinates": [ 38.379562632117768, 48.170212 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Кальміуський район" }, "geometry": { "type": "Point", "coordinates": [ 38.097002192887814, 47.4736685 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Сєвєродонецький район" }, "geometry": { "type": "Point", "coordinates": [ 38.461945875740803, 48.866468 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Луганський район" }, "geometry": { "type": "Point", "coordinates": [ 39.365014183662808, 48.4742975 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Старобільський район" }, "geometry": { "type": "Point", "coordinates": [ 39.462673697567865, 49.4322275 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Сватівський район" }, "geometry": { "type": "Point", "coordinates": [ 38.421983381719642, 49.6014565 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Ровеньківський район" }, "geometry": { "type": "Point", "coordinates": [ 39.121012124994571, 48.112415 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Щастинський район" }, "geometry": { "type": "Point", "coordinates": [ 39.359751905928498, 48.85092 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Довжанський район" }, "geometry": { "type": "Point", "coordinates": [ 39.765282617111914, 48.209071 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Алчевський район" }, "geometry": { "type": "Point", "coordinates": [ 38.772880094310054, 48.5088305 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Золочівський район" }, "geometry": { "type": "Point", "coordinates": [ 24.921823302112031, 49.9507015 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Самбірський район" }, "geometry": { "type": "Point", "coordinates": [ 22.930002556230946, 49.293401 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Дрогобицький район" }, "geometry": { "type": "Point", "coordinates": [ 23.412494684709596, 49.288226 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Львівський район" }, "geometry": { "type": "Point", "coordinates": [ 24.182002653026558, 49.91065 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Стрийський район" }, "geometry": { "type": "Point", "coordinates": [ 24.0519367847245, 49.1854925 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Червоноградський район" }, "geometry": { "type": "Point", "coordinates": [ 24.212391352165881, 50.3809545 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Яворівський район" }, "geometry": { "type": "Point", "coordinates": [ 23.495711081324217, 49.908875 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Надвірнянський район" }, "geometry": { "type": "Point", "coordinates": [ 24.440477285946592, 48.440055 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Калуський район" }, "geometry": { "type": "Point", "coordinates": [ 23.963698798080248, 48.8457685 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Івано-Франківський район" }, "geometry": { "type": "Point", "coordinates": [ 24.742728324130127, 49.0404605 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Верховинський район" }, "geometry": { "type": "Point", "coordinates": [ 24.741540663546552, 48.001858 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Ужгородський район" }, "geometry": { "type": "Point", "coordinates": [ 22.608819733334585, 48.7243805 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Херсонський район" }, "geometry": { "type": "Point", "coordinates": [ 32.265655875690101, 46.634013 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Генічеський район" }, "geometry": { "type": "Point", "coordinates": [ 34.492123552452185, 46.531679 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Сімферопольський район" }, "geometry": { "type": "Point", "coordinates": [ 33.984909356879854, 44.98862 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Феодосійський район" }, "geometry": { "type": "Point", "coordinates": [ 35.097663559083273, 45.184189 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Перекопський район" }, "geometry": { "type": "Point", "coordinates": [ 33.567445436433388, 45.7941375 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Білогірський район" }, "geometry": { "type": "Point", "coordinates": [ 34.641159635627602, 45.278192 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Євпаторійський район" }, "geometry": { "type": "Point", "coordinates": [ 33.426247992195705, 45.35053 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Керченський район" }, "geometry": { "type": "Point", "coordinates": [ 36.341710571736542, 45.380428 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Скадовський район" }, "geometry": { "type": "Point", "coordinates": [ 32.37459418626473, 46.3093345 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Каховський район" }, "geometry": { "type": "Point", "coordinates": [ 33.879153709484271, 46.8376315 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Хмельницький район" }, "geometry": { "type": "Point", "coordinates": [ 27.005070536635039, 49.4329065 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Кам'янець-Подільський район" }, "geometry": { "type": "Point", "coordinates": [ 26.835039650408056, 48.813544 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Курманський район" }, "geometry": { "type": "Point", "coordinates": [ 34.04472693884081, 45.5008655 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Шепетівський район" }, "geometry": { "type": "Point", "coordinates": [ 26.918745077826728, 50.2304545 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Голованівський район" }, "geometry": { "type": "Point", "coordinates": [ 30.465821612452206, 48.4559995 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Олександрійський район" }, "geometry": { "type": "Point", "coordinates": [ 33.285382726209946, 48.674298 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Новоукраїнський район" }, "geometry": { "type": "Point", "coordinates": [ 31.377250309366097, 48.5039405 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Кропивницький район" }, "geometry": { "type": "Point", "coordinates": [ 32.500875503250739, 48.4211585 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Вознесенський район" }, "geometry": { "type": "Point", "coordinates": [ 31.489514574033418, 47.642021 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Баштанський район" }, "geometry": { "type": "Point", "coordinates": [ 32.553228126024607, 47.435471 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Первомайський район" }, "geometry": { "type": "Point", "coordinates": [ 30.765767887045612, 47.9166915 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Миколаївський район" }, "geometry": { "type": "Point", "coordinates": [ 31.936152367170045, 47.090739 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Подільський район" }, "geometry": { "type": "Point", "coordinates": [ 29.840060943052297, 47.7671025 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Болградський район" }, "geometry": { "type": "Point", "coordinates": [ 29.27097301915726, 46.0175625 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Березівський район" }, "geometry": { "type": "Point", "coordinates": [ 30.645726953640398, 47.212502 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Ізмаїльський район" }, "geometry": { "type": "Point", "coordinates": [ 29.186668738175598, 45.5124105 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Одеський район" }, "geometry": { "type": "Point", "coordinates": [ 30.319705029864529, 46.5375395 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Білгород-Дністровський район" }, "geometry": { "type": "Point", "coordinates": [ 29.97836542613598, 46.019023 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Роменський район" }, "geometry": { "type": "Point", "coordinates": [ 33.676175281909899, 50.763991 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Сумський район" }, "geometry": { "type": "Point", "coordinates": [ 34.792742077297788, 50.8243175 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Бердичівський район" }, "geometry": { "type": "Point", "coordinates": [ 28.514865965644006, 49.8819545 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Житомирський район" }, "geometry": { "type": "Point", "coordinates": [ 28.775116785249104, 50.247811 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Коростенський район" }, "geometry": { "type": "Point", "coordinates": [ 28.343889218535217, 51.1614095 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Новоград-Волинський район" }, "geometry": { "type": "Point", "coordinates": [ 27.703524065553822, 50.626804 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Кременецький район" }, "geometry": { "type": "Point", "coordinates": [ 25.781721578705373, 49.984273 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Чортківський район" }, "geometry": { "type": "Point", "coordinates": [ 25.676005436138425, 48.9463295 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Тернопільський район" }, "geometry": { "type": "Point", "coordinates": [ 25.44319470295537, 49.5350765 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Могилів-Подільський район" }, "geometry": { "type": "Point", "coordinates": [ 27.902733445469853, 48.495401 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Гайсинський район" }, "geometry": { "type": "Point", "coordinates": [ 29.54727029025781, 48.6076265 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Вінницький район" }, "geometry": { "type": "Point", "coordinates": [ 28.879860099530781, 49.243438 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Жмеринський район" }, "geometry": { "type": "Point", "coordinates": [ 27.881408430700169, 48.9168125 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Косівський район" }, "geometry": { "type": "Point", "coordinates": [ 24.990152109948959, 48.3100625 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Коломийський район" }, "geometry": { "type": "Point", "coordinates": [ 25.178412830914993, 48.6138305 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Хустський район" }, "geometry": { "type": "Point", "coordinates": [ 23.324628614966681, 48.3713165 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Рахівський район" }, "geometry": { "type": "Point", "coordinates": [ 24.235035323030964, 48.148372 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Мукачівський район" }, "geometry": { "type": "Point", "coordinates": [ 22.912603546914006, 48.603667 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Тячівський район" }, "geometry": { "type": "Point", "coordinates": [ 23.812425876430332, 48.2476435 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Хмільницький район" }, "geometry": { "type": "Point", "coordinates": [ 28.393933104497698, 49.6121105 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Тульчинський район" }, "geometry": { "type": "Point", "coordinates": [ 28.644121147642636, 48.5020015 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Бахчисарайський район" }, "geometry": { "type": "Point", "coordinates": [ 33.976243285935723, 44.6765585 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Ялтинський район" }, "geometry": { "type": "Point", "coordinates": [ 34.302596575322347, 44.6434645 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Роздільнянський район" }, "geometry": { "type": "Point", "coordinates": [ 29.871318808818422, 47.0664295 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Дубенський район" }, "geometry": { "type": "Point", "coordinates": [ 25.564728399271178, 50.364384 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Сарненський район" }, "geometry": { "type": "Point", "coordinates": [ 26.969683132612996, 51.410244 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Вараський район" }, "geometry": { "type": "Point", "coordinates": [ 25.950119120221412, 51.565999 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Рівненський район" }, "geometry": { "type": "Point", "coordinates": [ 26.561477853438561, 50.6891575 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Охтирський район" }, "geometry": { "type": "Point", "coordinates": [ 35.043328079632545, 50.4303125 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Конотопський район" }, "geometry": { "type": "Point", "coordinates": [ 33.679942428119602, 51.3383095 ] } },
-    { "type": "Feature", "properties": { "titlerayon": "Шосткинський район" }, "geometry": { "type": "Point", "coordinates": [ 33.73435964535571, 51.9141815 ] } }
-    ]
+  "type": "FeatureCollection",
+  "name": "rayon-title",
+  "crs": {
+    "type": "name",
+    "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" }
+  },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Кременчуцький район", "fid": 1 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.222340782152, 49.3435625]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Полтавський район", "fid": 2 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.557367251490064, 49.5453335]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Миргородський район", "fid": 3 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.790623592817965, 50.029663]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Лубенський район", "fid": 4 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.84729250259774, 50.0213705]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Берегівський район", "fid": 5 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.86911863916039, 48.178623]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Володимир-Волинський район", "fid": 6 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.43366323944803, 50.817424]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Ковельський район", "fid": 7 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.287902248865354, 51.386392]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Луцький район", "fid": 8 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.40886748508516, 50.7585815]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Камінь-Каширський район", "fid": 9 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.17190329815716, 51.549736]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Василівський район", "fid": 10 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.93765485152517, 47.3788955]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Бердянський район", "fid": 11 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.543990145329246, 46.9120475]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Мелітопольський район", "fid": 12 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.30096143088117, 46.7260085]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Пологівський район", "fid": 13 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.44649754333947, 47.4238295]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Запорізький район", "fid": 14 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.485716586138224, 47.8518505]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Звенигородський район", "fid": 15 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.082513835361503, 49.0938945]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Уманський район", "fid": 16 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.08356444059342, 48.893443]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Золотоніський район", "fid": 17 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.10213954279557, 49.782841]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Черкаський район", "fid": 18 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.754334142228437, 49.4386245]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Ніжинський район", "fid": 19 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.736616072707413, 50.981811]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Прилуцький район", "fid": 20 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.59902098155919, 50.7144335]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Корюківський район", "fid": 21 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.24514021245558, 51.7302905]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Новгород-Сіверський район", "fid": 22 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.95875809884343, 51.8494885]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Чернігівський район", "fid": 23 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.206256584393856, 51.438079]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Бориспільський район", "fid": 24 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.38924781009371, 50.1615995]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Білоцерківський район", "fid": 25 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.104351125261502, 49.6482895]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Вишгородський район", "fid": 26 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.99136407267833, 51.039316]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Обухівський район", "fid": 27 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.9347672794196, 49.8797145]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Броварський район", "fid": 28 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.536849970810835, 50.4731745]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Бучанський район", "fid": 29 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.898861292922952, 50.545697]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Фастівський район", "fid": 30 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.945198669977927, 50.138488]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Дністровський район", "fid": 31 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.53137645312289, 48.41993]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Чернівецький район", "fid": 32 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.0533193595846, 48.3012575]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Вижницький район", "fid": 33 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.159901388712907, 48.0625505]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Куп'янський район", "fid": 34 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [37.622710990446734, 49.8775215]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Чугуївський район", "fid": 35 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.89097367134072, 49.9595715]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Богодухівський район", "fid": 36 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.366538869917235, 50.047771]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Лозівський район", "fid": 37 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.36959420377574, 49.037149]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Красноградський район", "fid": 38 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.65378445630655, 49.316929]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Ізюмський район", "fid": 39 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [37.07360654276653, 49.1994855]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Харківський район", "fid": 40 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.23088291037584, 49.9944285]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Синельниківський район", "fid": 41 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.06056912379648, 48.2390075]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Дніпровський район", "fid": 42 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.9661871202846, 48.527136]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Новомосковський район", "fid": 43 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.28738163747998, 48.808919]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Криворізький район", "fid": 44 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.54559328875284, 47.887476]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Нікопольський район", "fid": 45 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.49239648827148, 47.7503835]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Кам'янський район", "fid": 46 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.12203970694234, 48.4776275]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Павлоградський район", "fid": 47 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.91225551706171, 48.6434645]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Бериславський район", "fid": 48 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.402201046809836, 47.1702445]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Джанкойський район", "fid": 49 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.271203345075804, 45.80117]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Маріупольський район", "fid": 50 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [37.39986216618384, 47.1682215]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Донецький район", "fid": 51 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.20955683682277, 47.908814]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Краматорський район", "fid": 52 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [37.26760622613264, 48.747636]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Покровський район", "fid": 53 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [37.44378359015032, 48.2038995]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Волноваський район", "fid": 54 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [37.15782806231228, 47.7138075]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Бахмутський район", "fid": 55 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.023034049785636, 48.6481915]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Горлівський район", "fid": 56 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.37956263211777, 48.170212]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Кальміуський район", "fid": 57 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.097002192887814, 47.4736685]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Сєвєродонецький район", "fid": 58 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.4619458757408, 48.866468]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Луганський район", "fid": 59 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [39.36501418366281, 48.4742975]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Старобільський район", "fid": 60 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [39.462673697567865, 49.4322275]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Сватівський район", "fid": 61 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.42198338171964, 49.6014565]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Ровеньківський район", "fid": 62 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [39.12101212499457, 48.112415]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Щастинський район", "fid": 63 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [39.3597519059285, 48.85092]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Довжанський район", "fid": 64 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [39.765282617111914, 48.209071]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Алчевський район", "fid": 65 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [38.772880094310054, 48.5088305]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Золочівський район", "fid": 66 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.92182330211203, 49.9507015]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Самбірський район", "fid": 67 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.930002556230946, 49.293401]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Дрогобицький район", "fid": 68 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.412494684709596, 49.288226]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Львівський район", "fid": 69 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.182002653026558, 49.91065]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Стрийський район", "fid": 70 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.0519367847245, 49.1854925]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Червоноградський район", "fid": 71 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.21239135216588, 50.3809545]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Яворівський район", "fid": 72 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.495711081324217, 49.908875]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Надвірнянський район", "fid": 73 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.440477285946592, 48.440055]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Калуський район", "fid": 74 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.963698798080248, 48.8457685]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Івано-Франківський район", "fid": 75 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.742728324130127, 49.0404605]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Верховинський район", "fid": 76 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.74154066354655, 48.001858]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Ужгородський район", "fid": 77 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.608819733334585, 48.7243805]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Херсонський район", "fid": 78 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.2656558756901, 46.634013]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Генічеський район", "fid": 79 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.492123552452185, 46.531679]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Сімферопольський район", "fid": 80 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.984909356879854, 44.98862]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Феодосійський район", "fid": 81 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.09766355908327, 45.184189]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Перекопський район", "fid": 82 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.56744543643339, 45.7941375]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Білогірський район", "fid": 83 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.6411596356276, 45.278192]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Євпаторійський район", "fid": 84 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.426247992195705, 45.35053]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Керченський район", "fid": 85 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [36.34171057173654, 45.380428]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Скадовський район", "fid": 86 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.37459418626473, 46.3093345]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Каховський район", "fid": 87 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.87915370948427, 46.8376315]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Хмельницький район", "fid": 88 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [27.00507053663504, 49.4329065]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Кам'янець-Подільський район", "fid": 89 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.835039650408056, 48.813544]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Курманський район", "fid": 90 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.04472693884081, 45.5008655]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Шепетівський район", "fid": 91 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.918745077826728, 50.2304545]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Голованівський район", "fid": 92 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.465821612452206, 48.4559995]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Олександрійський район", "fid": 93 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.285382726209946, 48.674298]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Новоукраїнський район", "fid": 94 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.377250309366097, 48.5039405]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Кропивницький район", "fid": 95 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.50087550325074, 48.4211585]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Вознесенський район", "fid": 96 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.489514574033418, 47.642021]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Баштанський район", "fid": 97 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [32.55322812602461, 47.435471]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Первомайський район", "fid": 98 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.765767887045612, 47.9166915]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Миколаївський район", "fid": 99 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [31.936152367170045, 47.090739]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Подільський район", "fid": 100 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.840060943052297, 47.7671025]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Болградський район", "fid": 101 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.27097301915726, 46.0175625]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Березівський район", "fid": 102 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.6457269536404, 47.212502]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Ізмаїльський район", "fid": 103 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.186668738175598, 45.5124105]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Одеський район", "fid": 104 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [30.31970502986453, 46.5375395]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "titlerayon": "Білгород-Дністровський район",
+        "fid": 105
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.97836542613598, 46.019023]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Роменський район", "fid": 106 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.6761752819099, 50.763991]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Сумський район", "fid": 107 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.79274207729779, 50.8243175]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Бердичівський район", "fid": 108 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.514865965644006, 49.8819545]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Житомирський район", "fid": 109 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.775116785249104, 50.247811]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Коростенський район", "fid": 110 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.343889218535217, 51.1614095]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Новоград-Волинський район", "fid": 111 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [27.70352406555382, 50.626804]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Кременецький район", "fid": 112 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.781721578705373, 49.984273]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Чортківський район", "fid": 113 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.676005436138425, 48.9463295]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Тернопільський район", "fid": 114 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.44319470295537, 49.5350765]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Могилів-Подільський район", "fid": 115 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [27.902733445469853, 48.495401]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Гайсинський район", "fid": 116 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.54727029025781, 48.6076265]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Вінницький район", "fid": 117 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.87986009953078, 49.243438]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Жмеринський район", "fid": 118 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [27.88140843070017, 48.9168125]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Косівський район", "fid": 119 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.99015210994896, 48.3100625]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Коломийський район", "fid": 120 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.178412830914993, 48.6138305]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Хустський район", "fid": 121 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.32462861496668, 48.3713165]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Рахівський район", "fid": 122 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [24.235035323030964, 48.148372]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Мукачівський район", "fid": 123 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [22.912603546914006, 48.603667]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Тячівський район", "fid": 124 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [23.812425876430332, 48.2476435]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Хмільницький район", "fid": 125 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.393933104497698, 49.6121105]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Тульчинський район", "fid": 126 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [28.644121147642636, 48.5020015]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Бахчисарайський район", "fid": 127 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.97624328593572, 44.6765585]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Ялтинський район", "fid": 128 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [34.30259657532235, 44.6434645]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Роздільнянський район", "fid": 129 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [29.871318808818422, 47.0664295]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Дубенський район", "fid": 130 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.56472839927118, 50.364384]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Сарненський район", "fid": 131 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.969683132612996, 51.410244]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Вараський район", "fid": 132 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [25.950119120221412, 51.565999]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Рівненський район", "fid": 133 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [26.56147785343856, 50.6891575]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Охтирський район", "fid": 134 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [35.043328079632545, 50.4303125]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Конотопський район", "fid": 135 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.6799424281196, 51.3383095]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "titlerayon": "Шосткинський район", "fid": 136 },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [33.73435964535571, 51.9141815]
+      }
+    }
+  ]
 }
