@@ -5,6 +5,10 @@
                 <v-card>
                     <v-toolbar flat color="white">
                         <v-spacer></v-spacer>
+                        <v-btn class="mr-4" color="primary" outlined @click="exportDamageNotes">
+                            <v-icon left dark>mdi-download</v-icon>
+                            Експорт даних
+                        </v-btn>
                         <v-btn color="primary" link :to="{ name: 'damage-notes.create' }">
                             <v-icon left>mdi-plus</v-icon>
                             Додати запис
@@ -248,6 +252,23 @@
 
             updateDamageNote(id) {
                 this.$router.push({name: 'damage-notes.edit', params: { id }});
+            },
+
+            exportDamageNotes() {
+                this.$store.dispatch('exportDamageNotes')
+                    .then((response) => {
+                        const fileURL = URL.createObjectURL(new Blob([response.data], { encoding: 'UTF-8' }));
+
+                        const anchor = document.createElement('a');
+                        anchor.href = fileURL;
+                        anchor.download = 'damage-notes.csv';
+                        document.body.appendChild(anchor);
+                        anchor.click();
+                        document.body.removeChild(anchor);
+                    })
+                    .catch(() => {
+                        //
+                    })
             },
         }
     }

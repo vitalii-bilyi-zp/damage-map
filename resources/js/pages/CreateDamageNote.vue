@@ -35,20 +35,22 @@
                 </v-snackbar>
 
                 <v-card color="damage-note-card">
-                    <v-card-title :class="[fileUploading ? '' : 'd-flex justify-center']">
-                        <v-btn v-if="fileUploading" key="back" icon @click="fileUploading = false">
-                            <v-icon>mdi-arrow-left</v-icon>
-                        </v-btn>
+                    <template v-if="isAuthorized">
+                        <v-card-title :class="[fileUploading ? '' : 'd-flex justify-center']">
+                            <v-btn v-if="fileUploading" key="back" icon @click="fileUploading = false">
+                                <v-icon>mdi-arrow-left</v-icon>
+                            </v-btn>
 
-                        <v-btn v-else key="upload" outlined color="primary" @click="fileUploading = true">
-                            Завантажити файл
-                            <v-icon right dark>
-                                mdi-upload
-                            </v-icon>
-                        </v-btn>
-                    </v-card-title>
+                            <v-btn v-else key="upload" outlined color="primary" @click="fileUploading = true">
+                                <v-icon left dark>
+                                    mdi-upload
+                                </v-icon>
+                                Завантажити файл
+                            </v-btn>
+                        </v-card-title>
 
-                    <v-divider/>
+                        <v-divider/>
+                    </template>
 
                     <v-card-text>
                         <DamageForm
@@ -85,6 +87,12 @@ export default {
             snackbarError: false,
             fileUploading: false,
         }
+    },
+
+    computed: {
+        isAuthorized() {
+            return this.$store.getters.isAuthorized;
+        },
     },
 
     mounted() {

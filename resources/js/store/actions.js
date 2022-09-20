@@ -26,7 +26,11 @@ const actions = {
     },
 
     saveDamageNotesFromFile: ({ commit }, payload) => {
-        return window.httpClient.post('/api/damage-notes/file-upload', payload.data);
+        return window.httpClient.post('/api/damage-notes/import-file', payload.data);
+    },
+
+    exportDamageNotes: () => {
+        return window.httpClient.get('/api/damage-notes/export-csv');
     },
 
     loadDamageNote: ({ commit }, id) => {

@@ -12,6 +12,7 @@ use App\Http\Requests\DamageNotes\Destroy as DamageNotesDestroy;
 use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
 use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
+use App\Http\Requests\DamageNotes\ExportCsv as DamageNotesExportCsv;
 use App\Models\DamageNote;
 use App\Models\ObjectType;
 use App\Models\Community;
@@ -159,6 +160,55 @@ class DamageNotesController extends Controller
         Storage::delete($path);
 
         return $this->respondWithSuccess();
+    }
+
+    public function exportCsv(DamageNotesExportCsv $request)
+    {
+        $fileName = 'damage-notes.csv';
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $damageNotes = DamageNote::query()
+            ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+            ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
+            ->join('districts', 'communities.district_id', '=', 'districts.id')
+            ->join('regions', 'districts.region_id', '=', 'regions.id')
+            ->select('communities.name AS community', 'districts.name AS district', 'regions.name AS region', 'object_types.name AS object_type', 'damage_notes.*')
+            ->get();
+
+        $columns = ['ID', 'Object type', 'Region', 'District', 'Community', 'City', 'Street', 'Building number', 'Damage type', 'Restoration cost', 'Date'];
+
+        $callback = function() use($damageNotes, $columns) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($damageNotes as $damageNote) {
+                $row = [
+                    'ID' => $damageNote->id,
+                    'Object type' => $damageNote->object_type,
+                    'Region' => $damageNote->region,
+                    'District' => $damageNote->district,
+                    'Community' => $damageNote->community,
+                    'City' => $damageNote->city,
+                    'Street' => $damageNote->street,
+                    'Building number' => $damageNote->building_number,
+                    'Damage type' => $damageNote->damage_type,
+                    'Restoration cost' => $damageNote->restoration_cost,
+                    'Date' => $damageNote->date,
+                ];
+
+                fputcsv($file, $row);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     public function show(DamageNotesShow $request, DamageNote $damageNote): JsonResponse {
