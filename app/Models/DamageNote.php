@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DamageNote extends Model
 {
+    use HasFactory;
+
     const LOW_DAMAGE = 'low';
     const MEDIUM_DAMAGE = 'medium';
     const HIGH_DAMAGE = 'high';

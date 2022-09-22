@@ -71,9 +71,7 @@ export default {
                         if (!prev[curr.properties.region_fid]) {
                             prev[curr.properties.region_fid] = {};
                         }
-                        prev[curr.properties.region_fid][
-                            curr.properties.fid
-                        ] = true;
+                        prev[curr.properties.region_fid][curr.properties.fid] = true;
                     }
 
                     return prev;
@@ -85,9 +83,7 @@ export default {
                     if (!prev[curr.properties.region_fid]) {
                         prev[curr.properties.region_fid] = {};
                     }
-                    prev[curr.properties.region_fid][
-                        curr.properties.fid
-                    ] = true;
+                    prev[curr.properties.region_fid][curr.properties.fid] = true;
                 }
 
                 return prev;
@@ -97,10 +93,8 @@ export default {
                 if (!prev[curr.properties.fid]) {
                     prev[curr.properties.fid] = {};
                 }
-                prev[curr.properties.fid]["districts"] =
-                    districtsMapping[curr.properties.fid] || {};
-                prev[curr.properties.fid]["communities"] =
-                    communitiesMapping[curr.properties.fid] || {};
+                prev[curr.properties.fid]["districts"] = districtsMapping[curr.properties.fid] || {};
+                prev[curr.properties.fid]["communities"] = communitiesMapping[curr.properties.fid] || {};
 
                 return prev;
             }, {});
@@ -188,11 +182,9 @@ export default {
                 }
 
                 const regionsComputed = self.getRegionsGeojson();
-                const districtsTitlesComputed =
-                    self.getDistrictsTitlesGeojson();
+                const districtsTitlesComputed = self.getDistrictsTitlesGeojson();
                 const districtsComputed = self.getDistrictsGeojson();
-                const communitiesTitlesComputed =
-                    self.getCommunitiesTitlesGeojson();
+                const communitiesTitlesComputed = self.getCommunitiesTitlesGeojson();
                 const communitiesComputed = self.getCommunitiesGeojson();
 
                 map.addControl(new mapboxgl.NavigationControl(), "top-left");
@@ -232,21 +224,21 @@ export default {
                                 ["get", "restorationСost"],
                                 0,
                                 "#F2F12D",
-                                245000,
+                                3125000,
                                 "#EED322",
-                                490000,
+                                6250000,
                                 "#E6B71E",
-                                735000,
+                                9375000,
                                 "#DA9C20",
-                                980000,
+                                12500000,
                                 "#CA8323",
-                                1225000,
+                                15625000,
                                 "#B86B25",
-                                1470000,
+                                18750000,
                                 "#A25626",
-                                1710000,
+                                21875000,
                                 "#8B4225",
-                                2200000,
+                                25000000,
                                 "#723122",
                             ],
                             "fill-opacity": [
@@ -518,9 +510,7 @@ export default {
                 let restorationСost = 0;
 
                 if (regionsMapping[item.properties.region]) {
-                    restorationСost =
-                        +regionsMapping[item.properties.region]
-                            .restoration_cost || 0;
+                    restorationСost = +regionsMapping[item.properties.region].restoration_cost || 0;
                 }
 
                 return {
@@ -544,8 +534,7 @@ export default {
                 return districtTitles;
             }
 
-            const districts =
-                this.regionsMapping[this.region]["districts"] || {};
+            const districts = this.regionsMapping[this.region]["districts"] || {};
             const newFeatures = districtTitles.features.filter(
                 (item) => !!districts[item.properties.fid]
             );
@@ -564,8 +553,7 @@ export default {
 
             let oldFeatures = districts.features;
             if (this.region) {
-                const districts =
-                    this.regionsMapping[this.region]["districts"] || {};
+                const districts = this.regionsMapping[this.region]["districts"] || {};
                 oldFeatures = oldFeatures.filter(
                     (item) => !!districts[item.properties.fid]
                 );
@@ -575,9 +563,7 @@ export default {
                 let restorationСost = 0;
 
                 if (districtsMapping[item.properties.rayon]) {
-                    restorationСost =
-                        +districtsMapping[item.properties.rayon]
-                            .restoration_cost || 0;
+                    restorationСost = +districtsMapping[item.properties.rayon].restoration_cost || 0;
                 }
 
                 return {
@@ -601,8 +587,7 @@ export default {
                 return communityTitles;
             }
 
-            const communities =
-                this.regionsMapping[this.region]["communities"] || {};
+            const communities = this.regionsMapping[this.region]["communities"] || {};
             const newFeatures = communityTitles.features.filter(
                 (item) => !!communities[item.properties.fid]
             );
@@ -624,8 +609,7 @@ export default {
 
             let oldFeatures = communities.features;
             if (this.region) {
-                const communities =
-                    this.regionsMapping[this.region]["communities"] || {};
+                const communities = this.regionsMapping[this.region]["communities"] || {};
                 oldFeatures = oldFeatures.filter(
                     (item) => !!communities[item.properties.fid]
                 );
@@ -635,9 +619,7 @@ export default {
                 let restorationСost = 0;
 
                 if (communitiesMapping[item.properties.hromada]) {
-                    restorationСost =
-                        +communitiesMapping[item.properties.hromada]
-                            .restoration_cost || 0;
+                    restorationСost = +communitiesMapping[item.properties.hromada].restoration_cost || 0;
                 }
 
                 return {
