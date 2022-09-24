@@ -45,17 +45,6 @@
                         </v-list-item-content>
                     </v-list-item>
                 </template>
-                <template v-else>
-                    <v-list-item link :to="{name: 'damage-notes.create'}" exact>
-                        <v-list-item-icon>
-                            <v-icon>mdi-plus</v-icon>
-                        </v-list-item-icon>
-
-                        <v-list-item-content>
-                            <v-list-item-title>Додати запис</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                </template>
             </v-list>
         </v-navigation-drawer>
 

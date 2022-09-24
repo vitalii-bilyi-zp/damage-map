@@ -17,6 +17,11 @@ const router = new VueRouter({
                     component: () => import("@/js/pages/Map"),
                 },
                 {
+                    path: "statistics",
+                    name: "statistics",
+                    component: () => import("@/js/pages/Statistics"),
+                },
+                {
                     path: "damage-notes",
                     name: "damage-notes",
                     component: () => import("@/js/pages/DamageNotes"),
@@ -28,6 +33,9 @@ const router = new VueRouter({
                     path: "damage-notes/create",
                     name: "damage-notes.create",
                     component: () => import("@/js/pages/CreateDamageNote"),
+                    meta: {
+                        auth: true,
+                    },
                 },
                 {
                     path: "damage-notes/:id/edit",
@@ -38,11 +46,6 @@ const router = new VueRouter({
                         auth: true,
                     },
                 },
-                {
-                    path: "statistics",
-                    name: "statistics",
-                    component: () => import("@/js/pages/Statistics"),
-                }
             ]
         },
         {
