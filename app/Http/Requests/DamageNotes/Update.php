@@ -38,6 +38,7 @@ class Update extends FormRequest
                 Rule::in(array_keys(DamageNote::DAMAGE_TYPES_MAPPING)),
             ],
             'restoration_cost' => 'nullable|numeric',
+            'comment' => 'nullable|string',
         ];
     }
 }

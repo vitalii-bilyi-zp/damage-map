@@ -154,6 +154,7 @@ export default {
                 building_number: data.buildingNumber,
                 damage_type: data.damageType,
                 restoration_cost: data.restorationСost,
+                comment: data.comment,
             };
 
             this.$refs.damageForm.formLoading = true;

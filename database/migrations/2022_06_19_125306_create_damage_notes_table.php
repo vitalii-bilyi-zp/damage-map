@@ -16,14 +16,15 @@ return new class extends Migration
     {
         Schema::create('damage_notes', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
             $table->bigInteger('object_type_id')->unsigned()->index()->nullable();
             $table->bigInteger('community_id')->unsigned()->index()->nullable();
-            $table->string('city');
-            $table->string('street');
-            $table->string('building_number');
+            $table->string('city')->nullable();
+            $table->string('street')->nullable();
+            $table->string('building_number')->nullable();
             $table->enum('damage_type', array_keys(DamageNote::DAMAGE_TYPES_MAPPING));
             $table->decimal('restoration_cost', 15, 2);
-            $table->date('date');
+            $table->text('comment')->nullable();
             $table->timestamps();
         });
     }

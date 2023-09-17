@@ -91,35 +91,23 @@
 
             <v-text-field
                 v-model="city"
-                :error-messages="cityErrors"
                 label="Місто / селище"
                 dense
-                required
                 outlined
-                @input="$v.city.$touch()"
-                @blur="$v.city.$touch()"
             ></v-text-field>
 
             <v-text-field
                 v-model="street"
-                :error-messages="streetErrors"
                 label="Вулиця"
                 dense
-                required
                 outlined
-                @input="$v.street.$touch()"
-                @blur="$v.street.$touch()"
             ></v-text-field>
 
             <v-text-field
                 v-model="buildingNumber"
-                :error-messages="buildingNumberErrors"
                 label="Будівля"
                 dense
-                required
                 outlined
-                @input="$v.buildingNumber.$touch()"
-                @blur="$v.buildingNumber.$touch()"
             ></v-text-field>
 
             <v-select
@@ -148,6 +136,14 @@
                 @input="$v.restorationСost.$touch()"
                 @blur="$v.restorationСost.$touch()"
             ></v-text-field>
+
+            <v-textarea
+                v-model="comment"
+                label="Коментар"
+                dense
+                outlined
+                rows="3"
+            ></v-textarea>
         </v-form>
 
         <v-divider/>
@@ -223,6 +219,7 @@ export default {
                 }
             ],
             restorationСost: null,
+            comment: null,
             file: null,
         }
     },
@@ -232,14 +229,11 @@ export default {
         objectCategory: { required },
         objectType: { required },
         community: { required },
-        city: { required },
-        street: { required },
-        buildingNumber: { required },
         damageType: { required },
         restorationСost: { required },
         file: { required },
 
-        formValidationGroup: ['date', 'objectCategory', 'objectType', 'community', 'city', 'street', 'buildingNumber', 'damageType', 'restorationСost']
+        formValidationGroup: ['date', 'objectCategory', 'objectType', 'community', 'damageType', 'restorationСost']
     },
 
     computed: {
@@ -268,27 +262,6 @@ export default {
             const errors = [];
             if (!this.$v.community.$dirty) return errors;
             !this.$v.community.required && errors.push('Це поле обов\'язкове')
-            return errors;
-        },
-
-        cityErrors() {
-            const errors = [];
-            if (!this.$v.city.$dirty) return errors;
-            !this.$v.city.required && errors.push('Це поле обов\'язкове')
-            return errors;
-        },
-
-        streetErrors() {
-            const errors = [];
-            if (!this.$v.street.$dirty) return errors;
-            !this.$v.street.required && errors.push('Це поле обов\'язкове')
-            return errors;
-        },
-
-        buildingNumberErrors() {
-            const errors = [];
-            if (!this.$v.buildingNumber.$dirty) return errors;
-            !this.$v.buildingNumber.required && errors.push('Це поле обов\'язкове')
             return errors;
         },
 
@@ -400,6 +373,7 @@ export default {
                 buildingNumber: this.buildingNumber,
                 damageType: this.damageType,
                 restorationСost: this.restorationСost,
+                comment: this.comment,
             };
         },
 
@@ -413,6 +387,7 @@ export default {
             this.buildingNumber = null;
             this.damageType = null;
             this.restorationСost = null;
+            this.comment = null;
         },
 
         initForm() {
@@ -429,6 +404,7 @@ export default {
             this.buildingNumber = this.damageNote.buildingNumber;
             this.damageType = this.damageNote.damageType;
             this.restorationСost = this.damageNote.restorationСost;
+            this.comment = this.damageNote.comment;
         },
     }
 }

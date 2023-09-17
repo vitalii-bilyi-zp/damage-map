@@ -49,7 +49,8 @@ class DamageNotesController extends Controller
             'street'  => $request->street,
             'building_number' => $request->building_number,
             'damage_type' => $request->damage_type,
-            'restoration_cost' => $request->restoration_cost
+            'restoration_cost' => $request->restoration_cost,
+            'comment' => $request->comment
         ]);
 
         return $this->respondWithSuccess();
@@ -228,7 +229,8 @@ class DamageNotesController extends Controller
             'street'  => $request->street ?? $damageNote->street,
             'building_number' => $request->building_number ?? $damageNote->building_number,
             'damage_type' => $request->damage_type ?? $damageNote->damage_type,
-            'restoration_cost' => $request->restoration_cost ?? $damageNote->restoration_cost
+            'restoration_cost' => $request->restoration_cost ?? $damageNote->restoration_cost,
+            'comment' => $request->comment ?? $damageNote->comment
         ]);
 
         return $this->respondWithSuccess();

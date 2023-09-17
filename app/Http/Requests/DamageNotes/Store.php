@@ -29,15 +29,16 @@ class Store extends FormRequest
             'date' => 'required|date',
             'object_type_id' => 'required|integer|exists:object_types,id',
             'community_id' => 'required|integer|exists:communities,id',
-            'city' => 'required|string|max:255',
-            'street' => 'required|string|max:255',
-            'building_number' => 'required|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'street' => 'nullable|string|max:255',
+            'building_number' => 'nullable|string|max:255',
             'damage_type' => [
                 'required',
                 'string',
                 Rule::in(array_keys(DamageNote::DAMAGE_TYPES_MAPPING)),
             ],
             'restoration_cost' => 'required|numeric',
+            'comment' => 'nullable|string|max:1000'
         ];
     }
 }

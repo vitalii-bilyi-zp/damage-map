@@ -16,7 +16,8 @@ class ObjectCategorySeeder extends Seeder
     {
         $categories = [
             'Житловий фонд',
-            'Нежитловий фонд'
+            'Нежитловий фонд',
+            'Природний фонд'
         ];
 
         foreach ($categories as $value) {
