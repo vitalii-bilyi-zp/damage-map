@@ -22,7 +22,6 @@ Route::get('/regions', [RegionsController::class, 'index']);
 Route::get('/communities', [CommunitiesController::class, 'index']);
 Route::get('/object-types', [ObjectTypesController::class, 'index']);
 
-Route::post('/damage-notes', [DamageNotesController::class, 'store']);
 Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
 Route::get('/damage-notes/districts', [DamageNotesController::class, 'showDistricts']);
 Route::get('/damage-notes/communities', [DamageNotesController::class, 'showCommunities']);
@@ -40,6 +39,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
 
     Route::get('/damage-notes', [DamageNotesController::class, 'index']);
+    Route::post('/damage-notes', [DamageNotesController::class, 'store']);
     Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show']);
     Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
     Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
