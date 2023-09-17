@@ -39,6 +39,8 @@ const COLORS = [
     '#ffbe07',
     '#4e40de',
     '#7f2084',
+    '#795548',
+    '#9e9e9e'
 ];
 
 export default {
