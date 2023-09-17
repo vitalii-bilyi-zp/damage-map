@@ -108,24 +108,21 @@ class DamageNotesController extends Controller
 
                 // city
                 $city = $worksheet->getCellByColumnAndRow(4, $row)->getValue();
-                if (!isset($city)) {
-                    continue;
+                if (isset($city)) {
+                    $city = trim($city);
                 }
-                $city = trim($city);
 
                 // street
                 $street = $worksheet->getCellByColumnAndRow(5, $row)->getValue();
-                if (!isset($street)) {
-                    continue;
+                if (isset($street)) {
+                    $street = trim($street);
                 }
-                $street = trim($street);
 
                 // building number
                 $building_number = $worksheet->getCellByColumnAndRow(6, $row)->getValue();
-                if (!isset($building_number)) {
-                    continue;
+                if (isset($building_number)) {
+                    $building_number = trim($building_number);
                 }
-                $building_number = trim($building_number);
 
                 // damage type
                 $damage_type = $worksheet->getCellByColumnAndRow(7, $row)->getValue();
@@ -143,6 +140,11 @@ class DamageNotesController extends Controller
                     continue;
                 }
 
+                $comment = $worksheet->getCellByColumnAndRow(9, $row)->getValue();
+                if (isset($comment)) {
+                    $comment = trim($comment);
+                }
+
                 DamageNote::create([
                     'date' => $date,
                     'object_type_id' => $object_type_id,
@@ -151,7 +153,8 @@ class DamageNotesController extends Controller
                     'street'  => $street,
                     'building_number' => $building_number,
                     'damage_type' => $damage_type_key,
-                    'restoration_cost' => $restoration_cost
+                    'restoration_cost' => $restoration_cost,
+                    'comment' => $comment
                 ]);
             }
         } catch (Exception $e) {
@@ -182,7 +185,7 @@ class DamageNotesController extends Controller
             ->select('communities.name AS community', 'districts.name AS district', 'regions.name AS region', 'object_types.name AS object_type', 'damage_notes.*')
             ->get();
 
-        $columns = ['ID', 'Object type', 'Region', 'District', 'Community', 'City', 'Street', 'Building number', 'Damage type', 'Restoration cost', 'Date'];
+        $columns = ['ID', 'Date', 'Object type', 'Region', 'District', 'Community', 'City', 'Street', 'Building number', 'Damage type', 'Restoration cost', 'Comment'];
 
         $callback = function() use($damageNotes, $columns) {
             $file = fopen('php://output', 'w');
@@ -191,6 +194,7 @@ class DamageNotesController extends Controller
             foreach ($damageNotes as $damageNote) {
                 $row = [
                     'ID' => $damageNote->id,
+                    'Date' => $damageNote->date,
                     'Object type' => $damageNote->object_type,
                     'Region' => $damageNote->region,
                     'District' => $damageNote->district,
@@ -200,7 +204,7 @@ class DamageNotesController extends Controller
                     'Building number' => $damageNote->building_number,
                     'Damage type' => $damageNote->damage_type,
                     'Restoration cost' => $damageNote->restoration_cost,
-                    'Date' => $damageNote->date,
+                    'Comment' => $damageNote->comment,
                 ];
 
                 fputcsv($file, $row);
