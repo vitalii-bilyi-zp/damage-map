@@ -73,6 +73,18 @@ const actions = {
         return window.httpClient.get(`/api/statistics/ratio?${queryString.stringify(payload.params, {encode: false})}`);
     },
 
+    loadRegulationDocuments: () => {
+        return window.httpClient.get('/api/regulation-documents');
+    },
+
+    saveRegulationDocument: ({ commit }, payload) => {
+        return window.httpClient.post('/api/regulation-documents', payload.data);
+    },
+
+    deleteRegulationDocument: ({ commit }, id) => {
+        return window.httpClient.delete(`/api/regulation-documents/${id}`);
+    },
+
     login: ({ commit }, payload) => {
         return new Promise((resolve, reject) => {
             window.httpClient.post('/api/login', payload.data)

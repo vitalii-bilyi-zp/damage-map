@@ -22,6 +22,16 @@
                     </v-list-item-content>
                 </v-list-item>
 
+                <v-list-item link :to="{name: 'regulation-documents'}" exact>
+                    <v-list-item-icon>
+                        <v-icon>mdi-file-multiple</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>Нормативні акти</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
                 <template v-if="isAuthorized">
                     <v-list-item link :to="{name: 'damage-notes'}" exact>
                         <v-list-item-icon>

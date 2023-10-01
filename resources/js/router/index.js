@@ -46,6 +46,19 @@ const router = new VueRouter({
                         auth: true,
                     },
                 },
+                {
+                    path: "regulation-documents",
+                    name: "regulation-documents",
+                    component: () => import("@/js/pages/RegulationDocuments"),
+                },
+                {
+                    path: "regulation-documents/create",
+                    name: "regulation-documents.create",
+                    component: () => import("@/js/pages/CreateRegulationDocument"),
+                    meta: {
+                        auth: true,
+                    },
+                },
             ]
         },
         {

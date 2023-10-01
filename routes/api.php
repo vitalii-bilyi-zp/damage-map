@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ObjectTypesController;
 use App\Http\Controllers\Api\DamageNotesController;
 use App\Http\Controllers\Api\StatisticsController;
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\RegulationDocumentsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::get('/damage-notes/communities', [DamageNotesController::class, 'showComm
 Route::get('/statistics/global', [StatisticsController::class, 'showGlobal']);
 Route::get('/statistics/ratio', [StatisticsController::class, 'showRatio']);
 
+Route::get('/regulation-documents', [RegulationDocumentsController::class, 'index']);
+
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::group(['middleware' => ['auth:api']], function () {
@@ -43,4 +46,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show']);
     Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
     Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
+
+    Route::post('/regulation-documents', [RegulationDocumentsController::class, 'store']);
+    Route::delete('/regulation-documents/{regulationDocument}', [RegulationDocumentsController::class, 'destroy']);
 });
