@@ -16,7 +16,7 @@ class DamageNoteSeeder extends Seeder
      */
     public function run()
     {
-        $startDay = Carbon::createFromFormat('Y-m-d', '2022-02-24')->startOfDay();
+        $startDay = Carbon::createFromFormat('Y-m-d', '2023-06-01')->startOfDay();
         $endDay = Carbon::now()->endOfDay();
 
         while ($startDay->lessThan($endDay)) {

@@ -24,7 +24,8 @@ class ShowCommunities extends FormRequest
     public function rules()
     {
         return [
-            //
+            'object_category_id' => 'nullable|integer|exists:object_categories,id',
+            'object_type_id' => 'nullable|integer|exists:object_types,id',
         ];
     }
 }

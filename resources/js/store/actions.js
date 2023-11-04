@@ -49,16 +49,16 @@ const actions = {
         return window.httpClient.delete(`/api/damage-notes/${id}`);
     },
 
-    loadRegionsData: () => {
-        return window.httpClient.get('/api/damage-notes/regions');
+    loadRegionsData: ({}, payload) => {
+        return window.httpClient.get(`/api/damage-notes/regions?${queryString.stringify(payload.params, {encode: false})}`);
     },
 
-    loadDistrictsData: () => {
-        return window.httpClient.get('/api/damage-notes/districts');
+    loadDistrictsData: ({}, payload) => {
+        return window.httpClient.get(`/api/damage-notes/districts?${queryString.stringify(payload.params, {encode: false})}`);
     },
 
-    loadCommunitiesData: () => {
-        return window.httpClient.get('/api/damage-notes/communities');
+    loadCommunitiesData: ({}, payload) => {
+        return window.httpClient.get(`/api/damage-notes/communities?${queryString.stringify(payload.params, {encode: false})}`);
     },
 
     setFilters: ({ commit }, filters) => {

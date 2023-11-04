@@ -249,37 +249,61 @@ class DamageNotesController extends Controller
 
     public function showRegions(DamageNotesShowRegions $request): JsonResponse
     {
-        $aggregation = DamageNote::query()
+        $query = DamageNote::query()
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('districts', 'communities.district_id', '=', 'districts.id')
             ->join('regions', 'districts.region_id', '=', 'regions.id')
             ->groupBy('regions.id')
-            ->select(DB::raw('regions.name, SUM(damage_notes.restoration_cost) AS restoration_cost'))
-            ->get();
+            ->select(DB::raw('regions.name, SUM(damage_notes.restoration_cost) AS restoration_cost'));
 
-        return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
+        if ($request->get('object_type_id')) {
+            $query->where('damage_notes.object_type_id', $request->get('object_type_id'));
+        } else if ($request->get('object_category_id')) {
+            $query
+                ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+                ->join('object_categories', 'object_types.object_category_id', '=', 'object_categories.id')
+                ->where('object_categories.id', $request->get('object_category_id'));
+        }
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($query->get());
     }
 
     public function showDistricts(DamageNotesShowDistricts $request): JsonResponse
     {
-        $aggregation = DamageNote::query()
+        $query = DamageNote::query()
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('districts', 'communities.district_id', '=', 'districts.id')
             ->groupBy('districts.id')
-            ->select(DB::raw('districts.name, SUM(damage_notes.restoration_cost) AS restoration_cost'))
-            ->get();
+            ->select(DB::raw('districts.name, SUM(damage_notes.restoration_cost) AS restoration_cost'));
 
-        return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
+        if ($request->get('object_type_id')) {
+            $query->where('damage_notes.object_type_id', $request->get('object_type_id'));
+        } else if ($request->get('object_category_id')) {
+            $query
+                ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+                ->join('object_categories', 'object_types.object_category_id', '=', 'object_categories.id')
+                ->where('object_categories.id', $request->get('object_category_id'));
+        }
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($query->get());
     }
 
     public function showCommunities(DamageNotesShowCommunities $request): JsonResponse
     {
-        $aggregation = DamageNote::query()
+        $query = DamageNote::query()
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->groupBy('communities.id')
-            ->select(DB::raw('communities.name, SUM(damage_notes.restoration_cost) AS restoration_cost'))
-            ->get();
+            ->select(DB::raw('communities.name, SUM(damage_notes.restoration_cost) AS restoration_cost'));
 
-        return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
+        if ($request->get('object_type_id')) {
+            $query->where('damage_notes.object_type_id', $request->get('object_type_id'));
+        } else if ($request->get('object_category_id')) {
+            $query
+                ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+                ->join('object_categories', 'object_types.object_category_id', '=', 'object_categories.id')
+                ->where('object_categories.id', $request->get('object_category_id'));
+        }
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($query->get());
     }
 }

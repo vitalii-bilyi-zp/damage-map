@@ -12,24 +12,49 @@
         <div id="map"></div>
 
         <v-card class="map-card">
-            <v-toolbar flat color="white" height="64">
-                <v-row>
-                    <v-col cols="12">
-                        <v-autocomplete
-                            v-model="region"
-                            :items="regionItems"
-                            clearable
-                            dense
-                            outlined
-                            hide-details
-                            item-text="name"
-                            item-value="id"
-                            placeholder="Регіон"
-                            :disabled="!regionItems || !regionItems.length"
-                        ></v-autocomplete>
-                    </v-col>
-                </v-row>
-            </v-toolbar>
+            <v-autocomplete
+                v-model="region"
+                :items="regionItems"
+                class="mb-3"
+                clearable
+                dense
+                outlined
+                hide-details
+                item-text="name"
+                item-value="id"
+                label="Регіон"
+                :disabled="!regionItems || !regionItems.length"
+                @change="initMap"
+            ></v-autocomplete>
+
+            <v-select
+                v-model="objectCategory"
+                :items="objectCategoryItemsComputed"
+                class="mb-3"
+                clearable
+                dense
+                outlined
+                hide-details
+                item-text="name"
+                item-value="id"
+                label="Категорія об’єкта"
+                :disabled="!objectCategoryItemsComputed || !objectCategoryItemsComputed.length"
+                @change="onObjectCategoryChange"
+            ></v-select>
+
+            <v-select
+                v-model="objectType"
+                :items="objectTypeItemsComputed"
+                clearable
+                dense
+                outlined
+                hide-details
+                item-text="name"
+                item-value="id"
+                label="Тип об’єкта"
+                :disabled="!objectCategory || !objectTypeItemsComputed || !objectTypeItemsComputed.length"
+                @change="loadMapData"
+            ></v-select>
         </v-card>
     </div>
 </template>
@@ -47,11 +72,13 @@ export default {
     data() {
         return {
             isLoading: false,
-            dataLoaded: false,
             regionsData: [],
             districtsData: [],
             communitiesData: [],
             region: null,
+            objectCategory: null,
+            objectType: null,
+            objectTypeItems: [],
         };
     },
 
@@ -64,6 +91,27 @@ export default {
                 };
             });
         },
+
+        objectCategoryItemsComputed() {
+            const objectCategories = this.objectTypeItems.reduce((prev, curr) => {
+                if (curr.object_category && !prev[curr.object_category.id]) {
+                    prev[curr.object_category.id] = curr.object_category;
+                }
+
+                return prev;
+            }, {});
+
+            return Object.values(objectCategories);
+        },
+
+        objectTypeItemsComputed() {
+            if (!this.objectCategory) {
+                return [];
+            }
+
+            return this.objectTypeItems.filter((item) => item.object_category_id === this.objectCategory);
+        },
+
         regionsMapping() {
             const communitiesMapping = communities.features.reduce(
                 (prev, curr) => {
@@ -101,22 +149,37 @@ export default {
         },
     },
 
-    watch: {
-        region() {
-            this.initMap();
-        },
-    },
-
     mounted() {
+        this.loadObjectTypes();
         this.loadMapData();
     },
 
     methods: {
+        onObjectCategoryChange() {
+            this.objectType = null;
+            this.loadMapData();
+        },
+
+        loadObjectTypes() {
+            this.$store.dispatch('loadObjectTypes')
+                .then((response) => {
+                    this.objectTypeItems = response.data || [];
+                })
+                .catch(() => {
+                    //
+                });
+        },
+
         loadMapData() {
+            const filters = {
+                object_category_id: this.objectCategory,
+                object_type_id: this.objectType
+            };
+
             const promises = [
-                this.$store.dispatch("loadRegionsData"),
-                this.$store.dispatch("loadDistrictsData"),
-                this.$store.dispatch("loadCommunitiesData"),
+                this.$store.dispatch("loadRegionsData", {params: filters}),
+                this.$store.dispatch("loadDistrictsData", {params: filters}),
+                this.$store.dispatch("loadCommunitiesData", {params: filters}),
             ];
 
             this.isLoading = true;
@@ -131,10 +194,7 @@ export default {
                         this.districtsData = districtsResponse.data || [];
                         this.communitiesData = communitiesResponse.data || [];
 
-                        if (!this.dataLoaded) {
-                            this.dataLoaded = true;
-                            this.initMap();
-                        }
+                        this.initMap();
                     }
                 )
                 .catch(() => {
@@ -745,5 +805,6 @@ export default {
     right: 10px;
     width: 300px;
     max-width: calc(100% - 60px);
+    padding: 12px;
 }
 </style>
