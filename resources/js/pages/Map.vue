@@ -487,7 +487,7 @@ export default {
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${properties.restorationСost}</span> грн.</td>
+                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationСost)}</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -509,7 +509,7 @@ export default {
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${properties.restorationСost}</span> грн.</td>
+                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationСost)}</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -537,7 +537,7 @@ export default {
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${properties.restorationСost}</span> грн.</td>
+                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationСost)}</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
