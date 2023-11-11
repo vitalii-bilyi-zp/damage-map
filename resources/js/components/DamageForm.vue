@@ -189,6 +189,7 @@ export default {
         },
         damageNote: {
             type: Object,
+            default: null
         },
     },
 
@@ -377,6 +378,19 @@ export default {
             };
         },
 
+        initForm() {
+            this.date = this.damageNote ? this.damageNote.date : null;
+            this.objectCategory = this.damageNote ? this.damageNote.objectCategory : null;
+            this.objectType = this.damageNote ? this.damageNote.objectType : null;
+            this.community = this.damageNote ? this.damageNote.community : null;
+            this.city = this.damageNote ? this.damageNote.city : null;
+            this.street = this.damageNote ? this.damageNote.street : null;
+            this.buildingNumber = this.damageNote ? this.damageNote.buildingNumber : null;
+            this.damageType = this.damageNote ? this.damageNote.damageType : null;
+            this.restorationСost = this.damageNote ? this.damageNote.restorationСost : null;
+            this.comment = this.damageNote ? this.damageNote.comment : null;
+        },
+
         clearForm() {
             this.$v.formValidationGroup.$reset();
             this.objectCategory = null;
@@ -388,23 +402,6 @@ export default {
             this.damageType = null;
             this.restorationСost = null;
             this.comment = null;
-        },
-
-        initForm() {
-            if (!this.damageNote) {
-                return;
-            }
-
-            this.date = this.damageNote.date;
-            this.objectCategory = this.damageNote.objectCategory;
-            this.objectType = this.damageNote.objectType;
-            this.community = this.damageNote.community;
-            this.city = this.damageNote.city;
-            this.street = this.damageNote.street;
-            this.buildingNumber = this.damageNote.buildingNumber;
-            this.damageType = this.damageNote.damageType;
-            this.restorationСost = this.damageNote.restorationСost;
-            this.comment = this.damageNote.comment;
         },
     }
 }

@@ -21,7 +21,7 @@ const actions = {
         return window.httpClient.get('/api/damage-notes');
     },
 
-    saveDamageNotes: ({ commit }, payload) => {
+    saveDamageNote: ({ commit }, payload) => {
         return window.httpClient.post('/api/damage-notes', payload.data);
     },
 
@@ -85,6 +85,26 @@ const actions = {
         return window.httpClient.delete(`/api/regulation-documents/${id}`);
     },
 
+    loadUsers: () => {
+        return window.httpClient.get('/api/users');
+    },
+
+    saveUser: ({ commit }, payload) => {
+        return window.httpClient.post('/api/users', payload.data);
+    },
+
+    loadUser: ({ commit }, id) => {
+        return window.httpClient.get(`/api/users/${id}`);
+    },
+
+    updateUser: ({ commit }, payload) => {
+        const data = {
+            ...payload.data,
+            '_method': 'PUT',
+        }
+        return window.httpClient.post(`/api/users/${payload.id}`, data);
+    },
+
     login: ({ commit }, payload) => {
         return new Promise((resolve, reject) => {
             window.httpClient.post('/api/login', payload.data)
@@ -100,22 +120,7 @@ const actions = {
                     Cookies.set('access_token', token, { expires });
 
                     commit('setToken', token);
-                    commit('setUser', user);
-                    resolve();
-                })
-                .catch((err) => {
-                    reject(err);
-                });
-        });
-    },
-
-    loadUser: ({ commit }) => {
-        return new Promise((resolve, reject) => {
-            window.httpClient.get('/api/user')
-                .then((response) => {
-                    let user = response.data.user;
-
-                    commit('setUser', user);
+                    commit('setCurrentUser', user);
                     resolve();
                 })
                 .catch((err) => {
@@ -133,7 +138,22 @@ const actions = {
                     Cookies.remove('access_token');
 
                     commit('setToken', null);
-                    commit('setUser', null);
+                    commit('setCurrentUser', null);
+                    resolve();
+                })
+                .catch((err) => {
+                    reject(err);
+                });
+        });
+    },
+
+    loadCurrentUser: ({ commit }) => {
+        return new Promise((resolve, reject) => {
+            window.httpClient.get('/api/user')
+                .then((response) => {
+                    let user = response.data.user;
+
+                    commit('setCurrentUser', user);
                     resolve();
                 })
                 .catch((err) => {

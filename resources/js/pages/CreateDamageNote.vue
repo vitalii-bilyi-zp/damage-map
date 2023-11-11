@@ -158,7 +158,7 @@ export default {
             };
 
             this.$refs.damageForm.formLoading = true;
-            this.$store.dispatch('saveDamageNotes', { data: formattedData })
+            this.$store.dispatch('saveDamageNote', { data: formattedData })
                 .then(() => {
                     this.$refs.damageForm.clearForm();
                     this.snackbarSuccess = true;

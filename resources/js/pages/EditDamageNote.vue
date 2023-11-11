@@ -39,6 +39,7 @@
                         <div v-if="isLoading || objectTypesLoading || communitiesLoading" class="card-progress">
                             <v-progress-circular :size="50" color="primary" indeterminate />
                         </div>
+
                         <DamageForm
                             v-else
                             ref="damageForm"

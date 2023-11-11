@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CommunitiesController;
 use App\Http\Controllers\Api\ObjectTypesController;
 use App\Http\Controllers\Api\DamageNotesController;
 use App\Http\Controllers\Api\StatisticsController;
+use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\RegulationDocumentsController;
 
@@ -38,14 +39,18 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/user', [AuthController::class, 'user']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
-    Route::post('/damage-notes/import-file', [DamageNotesController::class, 'storeFromFile']);
-    Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
+    Route::get('/users', [UsersController::class, 'index']);
+    Route::post('/users', [UsersController::class, 'store']);
+    Route::get('/users/{user}', [UsersController::class, 'show']);
+    Route::put('/users/{user}', [UsersController::class, 'update']);
 
     Route::get('/damage-notes', [DamageNotesController::class, 'index']);
     Route::post('/damage-notes', [DamageNotesController::class, 'store']);
     Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show']);
     Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
     Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
+    Route::post('/damage-notes/import-file', [DamageNotesController::class, 'storeFromFile']);
+    Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
 
     Route::post('/regulation-documents', [RegulationDocumentsController::class, 'store']);
     Route::delete('/regulation-documents/{regulationDocument}', [RegulationDocumentsController::class, 'destroy']);

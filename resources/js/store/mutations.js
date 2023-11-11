@@ -7,8 +7,8 @@ const mutations = {
         state.token = token;
     },
 
-    setUser: (state, user) => {
-        state.user = user;
+    setCurrentUser: (state, user) => {
+        state.currentUser = user;
     },
 };
 

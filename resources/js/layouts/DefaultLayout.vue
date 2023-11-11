@@ -43,6 +43,16 @@
                         </v-list-item-content>
                     </v-list-item>
 
+                    <v-list-item link :to="{name: 'users'}" exact>
+                        <v-list-item-icon>
+                            <v-icon>mdi-account-group</v-icon>
+                        </v-list-item-icon>
+
+                        <v-list-item-content>
+                            <v-list-item-title>Користувачі</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+
                     <v-divider class="mb-2"></v-divider>
 
                     <v-list-item link @click="logout">

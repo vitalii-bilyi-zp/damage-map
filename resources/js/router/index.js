@@ -59,6 +59,31 @@ const router = new VueRouter({
                         auth: true,
                     },
                 },
+                {
+                    path: "users",
+                    name: "users",
+                    component: () => import("@/js/pages/Users"),
+                    meta: {
+                        auth: true,
+                    },
+                },
+                {
+                    path: "users/create",
+                    name: "users.create",
+                    component: () => import("@/js/pages/CreateUser"),
+                    meta: {
+                        auth: true,
+                    },
+                },
+                {
+                    path: "users/:id/edit",
+                    name: "users.edit",
+                    component: () => import("@/js/pages/EditUser"),
+                    props: true,
+                    meta: {
+                        auth: true,
+                    },
+                },
             ]
         },
         {

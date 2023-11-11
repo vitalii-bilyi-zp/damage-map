@@ -5,20 +5,16 @@
                 <v-card>
                     <v-toolbar flat color="white">
                         <v-spacer></v-spacer>
-                        <v-btn class="mr-4" color="primary" outlined @click="exportDamageNotes">
-                            <v-icon left dark>mdi-download</v-icon>
-                            Експорт даних
-                        </v-btn>
-                        <v-btn color="primary" link :to="{ name: 'damage-notes.create' }">
+                        <v-btn color="primary" link :to="{ name: 'users.create' }">
                             <v-icon left>mdi-plus</v-icon>
-                            Додати запис
+                            Додати
                         </v-btn>
                     </v-toolbar>
                     <v-divider></v-divider>
                     <v-card-text class="pa-0">
                         <v-data-table
                             :headers="headers"
-                            :items="damageNotes"
+                            :items="users"
                             :loading="isLoading || isDeleting"
                             :items-per-page="15"
                             :footer-props="footerProps"
@@ -27,14 +23,6 @@
                             class="card-table elevation-1"
                             :mobile-breakpoint="0"
                         >
-                            <template v-slot:item.date="{ item }">
-                                {{ formatDate(item.date) }}
-                            </template>
-
-                            <template v-slot:item.damage_type="{ item }">
-                                {{ formatDamageType(item.damage_type) }}
-                            </template>
-
                             <template v-slot:item.actions="{ item }">
                                 <v-menu left offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
                                     <template v-slot:activator="{ on }">
@@ -83,10 +71,8 @@
 <script>
     import ConfirmDialog from '@/js/components/ConfirmDialog';
 
-    import moment from 'moment';
-
     export default {
-        name: 'DamageNotes',
+        name: "Users",
 
         components: {
             ConfirmDialog,
@@ -96,7 +82,7 @@
             return {
                 isLoading: false,
                 isDeleting: false,
-                damageNotes: [],
+                users: [],
                 headers: [
                     {
                         text: 'ID',
@@ -106,52 +92,16 @@
                         width: 100,
                     },
                     {
-                        text: 'Дата',
+                        text: 'ПІБ',
                         align: 'left',
                         sortable: true,
-                        value: 'date',
+                        value: 'name',
                     },
                     {
-                        text: 'Тип об’єкта',
+                        text: 'E-mail',
                         align: 'left',
                         sortable: true,
-                        value: 'object_type',
-                    },
-                    {
-                        text: 'Територіальна громада',
-                        align: 'left',
-                        sortable: true,
-                        value: 'community',
-                    },
-                    {
-                        text: 'Місто / селище',
-                        align: 'left',
-                        sortable: true,
-                        value: 'city',
-                    },
-                    {
-                        text: 'Вулиця',
-                        align: 'left',
-                        sortable: true,
-                        value: 'street',
-                    },
-                    {
-                        text: 'Будівля',
-                        align: 'left',
-                        sortable: true,
-                        value: 'building_number',
-                    },
-                    {
-                        text: 'Тип пошкодження',
-                        align: 'left',
-                        sortable: true,
-                        value: 'damage_type',
-                    },
-                    {
-                        text: 'Вартість відновлення',
-                        align: 'left',
-                        sortable: true,
-                        value: 'restoration_cost',
+                        value: 'email',
                     },
                     {
                         text: '',
@@ -168,8 +118,8 @@
                 tableActions: [
                     {
                         icon: "mdi-pencil",
-                        click: this.updateDamageNote,
-                        title: "Редагувати запис",
+                        click: this.updateUser,
+                        title: "Редагувати",
                     },
 
                     { divider: true },
@@ -177,36 +127,35 @@
                     {
                         icon: "mdi-delete",
                         click: this.confirmDeletion,
-                        title: "Видалити запис",
+                        title: "Видалити",
                     },
-                ],
-                damageTypeItems: [
-                    {
-                        id: 'high',
-                        name: 'Повне руйнування',
-                    },
-                    {
-                        id: 'medium',
-                        name: 'Сильне руйнування',
-                    },
-                    {
-                        id: 'low',
-                        name: 'Слабке руйнування',
-                    }
                 ],
             }
         },
 
         mounted() {
-            this.loadDamageNotes();
+            this.loadUsers();
+        },
+
+        watch: {
+            options: {
+                handler() {
+                    this.loadUsers();
+                },
+                deep: true,
+            },
+            search() {
+                this.options.page = 1;
+                this.loadUsers();
+            }
         },
 
         methods: {
-            loadDamageNotes() {
+            loadUsers() {
                 this.isLoading = true;
-                this.$store.dispatch('loadDamageNotes')
+                this.$store.dispatch('loadUsers')
                     .then((response) => {
-                        this.damageNotes = response.data || [];
+                        this.users = response.data || [];
                     })
                     .catch(() => {
                         //
@@ -216,69 +165,30 @@
                     });
             },
 
-            formatDate(date) {
-                return moment(date).format('YYYY-MM-DD');
-            },
-
-            formatDamageType(type) {
-                const foundItem = this.damageTypeItems.find((item) => item.id === type);
-                return foundItem ? foundItem.name || type : type;
-            },
-
-            updateDamageNote(id) {
-                this.$router.push({name: 'damage-notes.edit', params: { id }});
+            updateUser(id) {
+                this.$router.push({name: 'users.edit', params: { id }});
             },
 
             confirmDeletion(id) {
-                this.$refs.confirmDialog.open('Підтвердження операції', 'Ви впевнені, що хочете видалити цей запис?')
+                this.$refs.confirmDialog.open('Підтвердження операції', 'Ви впевнені, що хочете видалити цього користувача?')
                     .then((isConfirmed) => {
                         if (!isConfirmed) {
                             return;
                         }
 
-                        this.deleteDamageNote(id);
+                        this.deleteUser(id);
                     })
             },
 
-            deleteDamageNote(id) {
-                this.isDeleting = true;
-                this.$store.dispatch('deleteDamageNote', id)
-                    .then(() => {
-                        this.loadDamageNotes();
-                    })
-                    .catch(() => {
-                        //
-                    })
-                    .finally(() => {
-                        this.isDeleting = false;
-                    });
-            },
-
-            exportDamageNotes() {
-                this.$store.dispatch('exportDamageNotes')
-                    .then((response) => {
-                        const fileURL = URL.createObjectURL(new Blob([response.data], { encoding: 'UTF-8' }));
-
-                        const anchor = document.createElement('a');
-                        anchor.href = fileURL;
-                        anchor.download = 'damage-notes.csv';
-                        document.body.appendChild(anchor);
-                        anchor.click();
-                        document.body.removeChild(anchor);
-                    })
-                    .catch(() => {
-                        //
-                    })
+            deleteUser(id) {
+                //
             },
         }
     }
 </script>
 
-<style lang="scss" scoped>
-    .card-table::v-deep {
-        table {
-            table-layout: fixed;
-            min-width: 1265px;
-        }
+<style scoped>
+    .text--crossed {
+        text-decoration: line-through;
     }
 </style>

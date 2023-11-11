@@ -11,7 +11,7 @@ const state = {
         dimensionType: 'objects_number',
     },
     token: Cookies.get('access_token') || null,
-    user: null,
+    currentUser: null,
 };
 
 export default state;
