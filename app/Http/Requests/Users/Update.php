@@ -28,6 +28,7 @@ class Update extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:255',
+            'role' => 'nullable|string|exists:roles,name',
             'current_password' => [
                 'required_with:new_password',
                 function ($attribute, $value, $fail) {

@@ -105,6 +105,10 @@ const actions = {
         return window.httpClient.post(`/api/users/${payload.id}`, data);
     },
 
+    loadRoles: () => {
+        return window.httpClient.get('/api/users/roles');
+    },
+
     login: ({ commit }, payload) => {
         return new Promise((resolve, reject) => {
             window.httpClient.post('/api/login', payload.data)

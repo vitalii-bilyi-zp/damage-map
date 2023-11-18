@@ -5,6 +5,9 @@
                 name="name"
                 type="text"
                 v-model="form.name"
+                dense
+                required
+                outlined
                 maxlength="255"
                 :error-messages="nameErrors"
                 @blur="$v.form.name.$touch()"
@@ -20,6 +23,9 @@
                 type="email"
                 append-icon="mdi-email"
                 v-model="form.email"
+                dense
+                required
+                outlined
                 maxlength="255"
                 :error-messages="emailErrors"
                 @blur="$v.form.email.$touch()"
@@ -29,11 +35,32 @@
                 </template>
             </v-text-field>
 
+            <v-select
+                v-model="form.role"
+                :items="roleItems"
+                :error-messages="roleErrors"
+                dense
+                required
+                outlined
+                item-text="display_name"
+                item-value="name"
+                :disabled="!roleItems || !roleItems.length"
+                @change="$v.form.role.$touch()"
+                @blur="$v.form.role.$touch()"
+            >
+                <template v-slot:label>
+                    Роль <span v-if="!edit" class="red--text">*</span>
+                </template>
+            </v-select>
+
             <v-text-field
                 v-if="!edit"
                 name="password"
                 type="text"
                 v-model="form.password"
+                dense
+                required
+                outlined
                 maxlength="255"
                 append-icon='mdi-refresh'
                 @click:append="generatePassword"
@@ -50,6 +77,8 @@
                     label="Поточний пароль"
                     name="current_password"
                     v-model="form.currentPassword"
+                    dense
+                    outlined
                     maxlength="255"
                     :append-icon="showCurrentPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="showCurrentPassword ? 'text' : 'password'"
@@ -62,6 +91,8 @@
                     label="Новий пароль"
                     name="new_password"
                     v-model="form.newPassword"
+                    dense
+                    outlined
                     maxlength="255"
                     :append-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
                     :type="showNewPassword ? 'text' : 'password'"
@@ -108,6 +139,10 @@
                 type: Object,
                 default: null
             },
+            roleItems: {
+                type: Array,
+                default: () => []
+            },
         },
 
         validations() {
@@ -119,6 +154,9 @@
                     email: {
                         required,
                         email,
+                    },
+                    role: {
+                        required,
                     },
                 }
             };
@@ -152,6 +190,7 @@
                 form: {
                     name: null,
                     email: null,
+                    role: null,
                     password: null,
                     currentPassword: null,
                     newPassword: null
@@ -172,6 +211,13 @@
                 if (!this.$v.form.email.$dirty) return errors;
                 !this.$v.form.email.required && errors.push('Це поле обов\'язкове');
                 !this.$v.form.email.email && errors.push('Неправильний формат електронної адреси.');
+                return errors;
+            },
+
+            roleErrors() {
+                const errors = [];
+                if (!this.$v.form.role.$dirty) return errors;
+                !this.$v.form.role.required && errors.push('Це поле обов\'язкове');
                 return errors;
             },
 
@@ -266,6 +312,7 @@
             prepareFormData() {
                 let data = {
                     name: this.form.name || null,
+                    role: this.form.role || null,
                 };
 
                 if (!this.edit) {
@@ -283,6 +330,7 @@
                 this.form = {
                     name: this.user ? this.user.name : null,
                     email: this.user ? this.user.email : null,
+                    role: this.user ? this.user.role : null,
                     password: null,
                     currentPassword: null,
                     newPassword: null,
@@ -296,6 +344,7 @@
                 this.form = {
                     name: null,
                     email: null,
+                    role: null,
                     password: null,
                     currentPassword: null,
                     newPassword: null,

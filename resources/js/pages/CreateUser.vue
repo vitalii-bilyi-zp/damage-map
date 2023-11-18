@@ -38,6 +38,7 @@
                     <v-card-text>
                         <UserForm
                             ref="userForm"
+                            :role-items="roleItems"
                             @submit-form="submitForm"
                         />
                     </v-card-text>
@@ -58,16 +59,37 @@
 
         data() {
             return {
+                roleItems: [],
+                rolesLoading: false,
                 snackbarSuccess: false,
                 snackbarError: false,
             }
         },
 
+        mounted() {
+            this.loadRoles();
+        },
+
         methods: {
+            loadRoles() {
+                this.rolesLoading = true;
+                this.$store.dispatch('loadRoles')
+                    .then((response) => {
+                        this.roleItems = response.data || [];
+                    })
+                    .catch(() => {
+                        //
+                    })
+                    .finally(() => {
+                        this.rolesLoading = false;
+                    });
+            },
+
             submitForm(data) {
                 const formattedData = {
                     name: data.name,
                     email: data.email,
+                    role: data.role,
                     password: data.password,
                 };
 
