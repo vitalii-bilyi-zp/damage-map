@@ -45,13 +45,53 @@
                 item-text="display_name"
                 item-value="name"
                 :disabled="!roleItems || !roleItems.length"
-                @change="$v.form.role.$touch()"
+                @change="onRoleChange"
                 @blur="$v.form.role.$touch()"
             >
                 <template v-slot:label>
                     Роль <span v-if="!edit" class="red--text">*</span>
                 </template>
             </v-select>
+
+            <template v-if="showRegions">
+                <v-autocomplete
+                    v-model="form.region"
+                    :items="regionItems"
+                    label="Регіон"
+                    clearable
+                    dense
+                    outlined
+                    item-text="name"
+                    item-value="id"
+                    :disabled="!regionItems || !regionItems.length"
+                    @change="onRegionChange"
+                ></v-autocomplete>
+
+                <v-autocomplete
+                    v-model="form.district"
+                    :items="districtItems"
+                    label="Район"
+                    clearable
+                    dense
+                    outlined
+                    item-text="name"
+                    item-value="id"
+                    :disabled="!form.region || !districtItems || !districtItems.length"
+                    @change="onDistrictChange"
+                ></v-autocomplete>
+
+                <v-autocomplete
+                    v-model="form.community"
+                    :items="communityItems"
+                    label="Територіальна громада"
+                    clearable
+                    dense
+                    outlined
+                    item-text="name"
+                    item-value="id"
+                    :disabled="!form.district || !communityItems || !communityItems.length"
+                ></v-autocomplete>
+            </template>
 
             <v-text-field
                 v-if="!edit"
@@ -143,6 +183,10 @@
                 type: Array,
                 default: () => []
             },
+            regionItems: {
+                type: Array,
+                default: () => []
+            },
         },
 
         validations() {
@@ -191,10 +235,15 @@
                     name: null,
                     email: null,
                     role: null,
+                    region: null,
+                    district: null,
+                    community: null,
                     password: null,
                     currentPassword: null,
                     newPassword: null
-                }
+                },
+                districtItems: [],
+                communityItems: [],
             }
         },
 
@@ -256,12 +305,20 @@
 
                 return [];
             },
+
+            showRegions() {
+                return this.form.role === 'admin';
+            },
         },
 
         watch: {
             user() {
                 this.initForm();
             },
+            regionItems() {
+                this.setDistrictItems();
+                this.setCommunityItems();
+            }
         },
 
         mounted() {
@@ -273,6 +330,48 @@
         },
 
         methods: {
+            onRoleChange() {
+                this.form.region = null;
+                this.form.district = null;
+                this.form.community = null;
+                this.$v.form.role.$touch();
+            },
+
+            onRegionChange() {
+                this.form.district = null;
+                this.form.community = null;
+
+                this.setDistrictItems();
+            },
+
+            setDistrictItems() {
+                let items = [];
+
+                if (this.form.region) {
+                    const region = this.regionItems.find((item) => item.id === this.form.region);
+                    items = region.districts;
+                }
+
+                this.districtItems = items;
+            },
+
+            onDistrictChange() {
+                this.form.community = null;
+
+                this.setCommunityItems();
+            },
+
+            setCommunityItems() {
+                let items = [];
+
+                if (this.form.district) {
+                    const district = this.districtItems.find((item) => item.id === this.form.district);
+                    items = district.communities;
+                }
+
+                this.communityItems = items;
+            },
+
             generatePassword() {
                 let charactersArray = this.passwordCharacters.split(',');
                 let CharacterSet = '';
@@ -313,6 +412,9 @@
                 let data = {
                     name: this.form.name || null,
                     role: this.form.role || null,
+                    region: this.form.region || null,
+                    district: this.form.district || null,
+                    community: this.form.community || null,
                 };
 
                 if (!this.edit) {
@@ -331,10 +433,16 @@
                     name: this.user ? this.user.name : null,
                     email: this.user ? this.user.email : null,
                     role: this.user ? this.user.role : null,
+                    region: this.user ? this.user.region_id : null,
+                    district: this.user ? this.user.district_id : null,
+                    community: this.user ? this.user.community_id : null,
                     password: null,
                     currentPassword: null,
                     newPassword: null,
                 };
+
+                this.setDistrictItems();
+                this.setCommunityItems();
             },
 
             clearForm() {
@@ -345,10 +453,15 @@
                     name: null,
                     email: null,
                     role: null,
+                    region: null,
+                    district: null,
+                    community: null,
                     password: null,
                     currentPassword: null,
                     newPassword: null,
                 };
+                this.districtItems = [];
+                this.communityItems = [];
 
                 if (!this.edit) {
                     this.generatePassword();

@@ -39,6 +39,7 @@
                         <UserForm
                             ref="userForm"
                             :role-items="roleItems"
+                            :region-items="regionItems"
                             @submit-form="submitForm"
                         />
                     </v-card-text>
@@ -60,7 +61,9 @@
         data() {
             return {
                 roleItems: [],
+                regionItems: [],
                 rolesLoading: false,
+                regionsLoading: false,
                 snackbarSuccess: false,
                 snackbarError: false,
             }
@@ -68,6 +71,7 @@
 
         mounted() {
             this.loadRoles();
+            this.loadRegions();
         },
 
         methods: {
@@ -85,11 +89,28 @@
                     });
             },
 
+            loadRegions() {
+                this.regionsLoading = true;
+                this.$store.dispatch('loadRegions', { loadDetails: true })
+                    .then((response) => {
+                        this.regionItems = response.data || [];
+                    })
+                    .catch(() => {
+                        //
+                    })
+                    .finally(() => {
+                        this.regionsLoading = false;
+                    });
+            },
+
             submitForm(data) {
                 const formattedData = {
                     name: data.name,
                     email: data.email,
                     role: data.role,
+                    region: data.region,
+                    district: data.district,
+                    community: data.community,
                     password: data.password,
                 };
 

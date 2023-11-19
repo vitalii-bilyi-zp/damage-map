@@ -9,8 +9,14 @@ const actions = {
         return window.httpClient.get('/api/object-types');
     },
 
-    loadRegions: () => {
-        return window.httpClient.get('/api/regions');
+    loadRegions: ({}, payload) => {
+        let url = '/api/regions';
+
+        if (payload && payload.loadDetails) {
+            url += `?load_details=${payload.loadDetails}`
+        }
+
+        return window.httpClient.get(url);
     },
 
     loadCommunities: () => {

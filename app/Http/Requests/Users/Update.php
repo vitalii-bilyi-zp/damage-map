@@ -29,6 +29,9 @@ class Update extends FormRequest
         return [
             'name' => 'nullable|string|max:255',
             'role' => 'nullable|string|exists:roles,name',
+            'region' => 'nullable|integer|exists:regions,id',
+            'district' => 'nullable|integer|exists:districts,id',
+            'community' => 'nullable|integer|exists:communities,id',
             'current_password' => [
                 'required_with:new_password',
                 function ($attribute, $value, $fail) {

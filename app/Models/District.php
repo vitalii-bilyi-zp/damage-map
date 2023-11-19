@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Community;
 
 class District extends Model
 {
@@ -32,4 +33,9 @@ class District extends Model
     protected $casts = [
 
     ];
+
+    public function communities()
+    {
+        return $this->hasMany(Community::class, 'district_id', 'id');
+    }
 }

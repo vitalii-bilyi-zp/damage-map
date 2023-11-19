@@ -34,6 +34,9 @@ class UsersController extends Controller
             'email_verified_at' => now(),
             'password' => Hash::make($request->password),
             'api_token' => uniqid(Str::random(60)),
+            'region_id' => $request->region ?? null,
+            'district_id' => $request->district ?? null,
+            'community_id' => $request->community ?? null,
         ]);
 
         $user->assignRole($request->role);
@@ -45,7 +48,10 @@ class UsersController extends Controller
         $response = [
             'name' => $user->name,
             'email' => $user->email,
-            'role' => $user->getRoleNames()->first()
+            'role' => $user->getRoleNames()->first(),
+            'region_id' => $user->region_id,
+            'district_id' => $user->district_id,
+            'community_id' => $user->community_id,
         ];
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($response);
@@ -54,6 +60,9 @@ class UsersController extends Controller
     public function update(UsersUpdate $request, User $user) {
         $user->update([
             'name' => $request->name ?? $user->name,
+            'region_id' => $request->region ?? null,
+            'district_id' => $request->district ?? null,
+            'community_id' => $request->community ?? null,
             'password' => $request->new_password ? Hash::make($request->new_password) : $user->password,
         ]);
 

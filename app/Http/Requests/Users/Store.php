@@ -28,6 +28,9 @@ class Store extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'role' => 'required|string|exists:roles,name',
+            'region' => 'nullable|integer|exists:regions,id',
+            'district' => 'nullable|integer|exists:districts,id',
+            'community' => 'nullable|integer|exists:communities,id',
             'password' => 'required|string|min:8|max:255',
         ];
     }

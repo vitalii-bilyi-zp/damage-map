@@ -46,6 +46,7 @@
                             edit
                             :user="user"
                             :role-items="roleItems"
+                            :region-items="regionItems"
                             @submit-form="submitForm"
                         />
                     </v-card-text>
@@ -71,15 +72,18 @@
                 user: null,
                 isLoading: false,
                 roleItems: [],
+                regionItems: [],
                 rolesLoading: false,
+                regionsLoading: false,
                 snackbarSuccess: false,
                 snackbarError: false,
             }
         },
 
         mounted() {
-            this.loadUser();
             this.loadRoles();
+            this.loadRegions();
+            this.loadUser();
         },
 
         methods: {
@@ -111,10 +115,27 @@
                     });
             },
 
+            loadRegions() {
+                this.regionsLoading = true;
+                this.$store.dispatch('loadRegions', { loadDetails: true })
+                    .then((response) => {
+                        this.regionItems = response.data || [];
+                    })
+                    .catch(() => {
+                        //
+                    })
+                    .finally(() => {
+                        this.regionsLoading = false;
+                    });
+            },
+
             submitForm(data) {
                 const formattedData = {
                     name: data.name,
                     role: data.role,
+                    region: data.region,
+                    district: data.district,
+                    community: data.community,
                     current_password: data.currentPassword,
                     new_password: data.newPassword,
                 };

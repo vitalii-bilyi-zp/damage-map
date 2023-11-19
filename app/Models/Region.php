@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\District;
 
 class Region extends Model
 {
@@ -32,4 +33,9 @@ class Region extends Model
     protected $casts = [
 
     ];
+
+    public function districts()
+    {
+        return $this->hasMany(District::class, 'region_id', 'id');
+    }
 }
