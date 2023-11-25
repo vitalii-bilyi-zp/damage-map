@@ -190,12 +190,23 @@ class DamageNotesController extends Controller
             "Expires" => "0"
         ];
 
+        $user = auth()->user();
+
         $damageNotes = DamageNote::query()
             ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('districts', 'communities.district_id', '=', 'districts.id')
             ->join('regions', 'districts.region_id', '=', 'regions.id')
             ->select('communities.name AS community', 'districts.name AS district', 'regions.name AS region', 'object_types.name AS object_type', 'damage_notes.*')
+            ->when(isset($user->region_id), function($query) use (&$user) {
+                $query->where('regions.id', '=', $user->region_id);
+            })
+            ->when(isset($user->district_id), function($query) use (&$user) {
+                $query->where('districts.id', '=', $user->district_id);
+            })
+            ->when(isset($user->community_id), function($query) use (&$user) {
+                $query->where('communities.id', '=', $user->community_id);
+            })
             ->get();
 
         $columns = ['ID', 'Date', 'Object type', 'Region', 'District', 'Community', 'City', 'Street', 'Building number', 'Damage type', 'Restoration cost', 'Comment'];

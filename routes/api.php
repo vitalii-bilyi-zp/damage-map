@@ -51,11 +51,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/damage-notes', [DamageNotesController::class, 'index']);
     Route::post('/damage-notes', [DamageNotesController::class, 'store']);
+    Route::post('/damage-notes/import-file', [DamageNotesController::class, 'storeFromFile']);
+    Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
     Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show']);
     Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
     Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
-    Route::post('/damage-notes/import-file', [DamageNotesController::class, 'storeFromFile']);
-    Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
 
     Route::post('/regulation-documents', [RegulationDocumentsController::class, 'store']);
     Route::delete('/regulation-documents/{regulationDocument}', [RegulationDocumentsController::class, 'destroy']);
