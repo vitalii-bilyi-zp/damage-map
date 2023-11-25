@@ -22,9 +22,26 @@ class UsersController extends Controller
     public function index(UsersIndex $request): JsonResponse
     {
         $users = User::query()
-            ->where('id', '!=', auth()->user()->id)
-            ->orderBy('created_at', 'DESC')
+            ->select([
+                'users.id',
+                'users.name',
+                'users.email',
+                'regions.name AS region',
+                'districts.name AS district',
+                'communities.name AS community',
+            ])
+            ->leftJoin('communities', 'users.community_id', '=', 'communities.id')
+            ->leftJoin('districts', 'users.district_id', '=', 'districts.id')
+            ->leftJoin('regions', 'users.region_id', '=', 'regions.id')
+            ->where('users.id', '!=', auth()->user()->id)
+            ->orderBy('users.created_at', 'DESC')
             ->get();
+
+        $users->transform(function ($item, $key) {
+            $item->roles = $item->roles()->pluck('display_name')->join(', ');
+
+            return $item;
+        });
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($users);
     }

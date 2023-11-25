@@ -104,6 +104,30 @@
                         value: 'email',
                     },
                     {
+                        text: 'Роль',
+                        align: 'left',
+                        sortable: true,
+                        value: 'roles',
+                    },
+                    {
+                        text: 'Регіон',
+                        align: 'left',
+                        sortable: true,
+                        value: 'region',
+                    },
+                    {
+                        text: 'Район',
+                        align: 'left',
+                        sortable: true,
+                        value: 'district',
+                    },
+                    {
+                        text: 'Територіальна громада',
+                        align: 'left',
+                        sortable: true,
+                        value: 'community',
+                    },
+                    {
                         text: '',
                         align: 'left',
                         sortable: false,

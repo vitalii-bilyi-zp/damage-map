@@ -30,10 +30,23 @@ class DamageNotesController extends Controller
 
     public function index(DamageNotesIndex $request): JsonResponse
     {
+        $user = auth()->user();
+
         $aggregation = DamageNote::query()
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
             ->select('communities.name AS community', 'object_types.name AS object_type', 'damage_notes.*')
+            ->when(isset($user->region_id), function($query) use (&$user) {
+                $query
+                    ->join('districts', 'communities.district_id', '=', 'districts.id')
+                    ->where('districts.region_id', '=', $user->region_id);
+            })
+            ->when(isset($user->district_id), function($query) use (&$user) {
+                $query->where('communities.district_id', '=', $user->district_id);
+            })
+            ->when(isset($user->community_id), function($query) use (&$user) {
+                $query->where('damage_notes.community_id', '=', $user->community_id);
+            })
             ->get();
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
