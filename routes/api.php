@@ -22,7 +22,6 @@ use App\Http\Controllers\Api\RegulationDocumentsController;
 */
 
 Route::get('/regions', [RegionsController::class, 'index']);
-Route::get('/communities', [CommunitiesController::class, 'index']);
 Route::get('/object-types', [ObjectTypesController::class, 'index']);
 
 Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
@@ -47,6 +46,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::delete('/users/{user}', [UsersController::class, 'destroy']);
 
     Route::get('/roles', [RolesController::class, 'index']);
+
+    Route::get('/communities', [CommunitiesController::class, 'index']);
 
     Route::get('/damage-notes', [DamageNotesController::class, 'index']);
     Route::post('/damage-notes', [DamageNotesController::class, 'store']);
