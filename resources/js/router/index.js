@@ -34,7 +34,7 @@ const router = new VueRouter({
                     name: "damage-notes.create",
                     component: () => import("@/js/pages/CreateDamageNote"),
                     meta: {
-                        auth: true,
+                        roles: ['super_admin', 'admin'],
                     },
                 },
                 {
@@ -43,7 +43,7 @@ const router = new VueRouter({
                     component: () => import("@/js/pages/EditDamageNote"),
                     props: true,
                     meta: {
-                        auth: true,
+                        roles: ['super_admin', 'admin'],
                     },
                 },
                 {
@@ -56,7 +56,7 @@ const router = new VueRouter({
                     name: "regulation-documents.create",
                     component: () => import("@/js/pages/CreateRegulationDocument"),
                     meta: {
-                        auth: true,
+                        roles: ['super_admin'],
                     },
                 },
                 {
@@ -64,7 +64,7 @@ const router = new VueRouter({
                     name: "users",
                     component: () => import("@/js/pages/Users"),
                     meta: {
-                        superAdmin: true,
+                        roles: ['super_admin'],
                     },
                 },
                 {
@@ -72,7 +72,7 @@ const router = new VueRouter({
                     name: "users.create",
                     component: () => import("@/js/pages/CreateUser"),
                     meta: {
-                        superAdmin: true,
+                        roles: ['super_admin'],
                     },
                 },
                 {
