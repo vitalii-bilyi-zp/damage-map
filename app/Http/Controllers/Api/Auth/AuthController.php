@@ -31,6 +31,7 @@ class AuthController extends Controller
                 'email' => $user->email,
                 'email_verified_at' => $user->email_verified_at,
                 'access_token' => $user->api_token,
+                'roles' => $user->roles->pluck('name')
             ]
         ]);
     }
