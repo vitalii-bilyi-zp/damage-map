@@ -9,7 +9,7 @@
                             <v-icon left dark>mdi-download</v-icon>
                             Експорт даних
                         </v-btn>
-                        <v-btn color="primary" link :to="{ name: 'damage-notes.create' }">
+                        <v-btn v-if="isSuperAdmin || isAdmin" color="primary" link :to="{ name: 'damage-notes.create' }">
                             <v-icon left>mdi-plus</v-icon>
                             Додати запис
                         </v-btn>
@@ -97,7 +97,53 @@
                 isLoading: false,
                 isDeleting: false,
                 damageNotes: [],
-                headers: [
+                footerProps: {
+                    'items-per-page-options': [15, 30, 45],
+                    'items-per-page-text': 'Елементів на сторінці:'
+                },
+                tableActions: [
+                    {
+                        icon: "mdi-pencil",
+                        click: this.updateDamageNote,
+                        title: "Редагувати запис",
+                    },
+
+                    { divider: true },
+
+                    {
+                        icon: "mdi-delete",
+                        click: this.confirmDeletion,
+                        title: "Видалити запис",
+                    },
+                ],
+                damageTypeItems: [
+                    {
+                        id: 'high',
+                        name: 'Повне руйнування',
+                    },
+                    {
+                        id: 'medium',
+                        name: 'Сильне руйнування',
+                    },
+                    {
+                        id: 'low',
+                        name: 'Слабке руйнування',
+                    }
+                ],
+            }
+        },
+
+        computed: {
+            isSuperAdmin() {
+                return this.$store.getters.isSuperAdmin;
+            },
+
+            isAdmin() {
+                return this.$store.getters.isAdmin;
+            },
+
+            headers() {
+                let headers = [
                     {
                         text: 'ID',
                         align: 'left',
@@ -153,47 +199,19 @@
                         sortable: true,
                         value: 'restoration_cost',
                     },
-                    {
+                ];
+
+                if (this.isSuperAdmin || this.isAdmin) {
+                    headers.push({
                         text: '',
                         align: 'left',
                         sortable: false,
                         value: 'actions',
                         width: 70,
-                    },
-                ],
-                footerProps: {
-                    'items-per-page-options': [15, 30, 45],
-                    'items-per-page-text': 'Елементів на сторінці:'
-                },
-                tableActions: [
-                    {
-                        icon: "mdi-pencil",
-                        click: this.updateDamageNote,
-                        title: "Редагувати запис",
-                    },
+                    });
+                }
 
-                    { divider: true },
-
-                    {
-                        icon: "mdi-delete",
-                        click: this.confirmDeletion,
-                        title: "Видалити запис",
-                    },
-                ],
-                damageTypeItems: [
-                    {
-                        id: 'high',
-                        name: 'Повне руйнування',
-                    },
-                    {
-                        id: 'medium',
-                        name: 'Сильне руйнування',
-                    },
-                    {
-                        id: 'low',
-                        name: 'Слабке руйнування',
-                    }
-                ],
+                return headers;
             }
         },
 

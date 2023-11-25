@@ -5,7 +5,7 @@
                 <v-card>
                     <v-toolbar flat color="white">
                         <v-spacer></v-spacer>
-                        <v-btn color="primary" link :to="{ name: 'regulation-documents.create' }">
+                        <v-btn v-if="isSuperAdmin" color="primary" link :to="{ name: 'regulation-documents.create' }">
                             <v-icon left>mdi-plus</v-icon>
                             Завантажити документ
                         </v-btn>
@@ -36,6 +36,7 @@
                                     mdi-eye
                                 </v-icon>
                                 <v-icon
+                                    v-if="isSuperAdmin"
                                     small
                                     @click="confirmDeletion(item.id)"
                                 >
@@ -118,6 +119,12 @@
                     'items-per-page-text': 'Елементів на сторінці:'
                 },
             }
+        },
+
+        computed: {
+            isSuperAdmin() {
+                return this.$store.getters.isSuperAdmin;
+            },
         },
 
         mounted() {
