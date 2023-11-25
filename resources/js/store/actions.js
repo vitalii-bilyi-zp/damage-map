@@ -111,8 +111,12 @@ const actions = {
         return window.httpClient.post(`/api/users/${payload.id}`, data);
     },
 
+    deleteUser: ({ commit }, id) => {
+        return window.httpClient.delete(`/api/users/${id}`);
+    },
+
     loadRoles: () => {
-        return window.httpClient.get('/api/users/roles');
+        return window.httpClient.get('/api/roles');
     },
 
     login: ({ commit }, payload) => {

@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
+use App\Http\Requests\Users\Index as UsersIndex;
 use App\Http\Requests\Users\Store as UsersStore;
+use App\Http\Requests\Users\Show as UsersShow;
 use App\Http\Requests\Users\Update as UsersUpdate;
+use App\Http\Requests\Users\Destroy as UsersDestroy;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -17,7 +19,7 @@ class UsersController extends Controller
 {
     use ApiResponseHelpers;
 
-    public function index(): JsonResponse
+    public function index(UsersIndex $request): JsonResponse
     {
         $users = User::query()
             ->where('id', '!=', auth()->user()->id)
@@ -44,7 +46,7 @@ class UsersController extends Controller
         return $this->respondWithSuccess();
     }
 
-    public function show(User $user) {
+    public function show(UsersShow $request, User $user) {
         $response = [
             'name' => $user->name,
             'email' => $user->email,
@@ -78,12 +80,10 @@ class UsersController extends Controller
         return $this->respondWithSuccess();
     }
 
-    public function showRoles(): JsonResponse
+    public function destroy(UsersDestroy $request, User $user)
     {
-        $roles = Role::query()
-            ->where('name', '!=', 'super_admin')
-            ->get();
+        $user->delete();
 
-        return $this->setDefaultSuccessResponse([])->respondWithSuccess($roles);
+        return $this->respondWithSuccess();
     }
 }

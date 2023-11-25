@@ -181,7 +181,10 @@
             },
 
             deleteUser(id) {
-                //
+                this.$store.dispatch('deleteUser', id)
+                    .then(() => {
+                        this.loadUsers();
+                    });
             },
         }
     }

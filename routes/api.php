@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ObjectTypesController;
 use App\Http\Controllers\Api\DamageNotesController;
 use App\Http\Controllers\Api\StatisticsController;
 use App\Http\Controllers\Api\UsersController;
+use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\RegulationDocumentsController;
 
@@ -41,9 +42,11 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/users', [UsersController::class, 'index']);
     Route::post('/users', [UsersController::class, 'store']);
-    Route::get('/users/roles', [UsersController::class, 'showRoles']);
     Route::get('/users/{user}', [UsersController::class, 'show']);
     Route::put('/users/{user}', [UsersController::class, 'update']);
+    Route::delete('/users/{user}', [UsersController::class, 'destroy']);
+
+    Route::get('/roles', [RolesController::class, 'index']);
 
     Route::get('/damage-notes', [DamageNotesController::class, 'index']);
     Route::post('/damage-notes', [DamageNotesController::class, 'store']);
