@@ -50,32 +50,41 @@ class UsersController extends Controller
         $response = [
             'name' => $user->name,
             'email' => $user->email,
-            'role' => $user->getRoleNames()->first(),
-            'region_id' => $user->region_id,
-            'district_id' => $user->district_id,
-            'community_id' => $user->community_id,
         ];
+
+        if (auth()->user()->isSuperAdmin()) {
+            $response['role'] = $user->getRoleNames()->first();
+            $response['region_id'] = $user->region_id;
+            $response['district_id'] = $user->district_id;
+            $response['community_id'] = $user->community_id;
+        }
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($response);
     }
 
     public function update(UsersUpdate $request, User $user) {
-        $user->update([
+        $dataForUpdate = [
             'name' => $request->name ?? $user->name,
-            'region_id' => $request->region ?? null,
-            'district_id' => $request->district ?? null,
-            'community_id' => $request->community ?? null,
-            'password' => $request->new_password ? Hash::make($request->new_password) : $user->password,
-        ]);
+        ];
 
-        $currentRoles = $user->getRoleNames();
-        if ($request->get('role') && !$currentRoles->contains($request->role)) {
-            foreach ($currentRoles as $role) {
-                $user->removeRole($role);
+        if (auth()->user()->id === $user->id) {
+            $dataForUpdate['password'] = $request->new_password ? Hash::make($request->new_password) : $user->password;
+        } else if (auth()->user()->isSuperAdmin()) {
+            $dataForUpdate['region_id'] = $request->region ?? null;
+            $dataForUpdate['district_id'] = $request->district ?? null;
+            $dataForUpdate['community_id'] = $request->community ?? null;
+
+            $currentRoles = $user->getRoleNames();
+            if ($request->get('role') && !$currentRoles->contains($request->role)) {
+                foreach ($currentRoles as $role) {
+                    $user->removeRole($role);
+                }
+
+                $user->assignRole($request->role);
             }
-
-            $user->assignRole($request->role);
         }
+
+        $user->update($dataForUpdate);
 
         return $this->respondWithSuccess();
     }

@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return 'api';
     }
+
+    public function isSuperAdmin()
+    {
+        return $this->hasRole('super_admin');
+    }
 }

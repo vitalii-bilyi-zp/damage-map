@@ -43,7 +43,7 @@
                         </v-list-item-content>
                     </v-list-item>
 
-                    <v-list-item link :to="{name: 'users'}" exact>
+                    <v-list-item v-if="isSuperAdmin" link :to="{name: 'users'}" exact>
                         <v-list-item-icon>
                             <v-icon>mdi-account-group</v-icon>
                         </v-list-item-icon>
@@ -132,6 +132,10 @@
         computed: {
             isAuthorized() {
                 return this.$store.getters.isAuthorized;
+            },
+
+            isSuperAdmin() {
+                return this.$store.getters.isSuperAdmin;
             },
 
             user() {

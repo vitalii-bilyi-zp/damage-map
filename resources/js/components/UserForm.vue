@@ -13,12 +13,12 @@
                 @blur="$v.form.name.$touch()"
             >
                 <template v-slot:label>
-                    ПІБ <span v-if="!edit" class="red--text">*</span>
+                    ПІБ <span v-if="!isEditing" class="red--text">*</span>
                 </template>
             </v-text-field>
 
             <v-text-field
-                :disabled="edit"
+                :disabled="isEditing"
                 name="email"
                 type="email"
                 append-icon="mdi-email"
@@ -31,11 +31,12 @@
                 @blur="$v.form.email.$touch()"
             >
                 <template v-slot:label>
-                    E-mail <span v-if="!edit" class="red--text">*</span>
+                    E-mail <span v-if="!isEditing" class="red--text">*</span>
                 </template>
             </v-text-field>
 
             <v-select
+                v-if="!isEditing || !isPersonalProfile"
                 v-model="form.role"
                 :items="roleItems"
                 :error-messages="roleErrors"
@@ -49,11 +50,11 @@
                 @blur="$v.form.role.$touch()"
             >
                 <template v-slot:label>
-                    Роль <span v-if="!edit" class="red--text">*</span>
+                    Роль <span v-if="!isEditing" class="red--text">*</span>
                 </template>
             </v-select>
 
-            <template v-if="showRegions">
+            <template v-if="(!isEditing || !isPersonalProfile) && showRegions">
                 <v-autocomplete
                     v-model="form.region"
                     :items="regionItems"
@@ -94,7 +95,7 @@
             </template>
 
             <v-text-field
-                v-if="!edit"
+                v-if="!isEditing"
                 name="password"
                 type="text"
                 v-model="form.password"
@@ -112,7 +113,7 @@
                 </template>
             </v-text-field>
 
-            <template v-else>
+            <template v-else-if="isPersonalProfile">
                 <v-text-field
                     label="Поточний пароль"
                     name="current_password"
@@ -171,13 +172,13 @@
         name: "UserForm",
 
         props: {
-            edit: {
-                type: Boolean,
-                default: false
-            },
             user: {
                 type: Object,
                 default: null
+            },
+            isPersonalProfile: {
+                type: Boolean,
+                default: false
             },
             roleItems: {
                 type: Array,
@@ -192,25 +193,31 @@
         validations() {
             let rules = {
                 form: {
-                    name: {
-                        required,
-                    },
-                    email: {
-                        required,
-                        email,
-                    },
-                    role: {
-                        required,
-                    },
+                    name: {},
+                    email: {},
+                    role: {},
+                    password: {},
+                    currentPassword: {},
+                    newPassword: {},
                 }
             };
 
-            if (!this.edit) {
+            if (!this.isEditing) {
+                rules.form.name = {
+                    required,
+                };
+                rules.form.email = {
+                    required,
+                    email,
+                };
+                rules.form.role = {
+                    required,
+                };
                 rules.form.password = {
                     required,
                     minLength: minLength(8),
                 };
-            } else {
+            } else if (this.isPersonalProfile) {
                 rules.form.currentPassword = {
                     required: requiredIf('newPassword'),
                     minLength: minLength(8),
@@ -248,30 +255,46 @@
         },
 
         computed: {
+            isEditing() {
+                return !!this.user;
+            },
+
             nameErrors() {
-                const errors = [];
-                if (!this.$v.form.name.$dirty) return errors;
-                !this.$v.form.name.required && errors.push('Це поле обов\'язкове');
-                return errors;
+                if (!this.isEditing) {
+                    const errors = [];
+                    if (!this.$v.form.name.$dirty) return errors;
+                    !this.$v.form.name.required && errors.push('Це поле обов\'язкове');
+                    return errors;
+                }
+
+                return [];
             },
 
             emailErrors() {
-                const errors = [];
-                if (!this.$v.form.email.$dirty) return errors;
-                !this.$v.form.email.required && errors.push('Це поле обов\'язкове');
-                !this.$v.form.email.email && errors.push('Неправильний формат електронної адреси.');
-                return errors;
+                if (!this.isEditing) {
+                    const errors = [];
+                    if (!this.$v.form.email.$dirty) return errors;
+                    !this.$v.form.email.required && errors.push('Це поле обов\'язкове');
+                    !this.$v.form.email.email && errors.push('Неправильний формат електронної адреси.');
+                    return errors;
+                }
+
+                return [];
             },
 
             roleErrors() {
-                const errors = [];
-                if (!this.$v.form.role.$dirty) return errors;
-                !this.$v.form.role.required && errors.push('Це поле обов\'язкове');
-                return errors;
+                if (!this.isEditing) {
+                    const errors = [];
+                    if (!this.$v.form.role.$dirty) return errors;
+                    !this.$v.form.role.required && errors.push('Це поле обов\'язкове');
+                    return errors;
+                }
+
+                return [];
             },
 
             passwordErrors() {
-                if (!this.edit) {
+                if (!this.isEditing) {
                     const errors = [];
                     if (!this.$v.form.password.$dirty) return errors;
                     !this.$v.form.password.required && errors.push('Це поле обов\'язкове');
@@ -283,7 +306,7 @@
             },
 
             currentPasswordErrors() {
-                if (this.edit) {
+                if (this.isEditing && this.isPersonalProfile) {
                     const errors = [];
                     if (!this.$v.form.currentPassword.$dirty) return errors;
                     !this.$v.form.currentPassword.required && errors.push('Це поле обов\'язкове');
@@ -295,7 +318,7 @@
             },
 
             newPasswordErrors() {
-                if (this.edit) {
+                if (this.isEditing && this.isPersonalProfile) {
                     const errors = [];
                     if (!this.$v.form.newPassword.$dirty) return errors;
                     !this.$v.form.newPassword.required && errors.push('Це поле обов\'язкове');
@@ -315,6 +338,7 @@
             user() {
                 this.initForm();
             },
+
             regionItems() {
                 this.setDistrictItems();
                 this.setCommunityItems();
@@ -324,7 +348,7 @@
         mounted() {
             this.initForm();
 
-            if (!this.edit) {
+            if (!this.isEditing) {
                 this.generatePassword();
             }
         },
@@ -417,10 +441,10 @@
                     community: this.form.community || null,
                 };
 
-                if (!this.edit) {
+                if (!this.isEditing) {
                     data.email = this.form.email || null;
                     data.password = this.form.password || null;
-                } else {
+                } else if (this.isPersonalProfile) {
                     data.currentPassword = this.form.currentPassword || null;
                     data.newPassword = this.form.newPassword || null;
                 }
@@ -463,7 +487,7 @@
                 this.districtItems = [];
                 this.communityItems = [];
 
-                if (!this.edit) {
+                if (!this.isEditing) {
                     this.generatePassword();
                 }
             },

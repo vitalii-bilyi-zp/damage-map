@@ -43,8 +43,8 @@
                         <UserForm
                             v-else
                             ref="userForm"
-                            edit
                             :user="user"
+                            :is-personal-profile="isPersonalProfile"
                             :role-items="roleItems"
                             :region-items="regionItems"
                             @submit-form="submitForm"
@@ -58,9 +58,10 @@
 
 <script>
     import UserForm from '@/js/components/UserForm';
+    import store from '@/js/store/index';
 
     export default {
-        name: "UpdatePatient",
+        name: "EditUser",
         components: {
             UserForm,
         },
@@ -80,9 +81,30 @@
             }
         },
 
+        computed: {
+            isSuperAdmin() {
+                return this.$store.getters.isSuperAdmin;
+            },
+
+            isPersonalProfile() {
+                return this.$store.state.currentUser && this.$store.state.currentUser.id === this.id;
+            }
+        },
+
+        beforeRouteEnter(to, from, next) {
+            if (!store.getters.isSuperAdmin && store.state.currentUser.id !== to.params.id) {
+                return next(from.fullPath);
+            }
+
+            return next();
+        },
+
         mounted() {
-            this.loadRoles();
-            this.loadRegions();
+            if (!this.isPersonalProfile) {
+                this.loadRoles();
+                this.loadRegions();
+            }
+
             this.loadUser();
         },
 

@@ -64,7 +64,7 @@ const router = new VueRouter({
                     name: "users",
                     component: () => import("@/js/pages/Users"),
                     meta: {
-                        auth: true,
+                        superAdmin: true,
                     },
                 },
                 {
@@ -72,7 +72,7 @@ const router = new VueRouter({
                     name: "users.create",
                     component: () => import("@/js/pages/CreateUser"),
                     meta: {
-                        auth: true,
+                        superAdmin: true,
                     },
                 },
                 {
