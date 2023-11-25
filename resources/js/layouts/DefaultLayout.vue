@@ -52,24 +52,51 @@
                             <v-list-item-title>Користувачі</v-list-item-title>
                         </v-list-item-content>
                     </v-list-item>
-
-                    <v-divider class="mb-2"></v-divider>
-
-                    <v-list-item link @click="logout">
-                        <v-list-item-icon>
-                            <v-icon>mdi-logout-variant</v-icon>
-                        </v-list-item-icon>
-
-                        <v-list-item-content>
-                            <v-list-item-title>Вийти</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
                 </template>
             </v-list>
         </v-navigation-drawer>
 
         <v-app-bar app>
             <v-app-bar-nav-icon @click="toggleDrawer"/>
+
+            <v-spacer></v-spacer>
+
+            <v-toolbar-items>
+                <v-menu v-if="user" offset-y origin="center center" :nudge-bottom="10" transition="scale-transition">
+                    <template v-slot:activator="{ on }">
+                        <v-btn text large v-on="on">
+                            {{ (user && user.name) ? user.name : 'unknown user' }}
+                            <v-icon class="ml-2">mdi-chevron-down</v-icon>
+                        </v-btn>
+                    </template>
+
+                    <v-list class="pa-0">
+                        <template v-for="(item, index) in accountMenu">
+                            <v-list-item
+                                :key="`item-${index}`"
+                                ripple="ripple"
+                                :to="!item.href ? { name: item.name } : null"
+                                :href="item.href"
+                                @click.prevent="item.click"
+                                :disabled="item.disabled"
+                            >
+                                <v-list-item-content>
+                                    <v-list-item-title>{{ item.title }}</v-list-item-title>
+                                </v-list-item-content>
+                                <v-list-item-icon v-if="item.icon">
+                                    <v-icon>{{ item.icon }}</v-icon>
+                                </v-list-item-icon>
+                            </v-list-item>
+
+                            <v-divider v-if="index + 1 < accountMenu.length" :key="`divider-${index}`"></v-divider>
+                        </template>
+                    </v-list>
+                </v-menu>
+                <v-btn v-else text large :to="{name: 'auth.login'}">
+                    Увійти
+                    <v-icon class="ml-2">mdi-login</v-icon>
+                </v-btn>
+            </v-toolbar-items>
         </v-app-bar>
 
         <v-main>
@@ -85,6 +112,20 @@
         data() {
             return {
                 drawerState: false,
+                accountMenu: [
+                    {
+                        icon: "mdi-pencil",
+                        href: "#",
+                        title: 'Редагувати',
+                        click: this.handleEdit
+                    },
+                    {
+                        icon: "mdi-logout",
+                        href: "#",
+                        title: 'Вийти',
+                        click: this.handleLogout
+                    }
+                ]
             }
         },
 
@@ -92,6 +133,10 @@
             isAuthorized() {
                 return this.$store.getters.isAuthorized;
             },
+
+            user() {
+                return this.$store.state.currentUser;
+            }
         },
 
         methods: {
@@ -99,7 +144,13 @@
                 this.drawerState = !this.drawerState;
             },
 
-            logout() {
+            handleEdit() {
+                if (this.user && this.user.id) {
+                    this.$router.push({ name: 'users.edit', params: { id: this.user.id }});
+                }
+            },
+
+            handleLogout() {
                 this.$store.dispatch('logout')
                     .then(() => {
                         this.$router.push({ name: 'map' });
