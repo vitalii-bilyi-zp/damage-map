@@ -35,7 +35,7 @@
                 </v-snackbar>
 
                 <v-card color="damage-note-card">
-                    <template v-if="isAuthorized">
+                    <template v-if="isSuperAdmin">
                         <v-card-title :class="[fileUploading ? '' : 'd-flex justify-center']">
                             <v-btn v-if="fileUploading" key="back" icon @click="fileUploading = false">
                                 <v-icon>mdi-arrow-left</v-icon>
@@ -90,8 +90,8 @@ export default {
     },
 
     computed: {
-        isAuthorized() {
-            return this.$store.getters.isAuthorized;
+        isSuperAdmin() {
+            return this.$store.getters.isSuperAdmin;
         },
     },
 
