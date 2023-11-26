@@ -15,7 +15,7 @@ class Show extends FormRequest
     {
         $user = $this->route('user');
 
-        return $user && $this->user()->can('view', $user);
+        return isset($user) && $this->user()->can('view', $user);
     }
 
     /**

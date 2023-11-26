@@ -13,7 +13,9 @@ class Show extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $damageNote = $this->route('damageNote');
+
+        return isset($damageNote) && $this->user()->can('view', $damageNote);
     }
 
     /**

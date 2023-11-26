@@ -3,6 +3,7 @@
 namespace App\Http\Requests\DamageNotes;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\DamageNote;
 
 class StoreFromFile extends FormRequest
 {
@@ -13,7 +14,7 @@ class StoreFromFile extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('storeFromFile', DamageNote::class);
     }
 
     /**

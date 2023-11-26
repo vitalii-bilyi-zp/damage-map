@@ -57,4 +57,14 @@ class User extends Authenticatable
     {
         return $this->hasRole('super_admin');
     }
+
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
+    public function isAnalyst()
+    {
+        return $this->hasRole('analyst');
+    }
 }

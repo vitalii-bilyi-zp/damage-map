@@ -3,6 +3,7 @@
 namespace App\Http\Requests\DamageNotes;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\DamageNote;
 
 class Index extends FormRequest
 {
@@ -13,7 +14,7 @@ class Index extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return $this->user()->can('viewList', DamageNote::class);
     }
 
     /**

@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Models\User' => 'App\Policies\UserPolicy',
+        'App\Models\DamageNote' => 'App\Policies\DamageNotePolicy',
         'Spatie\Permission\Models\Role' => 'App\Policies\RolePolicy',
     ];
 
@@ -28,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
 
         // Implicitly grant "admin" role all permissions
         Gate::before(function ($user, $ability) {
-            return $user->hasRole('super_admin') ? true : null;
+            return $user->isSuperAdmin() ? true : null;
         });
     }
 }

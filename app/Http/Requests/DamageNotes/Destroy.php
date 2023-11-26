@@ -13,7 +13,9 @@ class Destroy extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $damageNote = $this->route('damageNote');
+
+        return isset($damageNote) && $this->user()->can('destroy', $damageNote);
     }
 
     /**
