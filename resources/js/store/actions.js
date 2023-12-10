@@ -23,8 +23,12 @@ const actions = {
         return window.httpClient.get('/api/communities');
     },
 
-    loadDamageNotes: () => {
-        return window.httpClient.get('/api/damage-notes');
+    loadApprovedDamageNotes: () => {
+        return window.httpClient.get('/api/damage-notes/approved');
+    },
+
+    loadNotApprovedDamageNotes: () => {
+        return window.httpClient.get('/api/damage-notes/not-approved');
     },
 
     saveDamageNote: ({ commit }, payload) => {

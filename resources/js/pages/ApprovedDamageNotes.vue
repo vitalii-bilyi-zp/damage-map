@@ -9,10 +9,6 @@
                             <v-icon left dark>mdi-download</v-icon>
                             Експорт даних
                         </v-btn>
-                        <v-btn v-if="isSuperAdmin || isAdmin" color="primary" link :to="{ name: 'damage-notes.create' }">
-                            <v-icon left>mdi-plus</v-icon>
-                            Додати запис
-                        </v-btn>
                     </v-toolbar>
                     <v-divider></v-divider>
                     <v-card-text class="pa-0">
@@ -86,7 +82,7 @@
     import moment from 'moment';
 
     export default {
-        name: 'DamageNotes',
+        name: 'ApprovedDamageNotes',
 
         components: {
             ConfirmDialog,
@@ -222,7 +218,7 @@
         methods: {
             loadDamageNotes() {
                 this.isLoading = true;
-                this.$store.dispatch('loadDamageNotes')
+                this.$store.dispatch('loadApprovedDamageNotes')
                     .then((response) => {
                         this.damageNotes = response.data || [];
                     })

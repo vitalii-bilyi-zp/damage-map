@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DamageNotes\Index as DamageNotesIndex;
+use App\Http\Requests\DamageNotes\GetApproved as DamageNotesGetApproved;
+use App\Http\Requests\DamageNotes\GetNotApproved as DamageNotesGetNotApproved;
 use App\Http\Requests\DamageNotes\Store as DamageNotesStore;
 use App\Http\Requests\DamageNotes\StoreFromFile as DamageNotesStoreFromFile;
 use App\Http\Requests\DamageNotes\Show as DamageNotesShow;
@@ -14,6 +15,7 @@ use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
 use App\Http\Requests\DamageNotes\ExportCsv as DamageNotesExportCsv;
 use App\Models\DamageNote;
+use App\Models\DamageNoteRequest;
 use App\Models\ObjectType;
 use App\Models\Community;
 use Illuminate\Support\Facades\DB;
@@ -28,14 +30,43 @@ class DamageNotesController extends Controller
 {
     use ApiResponseHelpers;
 
-    public function index(DamageNotesIndex $request): JsonResponse
+    public function getApproved(DamageNotesGetApproved $request): JsonResponse
     {
         $user = auth()->user();
 
-        $aggregation = DamageNote::query()
+        $aggregation = DamageNoteRequest::query()
+            ->join('damage_notes', 'damage_note_requests.damage_note_id', '=', 'damage_notes.id')
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
             ->select('communities.name AS community', 'object_types.name AS object_type', 'damage_notes.*')
+            ->whereNotNull('damage_note_requests.approved_at')
+            ->when(isset($user->region_id), function($query) use (&$user) {
+                $query
+                    ->join('districts', 'communities.district_id', '=', 'districts.id')
+                    ->where('districts.region_id', '=', $user->region_id);
+            })
+            ->when(isset($user->district_id), function($query) use (&$user) {
+                $query->where('communities.district_id', '=', $user->district_id);
+            })
+            ->when(isset($user->community_id), function($query) use (&$user) {
+                $query->where('damage_notes.community_id', '=', $user->community_id);
+            })
+            ->get();
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
+    }
+
+    public function getNotApproved(DamageNotesGetNotApproved $request): JsonResponse
+    {
+        $user = auth()->user();
+
+        $aggregation = DamageNoteRequest::query()
+            ->join('damage_notes', 'damage_note_requests.damage_note_id', '=', 'damage_notes.id')
+            ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
+            ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+            ->select('communities.name AS community', 'object_types.name AS object_type', 'damage_notes.*')
+            ->whereNull('damage_note_requests.approved_at')
+            ->whereNull('damage_note_requests.declined_at')
             ->when(isset($user->region_id), function($query) use (&$user) {
                 $query
                     ->join('districts', 'communities.district_id', '=', 'districts.id')

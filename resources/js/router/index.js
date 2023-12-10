@@ -22,9 +22,17 @@ const router = new VueRouter({
                     component: () => import("@/js/pages/Statistics"),
                 },
                 {
-                    path: "damage-notes",
-                    name: "damage-notes",
-                    component: () => import("@/js/pages/DamageNotes"),
+                    path: "damage-notes/approved",
+                    name: "damage-notes.approved",
+                    component: () => import("@/js/pages/ApprovedDamageNotes"),
+                    meta: {
+                        auth: true,
+                    },
+                },
+                {
+                    path: "damage-notes/not-approved",
+                    name: "damage-notes.not-approved",
+                    component: () => import("@/js/pages/NotApprovedDamageNotes"),
                     meta: {
                         auth: true,
                     },

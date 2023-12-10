@@ -1,6 +1,6 @@
 <template>
     <v-app id="inspire">
-        <v-navigation-drawer app v-model="drawerState">
+        <v-navigation-drawer app v-model="drawerState" :width="276">
             <v-list nav>
                 <v-list-item link :to="{name: 'map'}" exact>
                     <v-list-item-icon>
@@ -33,15 +33,34 @@
                 </v-list-item>
 
                 <template v-if="isAuthorized">
-                    <v-list-item link :to="{name: 'damage-notes'}" exact>
-                        <v-list-item-icon>
-                            <v-icon>mdi-view-list</v-icon>
-                        </v-list-item-icon>
-
-                        <v-list-item-content>
+                    <v-list-group
+                        :value="true"
+                        prepend-icon="mdi-view-list"
+                    >
+                        <template v-slot:activator>
                             <v-list-item-title>Дані пошкоджень</v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
+                        </template>
+
+                        <v-list-item link :to="{name: 'damage-notes.approved'}" exact>
+                            <v-list-item-icon>
+                                <v-icon></v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-content>
+                                <v-list-item-title>Підтверджені</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+
+                        <v-list-item link :to="{name: 'damage-notes.not-approved'}" exact>
+                            <v-list-item-icon>
+                                <v-icon></v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-content>
+                                <v-list-item-title>На розгляді</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list-group>
 
                     <v-list-item v-if="isSuperAdmin" link :to="{name: 'users'}" exact>
                         <v-list-item-icon>

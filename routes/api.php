@@ -49,7 +49,8 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/communities', [CommunitiesController::class, 'index']);
 
-    Route::get('/damage-notes', [DamageNotesController::class, 'index']);
+    Route::get('/damage-notes/approved', [DamageNotesController::class, 'getApproved']);
+    Route::get('/damage-notes/not-approved', [DamageNotesController::class, 'getNotApproved']);
     Route::post('/damage-notes', [DamageNotesController::class, 'store']);
     Route::post('/damage-notes/import-file', [DamageNotesController::class, 'storeFromFile']);
     Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
