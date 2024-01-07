@@ -20,14 +20,14 @@ class DamageNoteFactory extends Factory
     public function definition()
     {
         return [
+            'date' => '2022-02-24',
             'object_type_id' => ObjectType::inRandomOrder()->first()->id,
             'community_id' => Community::inRandomOrder()->first()->id,
             'city' => $this->faker->city(),
             'street' => $this->faker->streetName(),
             'building_number' => $this->faker->buildingNumber(),
             'damage_type' => array_keys(DamageNote::DAMAGE_TYPES_MAPPING)[rand(0, 2)],
-            'restoration_cost' => $this->faker->numberBetween($min = 15000, $max = 25000000),
-            'date' => '2022-02-24'
+            'restoration_cost' => $this->faker->numberBetween($min = 15000, $max = 25000000)
         ];
     }
 }

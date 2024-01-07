@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             ObjectCategorySeeder::class,
             ObjectTypeSeeder::class,
             CommunitySeeder::class,
-            DamageNoteSeeder::class,
+            DamageNoteRequestSeeder::class,
         ]);
     }
 }
