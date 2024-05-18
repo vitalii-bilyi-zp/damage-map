@@ -14,6 +14,9 @@ use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
 use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
 use App\Http\Requests\DamageNotes\ExportCsv as DamageNotesExportCsv;
+use App\Http\Requests\DamageNotes\ApproveRequest as DamageNotesApproveRequest;
+use App\Http\Requests\DamageNotes\DeclineRequest as DamageNotesDeclineRequest;
+
 use App\Models\DamageNote;
 use App\Models\DamageNoteRequest;
 use App\Models\ObjectType;
@@ -64,7 +67,7 @@ class DamageNotesController extends Controller
             ->join('damage_notes', 'damage_note_requests.damage_note_id', '=', 'damage_notes.id')
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
-            ->select('communities.name AS community', 'object_types.name AS object_type', 'damage_notes.*')
+            ->select('communities.name AS community', 'object_types.name AS object_type', 'damage_notes.*', 'damage_note_requests.id AS request_id')
             ->whereNull('damage_note_requests.approved_at')
             ->whereNull('damage_note_requests.declined_at')
             ->when(isset($user->region_id), function($query) use (&$user) {
@@ -360,5 +363,26 @@ class DamageNotesController extends Controller
         }
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($query->get());
+    }
+
+    public function approveRequest(DamageNotesApproveRequest $request, DamageNoteRequest $damageNoteRequest): JsonResponse
+    {
+        $damageNoteRequest->update([
+            'approver_id' => auth()->user()->id,
+            'approved_at' => now(),
+        ]);
+
+        return $this->respondWithSuccess();
+    }
+
+    public function declineRequest(DamageNotesDeclineRequest $request, DamageNoteRequest $damageNoteRequest): JsonResponse
+    {
+        $damageNoteRequest->update([
+            'approver_id' => auth()->user()->id,
+            'approver_comment' => $request->comment,
+            'declined_at' => now(),
+        ]);
+
+        return $this->respondWithSuccess();
     }
 }

@@ -169,7 +169,7 @@
 
 <script>
 import moment from 'moment';
-import { required } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators';
 
 export default {
     name: 'DamageForm',

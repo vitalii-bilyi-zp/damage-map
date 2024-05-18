@@ -129,4 +129,14 @@ class DamageNotePolicy
 
         return true;
     }
+
+    public function approveRequest(User $user)
+    {
+        return false;
+    }
+
+    public function declineRequest(User $user)
+    {
+        return false;
+    }
 }

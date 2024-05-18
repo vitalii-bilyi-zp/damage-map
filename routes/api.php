@@ -58,6 +58,9 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
     Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
 
+    Route::post('/damage-note-requests/{damageNoteRequest}/approve', [DamageNotesController::class, 'approveRequest']);
+    Route::post('/damage-note-requests/{damageNoteRequest}/decline', [DamageNotesController::class, 'declineRequest']);
+
     Route::post('/regulation-documents', [RegulationDocumentsController::class, 'store']);
     Route::delete('/regulation-documents/{regulationDocument}', [RegulationDocumentsController::class, 'destroy']);
 });

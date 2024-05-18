@@ -6,14 +6,6 @@
         @keydown.esc="cancel"
     >
         <v-card>
-            <!-- <v-card-title class="text-h5 grey lighten-2">
-                Підтвердження операції
-            </v-card-title>
-
-            <v-card-text>
-                Ви впевнені, що хочете видалити цей запис?
-            </v-card-text> -->
-
             <v-card-title class="text-h5 grey lighten-2 px-4">
                 {{ title }}
             </v-card-title>

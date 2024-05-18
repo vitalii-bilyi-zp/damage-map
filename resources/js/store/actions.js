@@ -59,6 +59,14 @@ const actions = {
         return window.httpClient.delete(`/api/damage-notes/${id}`);
     },
 
+    approveDamageNoteRequest: ({ commit }, { requestId }) => {
+        return window.httpClient.post(`/api/damage-note-requests/${requestId}/approve`);
+    },
+
+    declineDamageNoteRequest: ({ commit }, { requestId, comment }) => {
+        return window.httpClient.post(`/api/damage-note-requests/${requestId}/decline`, { comment });
+    },
+
     loadRegionsData: ({}, payload) => {
         return window.httpClient.get(`/api/damage-notes/regions?${queryString.stringify(payload.params, {encode: false})}`);
     },

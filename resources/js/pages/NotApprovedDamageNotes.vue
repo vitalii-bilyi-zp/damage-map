@@ -9,10 +9,6 @@
                             <v-icon left dark>mdi-download</v-icon>
                             Експорт даних
                         </v-btn>
-                        <v-btn v-if="isSuperAdmin || isAdmin" color="primary" link :to="{ name: 'damage-notes.create' }">
-                            <v-icon left>mdi-plus</v-icon>
-                            Додати запис
-                        </v-btn>
                     </v-toolbar>
                     <v-divider></v-divider>
                     <v-card-text class="pa-0">
@@ -53,7 +49,7 @@
                                                 v-else
                                                 :key="index"
                                                 ripple="ripple"
-                                                @click="menuItem.click ? menuItem.click(item.id) : null"
+                                                @click="menuItem.click ? menuItem.click(item) : null"
                                             >
                                                 <v-list-item-icon v-if="menuItem.icon" class="mr-4">
                                                     <v-icon>{{ menuItem.icon }}</v-icon>
@@ -74,6 +70,8 @@
                     </v-card-text>
                 </v-card>
 
+                <ApproveRequestDialog ref="approveDialog" />
+                <DeclineRequestDialog ref="declineDialog" />
                 <ConfirmDialog ref="confirmDialog"/>
             </v-col>
         </v-row>
@@ -81,6 +79,8 @@
 </template>
 
 <script>
+    import ApproveRequestDialog from '@/js/components/ApproveRequestDialog';
+    import DeclineRequestDialog from '@/js/components/DeclineRequestDialog';
     import ConfirmDialog from '@/js/components/ConfirmDialog';
 
     import moment from 'moment';
@@ -89,6 +89,8 @@
         name: 'NotApprovedDamageNotes',
 
         components: {
+            ApproveRequestDialog,
+            DeclineRequestDialog,
             ConfirmDialog,
         },
 
@@ -102,6 +104,22 @@
                     'items-per-page-text': 'Елементів на сторінці:'
                 },
                 tableActions: [
+                    {
+                        icon: "mdi-check-circle",
+                        click: this.confirmApprove,
+                        title: "Підтвердити",
+                    },
+
+                    { divider: true },
+
+                    {
+                        icon: "mdi-close-circle",
+                        click: this.confirmDecline,
+                        title: "Відхилити",
+                    },
+
+                    { divider: true },
+
                     {
                         icon: "mdi-pencil",
                         click: this.updateDamageNote,
@@ -243,19 +261,61 @@
                 return foundItem ? foundItem.name || type : type;
             },
 
-            updateDamageNote(id) {
-                this.$router.push({name: 'damage-notes.edit', params: { id }});
+            confirmApprove(item) {
+                this.$refs.approveDialog.open(item)
+                    .then((isConfirmed) => {
+                        if (!isConfirmed) {
+                            return;
+                        }
+
+                        this.approveDamageNoteRequest({requestId: item.request_id});
+                    });
             },
 
-            confirmDeletion(id) {
+            approveDamageNoteRequest(payload) {
+                this.$store.dispatch('approveDamageNoteRequest', payload)
+                    .then(() => {
+                        this.loadDamageNotes();
+                    })
+                    .catch(() => {
+                        //
+                    });
+            },
+
+            confirmDecline(item) {
+                this.$refs.declineDialog.open(item)
+                    .then(({ isConfirmed, comment }) => {
+                        if (!isConfirmed) {
+                            return;
+                        }
+
+                        this.declineDamageNoteRequest({requestId: item.request_id, comment});
+                    });
+            },
+
+            declineDamageNoteRequest(payload) {
+                this.$store.dispatch('declineDamageNoteRequest', payload)
+                    .then(() => {
+                        this.loadDamageNotes();
+                    })
+                    .catch(() => {
+                        //
+                    });
+            },
+
+            updateDamageNote(item) {
+                this.$router.push({name: 'damage-notes.edit', params: { id: item.id }});
+            },
+
+            confirmDeletion(item) {
                 this.$refs.confirmDialog.open('Підтвердження операції', 'Ви впевнені, що хочете видалити цей запис?')
                     .then((isConfirmed) => {
                         if (!isConfirmed) {
                             return;
                         }
 
-                        this.deleteDamageNote(id);
-                    })
+                        this.deleteDamageNote(item.id);
+                    });
             },
 
             deleteDamageNote(id) {
