@@ -19,16 +19,19 @@ class CommunitiesController extends Controller
 
         $communities = Community::query()
             ->select('communities.*')
-            ->when(isset($user->region_id), function($query) use (&$user) {
+            ->when(isset($user), function($query) use (&$user) {
                 $query
-                    ->join('districts', 'communities.district_id', '=', 'districts.id')
-                    ->where('districts.region_id', '=', $user->region_id);
-            })
-            ->when(isset($user->district_id), function($query) use (&$user) {
-                $query->where('communities.district_id', '=', $user->district_id);
-            })
-            ->when(isset($user->community_id), function($query) use (&$user) {
-                $query->where('communities.id', '=', $user->community_id);
+                    ->when(isset($user->region_id), function($query) use (&$user) {
+                        $query
+                            ->join('districts', 'communities.district_id', '=', 'districts.id')
+                            ->where('districts.region_id', '=', $user->region_id);
+                    })
+                    ->when(isset($user->district_id), function($query) use (&$user) {
+                        $query->where('communities.district_id', '=', $user->district_id);
+                    })
+                    ->when(isset($user->community_id), function($query) use (&$user) {
+                        $query->where('communities.id', '=', $user->community_id);
+                    });
             })
             ->orderByRaw('communities.name COLLATE utf8mb4_unicode_ci')
             ->get();

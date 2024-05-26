@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\DamageNotes;
+namespace App\Http\Requests\DamageNoteRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\DamageNote;
+use App\Models\DamageNoteRequest;
 
-class ApproveRequest extends FormRequest
+class Decline extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class ApproveRequest extends FormRequest
      */
     public function authorize()
     {
-        return $this->user()->can('approveRequest', DamageNote::class);
+        return $this->user()->can('declineRequest', DamageNoteRequest::class);
     }
 
     /**
@@ -25,7 +25,7 @@ class ApproveRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'comment' => 'required|string|max:255'
         ];
     }
 }

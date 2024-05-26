@@ -41,9 +41,6 @@ const router = new VueRouter({
                     path: "damage-notes/create",
                     name: "damage-notes.create",
                     component: () => import("@/js/pages/CreateDamageNote"),
-                    meta: {
-                        roles: ['super_admin', 'admin'],
-                    },
                 },
                 {
                     path: "damage-notes/:id/edit",

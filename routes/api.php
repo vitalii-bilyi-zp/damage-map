@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\RegionsController;
 use App\Http\Controllers\Api\CommunitiesController;
 use App\Http\Controllers\Api\ObjectTypesController;
 use App\Http\Controllers\Api\DamageNotesController;
+use App\Http\Controllers\Api\DamageNoteRequestsController;
 use App\Http\Controllers\Api\StatisticsController;
 use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\RolesController;
@@ -23,10 +24,13 @@ use App\Http\Controllers\Api\RegulationDocumentsController;
 
 Route::get('/regions', [RegionsController::class, 'index']);
 Route::get('/object-types', [ObjectTypesController::class, 'index']);
+Route::get('/communities', [CommunitiesController::class, 'index']);
 
 Route::get('/damage-notes/regions', [DamageNotesController::class, 'showRegions']);
 Route::get('/damage-notes/districts', [DamageNotesController::class, 'showDistricts']);
 Route::get('/damage-notes/communities', [DamageNotesController::class, 'showCommunities']);
+
+Route::post('/damage-note-requests', [DamageNoteRequestsController::class, 'store']);
 
 Route::get('/statistics/global', [StatisticsController::class, 'showGlobal']);
 Route::get('/statistics/ratio', [StatisticsController::class, 'showRatio']);
@@ -47,19 +51,17 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/roles', [RolesController::class, 'index']);
 
-    Route::get('/communities', [CommunitiesController::class, 'index']);
-
     Route::get('/damage-notes/approved', [DamageNotesController::class, 'getApproved']);
     Route::get('/damage-notes/not-approved', [DamageNotesController::class, 'getNotApproved']);
-    Route::post('/damage-notes', [DamageNotesController::class, 'store']);
+    // Route::post('/damage-notes', [DamageNotesController::class, 'store']);
     Route::post('/damage-notes/import-file', [DamageNotesController::class, 'storeFromFile']);
     Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
     Route::get('/damage-notes/{damageNote}', [DamageNotesController::class, 'show']);
     Route::put('/damage-notes/{damageNote}', [DamageNotesController::class, 'update']);
     Route::delete('/damage-notes/{damageNote}', [DamageNotesController::class, 'destroy']);
 
-    Route::post('/damage-note-requests/{damageNoteRequest}/approve', [DamageNotesController::class, 'approveRequest']);
-    Route::post('/damage-note-requests/{damageNoteRequest}/decline', [DamageNotesController::class, 'declineRequest']);
+    Route::post('/damage-note-requests/{damageNoteRequest}/approve', [DamageNoteRequestsController::class, 'approveRequest']);
+    Route::post('/damage-note-requests/{damageNoteRequest}/decline', [DamageNoteRequestsController::class, 'declineRequest']);
 
     Route::post('/regulation-documents', [RegulationDocumentsController::class, 'store']);
     Route::delete('/regulation-documents/{regulationDocument}', [RegulationDocumentsController::class, 'destroy']);

@@ -72,6 +72,16 @@
                         </v-list-item-content>
                     </v-list-item>
                 </template>
+
+                <v-list-item v-else link :to="{name: 'damage-notes.create'}" exact>
+                    <v-list-item-icon>
+                        <v-icon>mdi-map-plus</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>Внести свідчення</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
             </v-list>
         </v-navigation-drawer>
 

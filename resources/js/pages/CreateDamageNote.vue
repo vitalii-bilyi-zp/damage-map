@@ -55,6 +55,7 @@
                     <v-card-text>
                         <DamageForm
                             ref="damageForm"
+                            :is-authorized="isAuthorized"
                             :file-uploading="fileUploading"
                             :object-type-items="objectTypeItems"
                             :community-items="communityItems"
@@ -90,6 +91,9 @@ export default {
     },
 
     computed: {
+        isAuthorized() {
+            return this.$store.getters.isAuthorized;
+        },
         isSuperAdmin() {
             return this.$store.getters.isSuperAdmin;
         },
@@ -146,6 +150,9 @@ export default {
 
         submitForm(data) {
             const formattedData = {
+                full_name: data.fullName,
+                email: data.email,
+                phone: data.phone,
                 date: data.date,
                 object_type_id: data.objectType,
                 community_id: data.community,
@@ -158,7 +165,7 @@ export default {
             };
 
             this.$refs.damageForm.formLoading = true;
-            this.$store.dispatch('saveDamageNote', { data: formattedData })
+            this.$store.dispatch('saveDamageNoteRequest', { data: formattedData })
                 .then(() => {
                     this.$refs.damageForm.clearForm();
                     this.snackbarSuccess = true;

@@ -15,6 +15,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Models\User' => 'App\Policies\UserPolicy',
         'App\Models\DamageNote' => 'App\Policies\DamageNotePolicy',
+        'App\Models\DamageNoteRequest' => 'App\Policies\DamageNoteRequestPolicy',
         'Spatie\Permission\Models\Role' => 'App\Policies\RolePolicy',
     ];
 

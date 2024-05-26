@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DamageNoteRequest;
 
 class DamageNote extends Model
 {
@@ -45,4 +46,9 @@ class DamageNote extends Model
     protected $casts = [
         'date' => 'date',
     ];
+
+    public function damageNoteRequest()
+    {
+        return $this->hasOne(DamageNoteRequest::class);
+    }
 }

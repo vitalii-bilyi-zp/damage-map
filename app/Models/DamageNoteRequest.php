@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\DamageNote;
 
 class DamageNoteRequest extends Model
 {
@@ -17,4 +18,9 @@ class DamageNoteRequest extends Model
     protected $fillable = [
         'full_name', 'email', 'phone', 'damage_note_id', 'creator_id', 'approver_id', 'approver_comment', 'approved_at', 'declined_at'
     ];
+
+    public function damageNote()
+    {
+        return $this->belongsTo(DamageNote::class);
+    }
 }

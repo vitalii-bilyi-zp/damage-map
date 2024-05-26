@@ -15,6 +15,52 @@
         </v-form>
 
         <v-form v-else>
+            <template v-if="isEditing || !isAuthorized">
+                <v-text-field
+                    v-model="fullName"
+                    :error-messages="fullNameErrors"
+                    :disabled="isEditing"
+                    label="ПІБ"
+                    dense
+                    required
+                    outlined
+                    maxlength="255"
+                    @input="$v.fullName.$touch()"
+                    @blur="$v.fullName.$touch()"
+                ></v-text-field>
+
+                <v-text-field
+                    v-model="email"
+                    :error-messages="emailErrors"
+                    :disabled="isEditing"
+                    label="E-mail"
+                    type="email"
+                    append-icon="mdi-email"
+                    dense
+                    required
+                    outlined
+                    maxlength="255"
+                    @input="$v.email.$touch()"
+                    @blur="$v.email.$touch()"
+                ></v-text-field>
+
+                <v-text-field
+                    v-model="phone"
+                    :error-messages="phoneErrors"
+                    :disabled="isEditing"
+                    v-mask="'+38 (0##) ### - ## - ##'"
+                    label="Телефон"
+                    type="tel"
+                    append-icon="mdi-phone"
+                    dense
+                    required
+                    outlined
+                    maxlength="255"
+                    @input="$v.phone.$touch()"
+                    @blur="$v.phone.$touch()"
+                ></v-text-field>
+            </template>
+
             <v-menu
                 v-model="dateMenu"
                 :close-on-content-click="false"
@@ -169,12 +215,19 @@
 
 <script>
 import moment from 'moment';
-import { required } from 'vuelidate/lib/validators';
+import { required, email } from 'vuelidate/lib/validators';
+import {mask} from 'vue-the-mask';
 
 export default {
     name: 'DamageForm',
 
+    directives: { mask },
+
     props: {
+        isAuthorized: {
+            type: Boolean,
+            default: false
+        },
         fileUploading: {
             type: Boolean,
             default: false
@@ -196,6 +249,9 @@ export default {
     data() {
         return {
             formLoading: false,
+            fullName: null,
+            email: null,
+            phone: null,
             dateMenu: false,
             date: moment().format('YYYY-MM-DD'),
             objectCategory: null,
@@ -225,19 +281,59 @@ export default {
         }
     },
 
-    validations: {
-        date: { required },
-        objectCategory: { required },
-        objectType: { required },
-        community: { required },
-        damageType: { required },
-        restorationСost: { required },
-        file: { required },
+    validations() {
+        let rules = {
+            date: { required },
+            objectCategory: { required },
+            objectType: { required },
+            community: { required },
+            damageType: { required },
+            restorationСost: { required },
+            file: { required },
 
-        formValidationGroup: ['date', 'objectCategory', 'objectType', 'community', 'damageType', 'restorationСost']
+            formValidationGroup: ['date', 'objectCategory', 'objectType', 'community', 'damageType', 'restorationСost']
+        };
+
+        if (!this.isAuthorized) {
+            rules = Object.assign(rules, {
+                fullName: { required },
+                email: { required, email },
+                phone: { required },
+
+                formValidationGroup: ['fullName', 'email', 'phone', 'date', 'objectCategory', 'objectType', 'community', 'damageType', 'restorationСost']
+            });
+        }
+
+        return rules;
     },
 
     computed: {
+        isEditing() {
+            return !!this.damageNote;
+        },
+
+        fullNameErrors() {
+            const errors = [];
+            if (!this.$v.fullName.$dirty) return errors;
+            !this.$v.fullName.required && errors.push('Це поле обов\'язкове');
+            return errors;
+        },
+
+        emailErrors() {
+            const errors = [];
+            if (!this.$v.email.$dirty) return errors;
+            !this.$v.email.required && errors.push('Це поле обов\'язкове');
+            !this.$v.email.email && errors.push('Неправильний формат електронної адреси.');
+            return errors;
+        },
+
+        phoneErrors() {
+            const errors = [];
+            if (!this.$v.phone.$dirty) return errors;
+            !this.$v.phone.required && errors.push('Це поле обов\'язкове');
+            return errors;
+        },
+
         dateErrors() {
             const errors = [];
             if (!this.$v.date.$dirty) return errors;
@@ -365,6 +461,9 @@ export default {
 
         prepareFormData() {
             return {
+                fullName: this.fullName,
+                email: this.email,
+                phone: this.phone,
                 date: this.date,
                 objectCategory: this.objectCategory,
                 objectType: this.objectType,
@@ -379,7 +478,10 @@ export default {
         },
 
         initForm() {
-            this.date = this.damageNote ? this.damageNote.date : null;
+            this.fullName = this.damageNote ? this.damageNote.fullName : null;
+            this.email = this.damageNote ? this.damageNote.email : null;
+            this.phone = this.damageNote ? this.damageNote.phone : null;
+            this.date = this.damageNote ? this.damageNote.date : moment().format('YYYY-MM-DD');
             this.objectCategory = this.damageNote ? this.damageNote.objectCategory : null;
             this.objectType = this.damageNote ? this.damageNote.objectType : null;
             this.community = this.damageNote ? this.damageNote.community : null;
@@ -393,6 +495,10 @@ export default {
 
         clearForm() {
             this.$v.formValidationGroup.$reset();
+            this.fullName = null;
+            this.email = null;
+            this.phone = null;
+            this.date = moment().format('YYYY-MM-DD');
             this.objectCategory = null;
             this.objectType = null;
             this.community = null;

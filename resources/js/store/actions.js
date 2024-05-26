@@ -31,8 +31,8 @@ const actions = {
         return window.httpClient.get('/api/damage-notes/not-approved');
     },
 
-    saveDamageNote: ({ commit }, payload) => {
-        return window.httpClient.post('/api/damage-notes', payload.data);
+    saveDamageNoteRequest: ({ commit }, payload) => {
+        return window.httpClient.post('/api/damage-note-requests', payload.data);
     },
 
     saveDamageNotesFromFile: ({ commit }, payload) => {

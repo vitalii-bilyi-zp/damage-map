@@ -136,6 +136,9 @@ export default {
             }
 
             return {
+                fullName: data.damage_note_request.full_name,
+                email: data.damage_note_request.email,
+                phone: data.damage_note_request.phone,
                 date: data.date && moment(data.date).format('YYYY-MM-DD'),
                 objectCategory: data.object_type && data.object_type.object_category_id,
                 objectType: data.object_type_id,

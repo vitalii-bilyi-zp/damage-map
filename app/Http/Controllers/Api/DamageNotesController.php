@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DamageNotes\GetApproved as DamageNotesGetApproved;
 use App\Http\Requests\DamageNotes\GetNotApproved as DamageNotesGetNotApproved;
-use App\Http\Requests\DamageNotes\Store as DamageNotesStore;
+// use App\Http\Requests\DamageNotes\Store as DamageNotesStore;
 use App\Http\Requests\DamageNotes\StoreFromFile as DamageNotesStoreFromFile;
 use App\Http\Requests\DamageNotes\Show as DamageNotesShow;
 use App\Http\Requests\DamageNotes\Update as DamageNotesUpdate;
@@ -14,8 +14,6 @@ use App\Http\Requests\DamageNotes\ShowRegions as DamageNotesShowRegions;
 use App\Http\Requests\DamageNotes\ShowDistricts as DamageNotesShowDistricts;
 use App\Http\Requests\DamageNotes\ShowCommunities as DamageNotesShowCommunities;
 use App\Http\Requests\DamageNotes\ExportCsv as DamageNotesExportCsv;
-use App\Http\Requests\DamageNotes\ApproveRequest as DamageNotesApproveRequest;
-use App\Http\Requests\DamageNotes\DeclineRequest as DamageNotesDeclineRequest;
 
 use App\Models\DamageNote;
 use App\Models\DamageNoteRequest;
@@ -86,22 +84,22 @@ class DamageNotesController extends Controller
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
     }
 
-    public function store(DamageNotesStore $request): JsonResponse
-    {
-        DamageNote::create([
-            'date' => $request->date,
-            'object_type_id' => $request->object_type_id,
-            'community_id' => $request->community_id,
-            'city' => $request->city,
-            'street'  => $request->street,
-            'building_number' => $request->building_number,
-            'damage_type' => $request->damage_type,
-            'restoration_cost' => $request->restoration_cost,
-            'comment' => $request->comment
-        ]);
+    // public function store(DamageNotesStore $request): JsonResponse
+    // {
+    //     DamageNote::create([
+    //         'date' => $request->date,
+    //         'object_type_id' => $request->object_type_id,
+    //         'community_id' => $request->community_id,
+    //         'city' => $request->city,
+    //         'street'  => $request->street,
+    //         'building_number' => $request->building_number,
+    //         'damage_type' => $request->damage_type,
+    //         'restoration_cost' => $request->restoration_cost,
+    //         'comment' => $request->comment
+    //     ]);
 
-        return $this->respondWithSuccess();
-    }
+    //     return $this->respondWithSuccess();
+    // }
 
     public function storeFromFile(DamageNotesStoreFromFile $request): JsonResponse
     {
@@ -204,7 +202,7 @@ class DamageNotesController extends Controller
                     'comment' => $comment
                 ]);
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             return $this->respondError();
         }
 
@@ -275,6 +273,7 @@ class DamageNotesController extends Controller
     }
 
     public function show(DamageNotesShow $request, DamageNote $damageNote): JsonResponse {
+        $damageNote->load('damageNoteRequest');
         if (isset($damageNote->object_type_id)) {
             $damageNote->object_type = ObjectType::find($damageNote->object_type_id);
         }
@@ -363,26 +362,5 @@ class DamageNotesController extends Controller
         }
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($query->get());
-    }
-
-    public function approveRequest(DamageNotesApproveRequest $request, DamageNoteRequest $damageNoteRequest): JsonResponse
-    {
-        $damageNoteRequest->update([
-            'approver_id' => auth()->user()->id,
-            'approved_at' => now(),
-        ]);
-
-        return $this->respondWithSuccess();
-    }
-
-    public function declineRequest(DamageNotesDeclineRequest $request, DamageNoteRequest $damageNoteRequest): JsonResponse
-    {
-        $damageNoteRequest->update([
-            'approver_id' => auth()->user()->id,
-            'approver_comment' => $request->comment,
-            'declined_at' => now(),
-        ]);
-
-        return $this->respondWithSuccess();
     }
 }

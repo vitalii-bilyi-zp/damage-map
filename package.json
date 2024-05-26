@@ -26,6 +26,7 @@
         "vue": "^2.6.14",
         "vue-chartjs": "3.5.0",
         "vue-router": "^3.5.4",
+        "vue-the-mask": "^0.11.1",
         "vuelidate": "^0.7.7",
         "vuetify": "^2.6.6",
         "vuex": "^3.6.2"
