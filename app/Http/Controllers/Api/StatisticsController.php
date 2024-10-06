@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Statistics\ShowGlobal as StatisticsShowGlobal;
 use App\Http\Requests\Statistics\ShowRatio as StatisticsShowRatio;
+use App\Http\Requests\Statistics\ShowCube as StatisticsShowCube;
 use App\Models\DamageNote;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
@@ -42,6 +43,28 @@ class StatisticsController extends Controller
     const DIMENSION_TYPES = [
         self::OBJECTS_NUMBER_DIMENSION,
         self::RESTORATION_COST_DIMENSION,
+    ];
+
+    const DAY_CUBE_DIMENSION = 'day';
+    const WEEK_CUBE_DIMENSION = 'week';
+    const MONTH_CUBE_DIMENSION = 'month';
+    const OBJECT_CATEGORY_CUBE_DIMENSION = 'object_category';
+    const OBJECT_TYPE_CUBE_DIMENSION = 'object_type';
+    const REGION_CUBE_DIMENSION = 'region';
+    const DISTRICT_CUBE_DIMENSION = 'district';
+    const COMMUNITY_CUBE_DIMENSION = 'community';
+    const DAMAGE_TYPE_CUBE_DIMENSION = 'damage_type';
+
+    const CUBE_DIMENSION_TYPES = [
+        self::DAY_CUBE_DIMENSION,
+        self::WEEK_CUBE_DIMENSION,
+        self::MONTH_CUBE_DIMENSION,
+        self::OBJECT_CATEGORY_CUBE_DIMENSION,
+        self::OBJECT_TYPE_CUBE_DIMENSION,
+        self::REGION_CUBE_DIMENSION,
+        self::DISTRICT_CUBE_DIMENSION,
+        self::COMMUNITY_CUBE_DIMENSION,
+        self::DAMAGE_TYPE_CUBE_DIMENSION,
     ];
 
     protected function getWeekTitle(CarbonInterface $date): string
@@ -171,6 +194,77 @@ class StatisticsController extends Controller
             $carry[$item->name] = $item->chart_value;
             return $carry;
         }, []);
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($preparedData);
+    }
+
+    public function showCube(StatisticsShowCube $request): JsonResponse
+    {
+        $dataQuery = DamageNote::query()
+            ->when($request->get('start_date'), function($query) use (&$request) {
+                $query->whereDate('damage_notes.date', '>=', $request->start_date);
+            })
+            ->when($request->get('end_date'), function($query) use (&$request) {
+                $query->whereDate('damage_notes.date', '<=', $request->end_date);
+            });
+
+        switch($request->get('dimension_type')) {
+            case self::DAY_CUBE_DIMENSION:
+                $dataQuery->select(DB::raw("DATE_FORMAT(MAX(damage_notes.date), '%Y-%m-%d') AS title"))
+                    ->groupBy(DB::raw("DATE(damage_notes.date)"));
+                break;
+            case self::WEEK_CUBE_DIMENSION:
+                $dataQuery->select(DB::raw("CONCAT(
+                    DATE_FORMAT(DATE_SUB(MAX(damage_notes.date), INTERVAL (DAYOFWEEK(MAX(damage_notes.date)) - 1) DAY), '%Y-%m-%d'),
+                    ' - ',
+                    DATE_FORMAT(DATE_ADD(MAX(damage_notes.date), INTERVAL (7 - DAYOFWEEK(MAX(damage_notes.date))) DAY), '%Y-%m-%d')
+                ) AS title"))
+                    ->groupBy(DB::raw("YEAR(damage_notes.date)"), DB::raw("WEEKOFYEAR(damage_notes.date)"));
+                break;
+            case self::MONTH_CUBE_DIMENSION:
+                $dataQuery->select(DB::raw("DATE_FORMAT(MAX(damage_notes.date), '%Y-%m') AS title"))
+                    ->groupBy(DB::raw("DATE_FORMAT(damage_notes.date, '%Y-%m')"));
+                break;
+            case self::OBJECT_CATEGORY_CUBE_DIMENSION:
+                $dataQuery->select('object_categories.name AS title')
+                    ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+                    ->join('object_categories', 'object_types.object_category_id', '=', 'object_categories.id')
+                    ->groupBy('object_categories.id');
+                break;
+            case self::OBJECT_TYPE_CUBE_DIMENSION:
+                $dataQuery->select('object_types.name AS title')
+                    ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
+                    ->groupBy('object_types.id');
+                break;
+            case self::REGION_CUBE_DIMENSION:
+                $dataQuery->select('regions.name AS title')
+                    ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
+                    ->join('districts', 'communities.district_id', '=', 'districts.id')
+                    ->join('regions', 'districts.region_id', '=', 'regions.id')
+                    ->groupBy('regions.id');
+                break;
+            case self::DISTRICT_CUBE_DIMENSION:
+                $dataQuery->select('districts.name AS title')
+                    ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
+                    ->join('districts', 'communities.district_id', '=', 'districts.id')
+                    ->groupBy('districts.id');
+                break;
+            case self::COMMUNITY_CUBE_DIMENSION:
+                $dataQuery->select('communities.name AS title')
+                    ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
+                    ->groupBy('communities.id');
+                break;
+            case self::DAMAGE_TYPE_CUBE_DIMENSION:
+                $dataQuery->select('damage_notes.damage_type AS title')
+                    ->groupBy('damage_notes.damage_type');
+            default:
+                //
+                break;
+        }
+
+        $preparedData = $dataQuery
+            ->addSelect(DB::raw('SUM(damage_notes.restoration_cost) AS restoration_cost, COUNT(*) AS objects_number'))
+            ->get();
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($preparedData);
     }

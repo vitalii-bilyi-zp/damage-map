@@ -22,6 +22,11 @@ const router = new VueRouter({
                     component: () => import("@/js/pages/Statistics"),
                 },
                 {
+                    path: "cube-statistics",
+                    name: "cube-statistics",
+                    component: () => import("@/js/pages/CubeStatistics"),
+                },
+                {
                     path: "damage-notes/approved",
                     name: "damage-notes.approved",
                     component: () => import("@/js/pages/ApprovedDamageNotes"),

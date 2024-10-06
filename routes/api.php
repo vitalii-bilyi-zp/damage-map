@@ -34,6 +34,7 @@ Route::post('/damage-note-requests', [DamageNoteRequestsController::class, 'stor
 
 Route::get('/statistics/global', [StatisticsController::class, 'showGlobal']);
 Route::get('/statistics/ratio', [StatisticsController::class, 'showRatio']);
+Route::get('/statistics/cube', [StatisticsController::class, 'showCube']);
 
 Route::get('/regulation-documents', [RegulationDocumentsController::class, 'index']);
 

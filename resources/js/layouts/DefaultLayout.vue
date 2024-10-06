@@ -22,6 +22,16 @@
                     </v-list-item-content>
                 </v-list-item>
 
+                <v-list-item link :to="{name: 'cube-statistics'}" exact>
+                    <v-list-item-icon>
+                        <v-icon>mdi-cube-outline</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>OLAP Куб</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+
                 <v-list-item link :to="{name: 'regulation-documents'}" exact>
                     <v-list-item-icon>
                         <v-icon>mdi-file-multiple</v-icon>

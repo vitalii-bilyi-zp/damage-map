@@ -10,6 +10,13 @@ const state = {
         region: null,
         dimensionType: 'objects_number',
     },
+    cubeFilters: {
+        period: [
+            moment().startOf('month').format('YYYY-MM-DD'),
+            moment().format('YYYY-MM-DD')
+        ],
+        dimensionType: 'day',
+    },
     token: Cookies.get('access_token') || null,
     currentUser: null,
 };

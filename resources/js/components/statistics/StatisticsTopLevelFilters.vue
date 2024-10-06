@@ -74,7 +74,7 @@
 import moment from 'moment';
 
 export default {
-    name: 'TopLevelFilters',
+    name: 'StatisticsTopLevelFilters',
 
     data() {
         return {

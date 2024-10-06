@@ -3,6 +3,10 @@ const mutations = {
         state.filters = payload;
     },
 
+    setCubeFilters: (state, payload) => {
+        state.cubeFilters = payload;
+    },
+
     setToken: (state, token) => {
         state.token = token;
     },

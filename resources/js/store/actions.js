@@ -83,8 +83,16 @@ const actions = {
         commit('setFilters', filters);
     },
 
+    setCubeFilters: ({ commit }, filters) => {
+        commit('setCubeFilters', filters);
+    },
+
     loadGlobalStatistics: ({ commit }, payload) => {
         return window.httpClient.get(`/api/statistics/global?${queryString.stringify(payload.params, {encode: false})}`);
+    },
+
+    loadCubeStatistics: ({ commit }, payload) => {
+        return window.httpClient.get(`/api/statistics/cube?${queryString.stringify(payload.params, {encode: false})}`);
     },
 
     loadRatioStatistics: ({ commit }, payload) => {
