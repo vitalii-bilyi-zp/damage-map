@@ -1,19 +1,23 @@
 <template>
-    <v-data-table
-        :headers="headers"
-        :items="items"
-        :loading="isLoading"
-        :items-per-page="15"
-        :footer-props="footerProps"
-        no-data-text="Інформація відсутня"
-        loading-text="Завантаження інформації..."
-        class="card-table elevation-1"
-        :mobile-breakpoint="0"
-    >
-        <template v-slot:footer.page-text="props">
-            {{ props.pageStart }} - {{ props.pageStop }} з {{ props.itemsLength }}
-        </template>
-    </v-data-table>
+    <v-card class="statistic-card">
+        <v-card-text class="pa-0">
+            <v-data-table
+                :headers="headers"
+                :items="items"
+                :loading="isLoading"
+                :items-per-page="15"
+                :footer-props="footerProps"
+                no-data-text="Інформація відсутня"
+                loading-text="Завантаження інформації..."
+                class="card-table elevation-1"
+                :mobile-breakpoint="0"
+            >
+                <template v-slot:footer.page-text="props">
+                    {{ props.pageStart }} - {{ props.pageStop }} з {{ props.itemsLength }}
+                </template>
+            </v-data-table>
+        </v-card-text>
+    </v-card>
 </template>
 
 <script>

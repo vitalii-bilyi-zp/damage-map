@@ -1,31 +1,35 @@
 <template>
-    <v-container fluid>
-        <v-row class="ma-0" justify="center">
-            <v-col cols="12" class="py-0">
-                <v-card>
-                    <v-toolbar flat color="white">
-                        <CubeStatisticsTopLevelFilters />
-                    </v-toolbar>
-
-                    <v-divider></v-divider>
-
-                    <v-card-text class="pa-0">
-                        <CubeStatisticsTable />
-                    </v-card-text>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
+    <div class="cube-statistics">
+        <v-container fluid>
+            <v-row class="mx-0 mb-8" justify="center">
+                <v-col cols="12" class="py-0">
+                    <CubeStatisticsTopLevelFilters />
+                </v-col>
+            </v-row>
+            <v-row class="ma-0" justify="center">
+                <v-col cols="12" class="py-0 mb-8 mb-md-0">
+                    <Cube />
+                </v-col>
+            </v-row>
+        </v-container>
+    </div>
 </template>
 
 <script>
 import CubeStatisticsTopLevelFilters from "@/js/components/cube-statistics/CubeStatisticsTopLevelFilters.vue";
-import CubeStatisticsTable from "@/js/components/cube-statistics/CubeStatisticsTable.vue";
+import Cube from "@/js/components/cube-statistics/Cube.vue";
 
 export default {
     components: {
         CubeStatisticsTopLevelFilters,
-        CubeStatisticsTable
+        Cube
     }
 };
 </script>
+
+<style lang="scss" scoped>
+.cube-statistics {
+    height: 100%;
+    padding: 16px;
+}
+</style>
