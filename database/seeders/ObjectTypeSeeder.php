@@ -26,6 +26,12 @@ class ObjectTypeSeeder extends Seeder
             ['name' => 'Гуртожиток', 'objectCategoryId' => $firstCategory['id']],
             ['name' => 'Інше', 'objectCategoryId' => $firstCategory['id']],
             // second category
+            ['name' => 'Заклад дошкільної освіти', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Заклад загальної середньої освіти', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Заклад професійно-технічної освіти', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Заклад вищої освіти', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Заклад системи охорони здоров\'я', 'objectCategoryId' => $secondCategory['id']],
+            ['name' => 'Заклад культури', 'objectCategoryId' => $secondCategory['id']],
             ['name' => 'Об\'єкт критичної інфраструктури', 'objectCategoryId' => $secondCategory['id']],
             ['name' => 'Адміністративна будівля', 'objectCategoryId' => $secondCategory['id']],
             ['name' => 'Бізнес-центр', 'objectCategoryId' => $secondCategory['id']],
