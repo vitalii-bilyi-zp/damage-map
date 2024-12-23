@@ -125,6 +125,14 @@
                     { divider: true },
 
                     {
+                        icon: "mdi-eye",
+                        click: this.previewDamageNote,
+                        title: "Переглянути запис",
+                    },
+
+                    { divider: true },
+
+                    {
                         icon: "mdi-pencil",
                         click: this.updateDamageNote,
                         title: "Редагувати запис",
@@ -305,6 +313,10 @@
                     .catch(() => {
                         //
                     });
+            },
+
+            previewDamageNote(id) {
+                this.$router.push({name: 'damage-notes.preview', params: { id }});
             },
 
             updateDamageNote(item) {

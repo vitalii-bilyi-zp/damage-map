@@ -34,7 +34,7 @@
                     </v-btn>
                 </v-snackbar>
 
-                <v-card color="damage-note-card">
+                <v-card class="damage-note-card">
                     <v-card-text>
                         <RegulationDocumentForm
                             ref="regulationDocumentForm"

@@ -57,6 +57,15 @@ const router = new VueRouter({
                     },
                 },
                 {
+                    path: "damage-notes/:id/preview",
+                    name: "damage-notes.preview",
+                    component: () => import("@/js/pages/PreviewDamageNote"),
+                    props: true,
+                    meta: {
+                        roles: ['super_admin', 'admin'],
+                    },
+                },
+                {
                     path: "regulation-documents",
                     name: "regulation-documents",
                     component: () => import("@/js/pages/RegulationDocuments"),

@@ -34,7 +34,7 @@
                     </v-btn>
                 </v-snackbar>
 
-                <v-card color="damage-note-card">
+                <v-card class="damage-note-card">
                     <template v-if="isSuperAdmin">
                         <v-card-title :class="[fileUploading ? '' : 'd-flex justify-center']">
                             <v-btn v-if="fileUploading" key="back" icon @click="fileUploading = false">

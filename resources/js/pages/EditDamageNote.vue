@@ -34,7 +34,7 @@
                     </v-btn>
                 </v-snackbar>
 
-                <v-card color="damage-note-card">
+                <v-card class="damage-note-card">
                     <v-card-text>
                         <div v-if="isLoading || objectTypesLoading || communitiesLoading" class="card-progress">
                             <v-progress-circular :size="50" color="primary" indeterminate />

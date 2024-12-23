@@ -103,6 +103,14 @@
                 },
                 tableActions: [
                     {
+                        icon: "mdi-eye",
+                        click: this.previewDamageNote,
+                        title: "Переглянути запис",
+                    },
+
+                    { divider: true },
+
+                    {
                         icon: "mdi-pencil",
                         click: this.updateDamageNote,
                         title: "Редагувати запис",
@@ -241,6 +249,10 @@
             formatDamageType(type) {
                 const foundItem = this.damageTypeItems.find((item) => item.id === type);
                 return foundItem ? foundItem.name || type : type;
+            },
+
+            previewDamageNote(id) {
+                this.$router.push({name: 'damage-notes.preview', params: { id }});
             },
 
             updateDamageNote(id) {
