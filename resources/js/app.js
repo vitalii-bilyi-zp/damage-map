@@ -6,6 +6,9 @@ import App from '@/js/App.vue';
 import store from '@/js/store';
 import router from '@/js/router';
 
+import { Upload, Dialog } from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
 import HttpClient from '@/js/api/HttpClient';
 
 window.httpClient = new HttpClient();
@@ -15,6 +18,9 @@ const token = store.state.token || '';
 if (token) {
     window.httpClient.bindToken(token);
 }
+
+Vue.component(Upload.name, Upload);
+Vue.component(Dialog.name, Dialog);
 
 new Vue({
     store,

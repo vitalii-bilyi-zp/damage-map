@@ -190,6 +190,25 @@
                 outlined
                 rows="3"
             ></v-textarea>
+
+            <v-divider/>
+
+            <div v-if="!isEditing" class="damage-form__file-upload">
+                <el-upload
+                    ref="fileUpload"
+                    action="https://jsonplaceholder.typicode.com/posts/"
+                    list-type="picture-card"
+                    :on-change="updateImageList"
+                    :on-preview="handleImagePreview"
+                    :on-remove="handleImageRemove"
+                    :auto-upload="false"
+                >
+                    <i class="el-icon-plus" />
+                </el-upload>
+                <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt>
+                </el-dialog>
+            </div>
         </v-form>
 
         <v-divider/>
@@ -278,6 +297,9 @@ export default {
             restorationСost: null,
             comment: null,
             file: null,
+            images: [],
+            dialogImageUrl: '',
+            dialogVisible: false,
         }
     },
 
@@ -474,6 +496,7 @@ export default {
                 damageType: this.damageType,
                 restorationСost: this.restorationСost,
                 comment: this.comment,
+                images: this.images,
             };
         },
 
@@ -508,6 +531,24 @@ export default {
             this.damageType = null;
             this.restorationСost = null;
             this.comment = null;
+            this.images = [];
+            this.dialogImageUrl = '';
+            this.dialogVisible = false;
+
+            this.$refs.fileUpload.clearFiles();
+        },
+
+        updateImageList(file) {
+            this.images.push(file.raw);
+        },
+
+        handleImagePreview(file) {
+            this.dialogImageUrl = file.url;
+            this.dialogVisible = true;
+        },
+
+        handleImageRemove(file) {
+            this.images = this.images.filter((item) => item.uid === file.uid);
         },
     }
 }
@@ -554,6 +595,20 @@ export default {
     }
     to {
         transform: rotate(360deg);
+    }
+}
+</style>
+
+<style lang="scss">
+.damage-form__file-upload {
+    padding-top: 15px;
+
+    .el-upload-list--picture-card {
+        padding-left: 0;
+    }
+
+    .el-upload--picture-card {
+        margin-bottom: 15px;
     }
 }
 </style>

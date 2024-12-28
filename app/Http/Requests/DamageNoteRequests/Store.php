@@ -41,7 +41,9 @@ class Store extends FormRequest
                 Rule::in(array_keys(DamageNote::DAMAGE_TYPES_MAPPING)),
             ],
             'restoration_cost' => 'required|numeric',
-            'comment' => 'nullable|string|max:1000'
+            'comment' => 'nullable|string|max:1000',
+            'images' => 'nullable|array',
+            'images.*' => 'required|file|mimes:jpg,jpeg,png|max:2048',
         ];
     }
 }

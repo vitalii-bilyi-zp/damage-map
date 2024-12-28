@@ -10,6 +10,8 @@ use App\Http\Requests\DamageNoteRequests\Decline as DamageNoteRequestsDecline;
 
 use App\Models\DamageNote;
 use App\Models\DamageNoteRequest;
+use App\Models\DamageNoteImage;
+use Illuminate\Support\Facades\Storage;
 
 use F9Web\ApiResponseHelpers;
 use Illuminate\Http\JsonResponse;
@@ -38,6 +40,25 @@ class DamageNoteRequestsController extends Controller
             'phone' => $request->phone ?? null,
             'damage_note_id' => $damageNote->id,
         ]);
+
+        $images = $request->images;
+
+        foreach($images as $image) {
+            $fileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+            $hashFileName = uniqid() . '.' . $image->getClientOriginalExtension();
+
+            Storage::disk('damage_note_images')->putFileAs(
+                '', // Directory (empty means root of the disk)
+                $image,
+                $hashFileName
+            );
+
+            DamageNoteImage::create([
+                'file_name' => $fileName,
+                'hash_file_name' => $hashFileName,
+                'damage_note_id' => $damageNote->id,
+            ]);
+        }
 
         return $this->respondWithSuccess();
     }

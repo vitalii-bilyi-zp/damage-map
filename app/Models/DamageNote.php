@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\DamageNoteRequest;
+use App\Models\DamageNoteImage;
 
 class DamageNote extends Model
 {
@@ -50,5 +51,10 @@ class DamageNote extends Model
     public function damageNoteRequest()
     {
         return $this->hasOne(DamageNoteRequest::class);
+    }
+
+    public function damageNoteImages()
+    {
+        return $this->hasMany(DamageNoteImage::class);
     }
 }

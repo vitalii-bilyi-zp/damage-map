@@ -51,6 +51,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'damage_note_images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/damage-note-images'),
+            'url' => env('APP_URL') . '/storage/damage-note-images',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

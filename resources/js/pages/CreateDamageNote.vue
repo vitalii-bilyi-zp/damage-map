@@ -149,20 +149,24 @@ export default {
         },
 
         submitForm(data) {
-            const formattedData = {
-                full_name: data.fullName,
-                email: data.email,
-                phone: data.phone,
-                date: data.date,
-                object_type_id: data.objectType,
-                community_id: data.community,
-                city: data.city,
-                street: data.street,
-                building_number: data.buildingNumber,
-                damage_type: data.damageType,
-                restoration_cost: data.restorationСost,
-                comment: data.comment,
-            };
+            let formattedData = new FormData();
+
+            data.fullName && formattedData.append('full_name', data.fullName);
+            data.email && formattedData.append('email', data.email);
+            data.phone && formattedData.append('phone', data.phone);
+            formattedData.append('date', data.date);
+            formattedData.append('object_type_id', data.objectType);
+            formattedData.append('community_id', data.community);
+            formattedData.append('city', data.city);
+            formattedData.append('street', data.street);
+            formattedData.append('building_number', data.buildingNumber);
+            formattedData.append('damage_type', data.damageType);
+            formattedData.append('restoration_cost', data.restorationСost);
+            formattedData.append('comment', data.comment);
+
+            data.images.forEach((image, key) => {
+                formattedData.append(`images[${key}]`, image);
+            });
 
             this.$refs.damageForm.formLoading = true;
             this.$store.dispatch('saveDamageNoteRequest', { data: formattedData })
@@ -184,7 +188,7 @@ export default {
 <style lang="scss" scoped>
 .damage-note-card {
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     margin: 0 auto;
 }
 </style>
