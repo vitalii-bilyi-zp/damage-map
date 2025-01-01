@@ -52,6 +52,7 @@ class DamageNotesController extends Controller
             ->when(isset($user->community_id), function($query) use (&$user) {
                 $query->where('damage_notes.community_id', '=', $user->community_id);
             })
+            ->orderBy('damage_notes.id', 'desc')
             ->get();
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
@@ -79,6 +80,7 @@ class DamageNotesController extends Controller
             ->when(isset($user->community_id), function($query) use (&$user) {
                 $query->where('damage_notes.community_id', '=', $user->community_id);
             })
+            ->orderBy('damage_notes.id', 'desc')
             ->get();
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
@@ -273,10 +275,16 @@ class DamageNotesController extends Controller
     }
 
     public function show(DamageNotesShow $request, DamageNote $damageNote): JsonResponse {
-        $damageNote->load('damageNoteRequest');
+        $damageNote->load(['damageNoteRequest', 'damageNoteImages']);
         if (isset($damageNote->object_type_id)) {
             $damageNote->object_type = ObjectType::find($damageNote->object_type_id);
         }
+
+        $damageNote->damageNoteImages->transform(function ($item, $key) {
+            $item->file_path = Storage::disk('damage_note_images')->url($item->hash_file_name);
+
+            return $item;
+        });
 
         return $this->setDefaultSuccessResponse([])->respondWithSuccess($damageNote);
     }

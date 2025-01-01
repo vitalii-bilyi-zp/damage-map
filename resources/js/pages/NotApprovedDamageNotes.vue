@@ -315,8 +315,8 @@
                     });
             },
 
-            previewDamageNote(id) {
-                this.$router.push({name: 'damage-notes.preview', params: { id }});
+            previewDamageNote(item) {
+                this.$router.push({name: 'damage-notes.preview', params: { id: item.id }});
             },
 
             updateDamageNote(item) {

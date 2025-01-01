@@ -31,6 +31,12 @@
                                         </v-icon>
                                         Фінансування
                                     </v-tab>
+                                    <v-tab key="tab3" class="damage-note-tabs__tab">
+                                        <v-icon left>
+                                            mdi-image
+                                        </v-icon>
+                                        Галерея
+                                    </v-tab>
                                 </v-tabs>
                             </v-col>
 
@@ -155,6 +161,31 @@
                                             </v-card-text>
                                         </v-card>
                                     </v-tab-item>
+
+                                    <v-tab-item key="tab3">
+                                        <div class="damage-note-gallery">
+                                            <ul v-if="damageNote.images && damageNote.images.length" class="el-upload-list el-upload-list--picture-card">
+                                                <li class="el-upload-list__item is-ready" v-for="image in damageNote.images" :key="image.id">
+                                                    <img :src="image.file_path" alt="" class="el-upload-list__item-thumbnail">
+                                                    <span class="el-upload-list__item-actions">
+                                                        <span class="el-upload-list__item-preview" @click="handleImagePreview(image.file_path)">
+                                                            <i class="el-icon-zoom-in"></i>
+                                                        </span>
+                                                    </span>
+                                                </li>
+                                            </ul>
+
+                                            <div v-else class="damage-note-gallery__empty">
+                                                <p class="damage-note-gallery__empty-text">
+                                                    ЗОБРАЖЕННЯ ВІДСУТНІ
+                                                </p>
+                                            </div>
+
+                                            <el-dialog :visible.sync="dialogVisible">
+                                                <img width="100%" :src="dialogImageUrl" alt>
+                                            </el-dialog>
+                                        </div>
+                                    </v-tab-item>
                                 </v-tabs-items>
                             </v-col>
                         </v-row>
@@ -220,6 +251,9 @@ export default {
                 },
                 cutoutPercentage: '80',
             },
+
+            dialogImageUrl: '',
+            dialogVisible: false,
         }
     },
 
@@ -359,7 +393,13 @@ export default {
                 damageType: data.damage_type,
                 restorationСost: data.restoration_cost,
                 comment: data.comment,
+                images: data.damage_note_images,
             }
+        },
+
+        handleImagePreview(filePath) {
+            this.dialogImageUrl = filePath;
+            this.dialogVisible = true;
         },
     }
 }
@@ -403,6 +443,34 @@ export default {
     .damage-note-funds__value {
         font-size: 40px;
         font-weight: 700;
+    }
+
+    .damage-note-gallery {
+        position: relative;
+        min-height: 178px;
+        padding: 15px 15px 0 15px;
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, .05);
+
+        .el-upload-list--picture-card {
+            padding-left: 0;
+        }
+    }
+
+    .damage-note-gallery__empty {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+    }
+
+    .damage-note-gallery__empty-text {
+        margin: 0;
     }
 </style>
 
