@@ -84,6 +84,11 @@ const router = new VueRouter({
                     component: () => import("@/js/pages/VirtualTours"),
                 },
                 {
+                    path: "virtual-tours/:id",
+                    name: "virtual-tours.show",
+                    component: () => import("@/js/pages/VirtualTour"),
+                },
+                {
                     path: "users",
                     name: "users",
                     component: () => import("@/js/pages/Users"),

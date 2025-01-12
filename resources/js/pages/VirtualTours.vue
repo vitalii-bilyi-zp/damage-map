@@ -4,35 +4,14 @@
             <v-col cols="12">
                 <v-card>
                     <div class="card-header pa-4">
-                        <h1 class="card-header__title">Віртуальні тури 3D</h1>
-                        <p class="card-header__subtitle">Ознайомтесь із зруйнованими об'єктами інфраструктури та культурної спадщини у форматі реалістичних 3D-турів. Збережіть пам’ять про важливі місця та підтримайте ініціативи їх відновлення, переглядаючи ці унікальні цифрові реконструкції.</p>
+                        <h1 class="card-header__title">Віртуальні тури</h1>
+                        <p class="card-header__subtitle">Ознайомтесь із зруйнованими об'єктами інфраструктури та культурної спадщини у форматі реалістичних турів. Збережіть пам’ять про важливі місця та підтримайте ініціативи їх відновлення, переглядаючи ці унікальні цифрові реконструкції.</p>
                     </div>
 
                     <v-divider></v-divider>
 
                     <v-card-text class="pa-4">
                         <v-row class="ma-0">
-                            <v-col cols="3">
-                                <v-card class="tour-card">
-                                    <div class="tour-card__image-wrapper">
-                                        <v-img
-                                            src="/storage/images/vokzal.jpg"
-                                            height="200px"
-                                        ></v-img>
-
-                                        <img src="/storage/images/3d.svg" class="tour-card__3d-image" />
-                                    </div>
-
-                                    <v-card-title style="word-break: break-word;">
-                                        Вокзал «Олександрівськ»
-                                    </v-card-title>
-
-                                    <v-card-subtitle>
-                                        м. Запоріжжя, вул. Костянтина Великого, 9
-                                    </v-card-subtitle>
-                                </v-card>
-                            </v-col>
-
                             <v-col cols="3">
                                 <v-card class="tour-card">
                                     <div class="tour-card__image-wrapper">
@@ -50,6 +29,27 @@
 
                                     <v-card-subtitle>
                                         м. Запоріжжя, вул. Сергія Серікова, 30
+                                    </v-card-subtitle>
+                                </v-card>
+                            </v-col>
+
+                            <v-col cols="3">
+                                <v-card class="tour-card">
+                                    <div class="tour-card__image-wrapper">
+                                        <v-img
+                                            src="/storage/images/vokzal.jpg"
+                                            height="200px"
+                                        ></v-img>
+
+                                        <img src="/storage/images/3d.svg" class="tour-card__3d-image" />
+                                    </div>
+
+                                    <v-card-title style="word-break: break-word;">
+                                        Вокзал «Олександрівськ»
+                                    </v-card-title>
+
+                                    <v-card-subtitle>
+                                        м. Запоріжжя, вул. Костянтина Великого, 9
                                     </v-card-subtitle>
                                 </v-card>
                             </v-col>
@@ -130,13 +130,8 @@
 
         data() {
             return {
-                isLoading: false,
-                regulationDocuments: [],
+
             }
-        },
-
-        computed: {
-
         },
     }
 </script>
