@@ -2,7 +2,7 @@
     <v-container>
         <v-row class="ma-0" justify="center">
             <v-col cols="12">
-                <v-card>
+                <v-card v-if="tourId === 1">
                     <div class="card-header pa-4">
                         <h1 class="card-header__title">Млин Германа Нібура</h1>
                     </div>
@@ -57,6 +57,30 @@
                         <slider id="3" :images="images3" class="tour-slider"></slider>
                     </v-card-text>
                 </v-card>
+
+                <v-card v-if="tourId === 6">
+                    <div class="card-header pa-4">
+                        <h1 class="card-header__title">Гуляйпільський краєзнавчий музей</h1>
+                    </div>
+
+                    <v-divider></v-divider>
+
+                    <v-card-text class="card-text pa-4">
+                        <p>
+                            Гуляйпільський краєзнавчий музей заснований 11 грудня 1960 року. Будівля музею споруджена у 1901 році як приміщення банку «Товариство взаємного кредиту». У роки Другої Світової війни тут знаходилася церква. У повоєнні часи — районний будинок культури, з 1989 року — будівля музею.
+                        </p>
+
+                        <slider id="4" :images="images4" class="tour-slider mb-4"></slider>
+
+                        <p>
+                            У грудні 2022 року фасади та дах музею були пошкоджені російським обстрілом. У ніч на 24 серпня 2024 року будівля музею вигоріла вщент від влучання російського снаряду. Експонати на той час були евакуйовані до Запорізького краєзнавчого музею. До цього в будівлю Гуляйпільського музею було ще три влучання.
+                        </p>
+
+                        <slider id="5" :images="images5" class="tour-slider mb-4"></slider>
+                    </v-card-text>
+                </v-card>
+
+                <!-- https://suspilne.media/zaporizhzhia/551277-istoricna-castina-zrujnovana-ale-ne-vtracena-ak-nini-vigladae-kulturna-spadsina-gulajpola/ -->
             </v-col>
         </v-row>
     </v-container>
@@ -75,28 +99,50 @@
         data() {
             return {
                 images1: [
-                    '/storage/images/slider/mlyn_1_1.webp',
-                    '/storage/images/slider/mlyn_1_2.webp'
+                    '/storage/images/slider/mlyn/mlyn_1_1.webp',
+                    '/storage/images/slider/mlyn/mlyn_1_2.webp'
                 ],
                 images2: [
-                    '/storage/images/slider/mlyn_2_1.jpg',
-                    '/storage/images/slider/mlyn_2_2.jpg',
-                    '/storage/images/slider/mlyn_2_3.jpg',
-                    '/storage/images/slider/mlyn_2_4.jpg',
-                    '/storage/images/slider/mlyn_2_5.jpg',
-                    '/storage/images/slider/mlyn_2_6.jpg'
+                    '/storage/images/slider/mlyn/mlyn_2_1.jpg',
+                    '/storage/images/slider/mlyn/mlyn_2_2.jpg',
+                    '/storage/images/slider/mlyn/mlyn_2_3.jpg',
+                    '/storage/images/slider/mlyn/mlyn_2_4.jpg',
+                    '/storage/images/slider/mlyn/mlyn_2_5.jpg',
+                    '/storage/images/slider/mlyn/mlyn_2_6.jpg'
                 ],
                 images3: [
-                    '/storage/images/slider/mlyn_3_1.jpg',
-                    '/storage/images/slider/mlyn_3_2.jpg',
-                    '/storage/images/slider/mlyn_3_3.jpg',
-                    '/storage/images/slider/mlyn_3_4.jpg',
-                    '/storage/images/slider/mlyn_3_5.jpg',
-                    '/storage/images/slider/mlyn_3_6.jpg',
-                    '/storage/images/slider/mlyn_3_7.jpg'
+                    '/storage/images/slider/mlyn/mlyn_3_1.jpg',
+                    '/storage/images/slider/mlyn/mlyn_3_2.jpg',
+                    '/storage/images/slider/mlyn/mlyn_3_3.jpg',
+                    '/storage/images/slider/mlyn/mlyn_3_4.jpg',
+                    '/storage/images/slider/mlyn/mlyn_3_5.jpg',
+                    '/storage/images/slider/mlyn/mlyn_3_6.jpg',
+                    '/storage/images/slider/mlyn/mlyn_3_7.jpg'
+                ],
+
+                images4: [
+                    '/storage/images/slider/muzei/muzei_1_1.jpg',
+                    '/storage/images/slider/muzei/muzei_1_2.jpg',
+                ],
+
+                images5: [
+                    '/storage/images/slider/muzei/muzei_2_1.jpg',
+                    '/storage/images/slider/muzei/muzei_2_2.jpg',
+                    '/storage/images/slider/muzei/muzei_2_3.jpg',
+                    '/storage/images/slider/muzei/muzei_2_4.jpg',
+                    '/storage/images/slider/muzei/muzei_2_5.jpg',
+                    '/storage/images/slider/muzei/muzei_2_6.jpg',
+                    '/storage/images/slider/muzei/muzei_2_7.jpg',
+                    '/storage/images/slider/muzei/muzei_2_8.jpg',
                 ],
             }
         },
+
+        computed: {
+            tourId() {
+                return this.$route.params.id;
+            }
+        }
     }
 </script>
 

@@ -13,14 +13,14 @@
                     <v-card-text class="pa-4">
                         <v-row class="ma-0">
                             <v-col cols="3">
-                                <v-card class="tour-card">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 1 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
                                             src="/storage/images/mlyn_1.jpg"
                                             height="200px"
                                         ></v-img>
 
-                                        <img src="/storage/images/3d.svg" class="tour-card__3d-image" />
+                                        <!-- <img src="/storage/images/3d.svg" class="tour-card__3d-image" /> -->
                                     </div>
 
                                     <v-card-title style="word-break: break-word;">
@@ -34,14 +34,14 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 2 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
                                             src="/storage/images/vokzal.jpg"
                                             height="200px"
                                         ></v-img>
 
-                                        <img src="/storage/images/3d.svg" class="tour-card__3d-image" />
+                                        <!-- <img src="/storage/images/3d.svg" class="tour-card__3d-image" /> -->
                                     </div>
 
                                     <v-card-title style="word-break: break-word;">
@@ -55,14 +55,14 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 3 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
                                             src="/storage/images/zhinoch.jpg"
                                             height="200px"
                                         ></v-img>
 
-                                        <img src="/storage/images/3d.svg" class="tour-card__3d-image" />
+                                        <!-- <img src="/storage/images/3d.svg" class="tour-card__3d-image" /> -->
                                     </div>
 
                                     <v-card-title style="word-break: break-word;">
@@ -76,14 +76,14 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 4 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
                                             src="/storage/images/cholov.jpg"
                                             height="200px"
                                         ></v-img>
 
-                                        <img src="/storage/images/3d.svg" class="tour-card__3d-image" />
+                                        <!-- <img src="/storage/images/3d.svg" class="tour-card__3d-image" /> -->
                                     </div>
 
                                     <v-card-title style="word-break: break-word;">
@@ -97,14 +97,14 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 5 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
                                             src="/storage/images/torgov.jpg"
                                             height="200px"
                                         ></v-img>
 
-                                        <img src="/storage/images/3d.svg" class="tour-card__3d-image" />
+                                        <!-- <img src="/storage/images/3d.svg" class="tour-card__3d-image" /> -->
                                     </div>
 
                                     <v-card-title style="word-break: break-word;">
@@ -113,6 +113,27 @@
 
                                     <v-card-subtitle>
                                         м. Оріхів вул. Покровська, 39
+                                    </v-card-subtitle>
+                                </v-card>
+                            </v-col>
+
+                            <v-col cols="3">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 6 } })">
+                                    <div class="tour-card__image-wrapper">
+                                        <v-img
+                                            src="/storage/images/huliaipilskyi_muzei.jpg"
+                                            height="200px"
+                                        ></v-img>
+
+                                        <!-- <img src="/storage/images/3d.svg" class="tour-card__3d-image" /> -->
+                                    </div>
+
+                                    <v-card-title style="word-break: break-word;">
+                                        Гуляйпільський краєзнавчий музей
+                                    </v-card-title>
+
+                                    <v-card-subtitle>
+                                        м. Гуляйполе вул. Соборна, 75
                                     </v-card-subtitle>
                                 </v-card>
                             </v-col>

@@ -43,7 +43,7 @@ class Store extends FormRequest
             'restoration_cost' => 'required|numeric',
             'comment' => 'nullable|string|max:1000',
             'images' => 'nullable|array',
-            'images.*' => 'required|file|mimes:jpg,jpeg,png|max:2048',
+            'images.*' => 'required|file|mimes:jpg,jpeg,png',
         ];
     }
 }
