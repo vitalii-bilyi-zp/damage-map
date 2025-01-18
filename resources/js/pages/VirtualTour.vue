@@ -80,6 +80,41 @@
                     </v-card-text>
                 </v-card>
 
+                <v-card v-if="tourId === 7">
+                    <div class="card-header pa-4">
+                        <h1 class="card-header__title">Паровий млин «Надія»</h1>
+                    </div>
+
+                    <v-divider></v-divider>
+
+                    <v-card-text class="card-text pa-4">
+                        <p>
+                            У1894 році млин був збудований купцем II гільдії євреєм Самсоном Йосиповичем Саксаганським. Виконавцем робіт стала відома фірма німця Антона Ерлангера із Москви, якого називали «борошномельним королем» Російської імперії.
+                            Млин, в який купець вклав величезні кошти та заліз у борги так і не запрацював на повну потужність при першому власнику.
+                            Паровий двигун, який замовили в Англії, установили та випробували в 1895 році. А в 1898 році він був опечатаний та до 1908 року не був пущений в роботу.
+                            Власник мав проблеми з Фабричним комітетом який давав дозволи на початок виробництва. Справа виявилась збитковою та не виправдала очікувань.
+                        </p>
+
+                        <p>
+                            У 1908 році меноніт Давид Шредер купив млин у Самсона Саксаганського. При Шредері для цього підприємства почались "золоті часи" - він запрацював у повну силу.
+                            У 1912 році до парового двигуна вирішили приєднати генератор, який давав електроенергію на 12 ліхтарів у центрі міста, також найбагатші люди могли провести собі в будинки електрику. Таким чином, млин став першою електростанцією Гуляйполя.
+                        </p>
+
+                        <p>
+                            З 1915 року млин - у власності акціонерного товариства "Кємах".
+                            В радянський період використовувався за призначенням, як млин.
+                        </p>
+
+                        <slider id="6" :images="images6" class="tour-slider mb-4"></slider>
+
+                        <p>
+                            Млин "Надія" був зруйнований росіянами в результаті потужної атаки у лютому 2024. Ця будівля в центрі прифронтового міста вже зазнавала пошкоджень внаслідок обстрілу російськими військовими в червні 2022 та липні 2023 років. Проте тоді будівля все ж встояла. А тепер вона майже вщент знищена.
+                        </p>
+
+                        <slider id="7" :images="images7" class="tour-slider mb-4"></slider>
+                    </v-card-text>
+                </v-card>
+
                 <!-- https://suspilne.media/zaporizhzhia/551277-istoricna-castina-zrujnovana-ale-ne-vtracena-ak-nini-vigladae-kulturna-spadsina-gulajpola/ -->
             </v-col>
         </v-row>
@@ -134,6 +169,22 @@
                     '/storage/images/slider/muzei/muzei_2_6.jpg',
                     '/storage/images/slider/muzei/muzei_2_7.jpg',
                     '/storage/images/slider/muzei/muzei_2_8.jpg',
+                ],
+
+                images6: [
+                    '/storage/images/slider/mlyn_nadiya/mlyn_1_1.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_1_2.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_1_3.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_1_4.jpg',
+                ],
+
+                images7: [
+                    '/storage/images/slider/mlyn_nadiya/mlyn_2_1.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_2_2.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_2_3.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_2_4.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_2_5.jpg',
+                    '/storage/images/slider/mlyn_nadiya/mlyn_2_6.jpg',
                 ],
             }
         },

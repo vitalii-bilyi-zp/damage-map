@@ -137,6 +137,27 @@
                                     </v-card-subtitle>
                                 </v-card>
                             </v-col>
+
+                            <v-col cols="3">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 7 } })">
+                                    <div class="tour-card__image-wrapper">
+                                        <v-img
+                                            src="/storage/images/mlyn_nadiya.jpg"
+                                            height="200px"
+                                        ></v-img>
+
+                                        <!-- <img src="/storage/images/3d.svg" class="tour-card__3d-image" /> -->
+                                    </div>
+
+                                    <v-card-title style="word-break: break-word;">
+                                        Паровий млин «Надія»
+                                    </v-card-title>
+
+                                    <v-card-subtitle>
+                                        м. Гуляйполе вул. Соборна, 115
+                                    </v-card-subtitle>
+                                </v-card>
+                            </v-col>
                         </v-row>
                     </v-card-text>
                 </v-card>

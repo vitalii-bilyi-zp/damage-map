@@ -48,7 +48,7 @@
                     </v-list-item-icon>
 
                     <v-list-item-content>
-                        <v-list-item-title>Віртуальні тури 3D</v-list-item-title>
+                        <v-list-item-title>Віртуальні тури</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
 
