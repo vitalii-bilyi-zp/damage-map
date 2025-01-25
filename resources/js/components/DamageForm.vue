@@ -202,6 +202,7 @@
                     :on-preview="handleImagePreview"
                     :on-remove="handleImageRemove"
                     :auto-upload="false"
+                    accept="image/jpeg, image/png"
                 >
                     <i class="el-icon-plus" />
                 </el-upload>

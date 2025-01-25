@@ -81,12 +81,28 @@ const router = new VueRouter({
                 {
                     path: "virtual-tours",
                     name: "virtual-tours",
-                    component: () => import("@/js/pages/VirtualTours"),
+                    component: () => import("@/js/pages/virtual-tours/VirtualTours"),
+                    meta: {
+                        roles: ['super_admin'],
+                    },
                 },
                 {
-                    path: "virtual-tours/:id",
-                    name: "virtual-tours.show",
-                    component: () => import("@/js/pages/VirtualTour"),
+                    path: "virtual-tours/create",
+                    name: "virtual-tours.create",
+                    component: () => import("@/js/pages/virtual-tours/CreateVirtualTour"),
+                    meta: {
+                        roles: ['super_admin'],
+                    },
+                },
+                {
+                    path: "virtual-tours/preview",
+                    name: "virtual-tours.preview",
+                    component: () => import("@/js/pages/virtual-tours/PreviewVirtualTours"),
+                },
+                {
+                    path: "virtual-tours/:id/preview",
+                    name: "virtual-tours.tour.preview",
+                    component: () => import("@/js/pages/virtual-tours/PreviewVirtualTour"),
                 },
                 {
                     path: "users",

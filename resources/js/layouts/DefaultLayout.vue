@@ -42,7 +42,7 @@
                     </v-list-item-content>
                 </v-list-item>
 
-                <v-list-item link :to="{name: 'virtual-tours'}" exact>
+                <v-list-item link :to="{name: isSuperAdmin ? 'virtual-tours' : 'virtual-tours.preview'}" exact>
                     <v-list-item-icon>
                         <v-icon>mdi-rotate-3d</v-icon>
                     </v-list-item-icon>

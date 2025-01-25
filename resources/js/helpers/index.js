@@ -4,3 +4,12 @@ export const formatUAH = (amount) => {
         currency: 'UAH',
     }).format(amount);
 };
+
+export const debounce = (func, delay = 300) => {
+    let timeout;
+
+    return function (...args) {
+        clearTimeout(timeout); // Clear the previous timeout
+        timeout = setTimeout(() => func.apply(this, args), delay); // Set a new timeout
+    };
+}

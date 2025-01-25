@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DamageNotes\GetApproved as DamageNotesGetApproved;
 use App\Http\Requests\DamageNotes\GetNotApproved as DamageNotesGetNotApproved;
+use App\Http\Requests\DamageNotes\Search as DamageNotesSearch;
 // use App\Http\Requests\DamageNotes\Store as DamageNotesStore;
 use App\Http\Requests\DamageNotes\StoreFromFile as DamageNotesStoreFromFile;
 use App\Http\Requests\DamageNotes\Show as DamageNotesShow;
@@ -79,6 +80,24 @@ class DamageNotesController extends Controller
             })
             ->when(isset($user->community_id), function($query) use (&$user) {
                 $query->where('damage_notes.community_id', '=', $user->community_id);
+            })
+            ->orderBy('damage_notes.id', 'desc')
+            ->get();
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($aggregation);
+    }
+
+    public function search(DamageNotesSearch $request): JsonResponse
+    {
+        $searchQuery = $request->q;
+
+        $aggregation = DamageNoteRequest::query()
+            ->join('damage_notes', 'damage_note_requests.damage_note_id', '=', 'damage_notes.id')
+            ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
+            ->select('communities.name AS community', 'damage_notes.*', \DB::raw("CONCAT(street, ' ', building_number, ', ', city) AS address"))
+            ->whereNotNull('damage_note_requests.approved_at')
+            ->when(isset($searchQuery), function($query) use ($searchQuery) {
+                $query->whereRaw("CONCAT(street, ' ', building_number, ', ', city) LIKE '%{$searchQuery}%' OR communities.name LIKE '%{$searchQuery}%'");
             })
             ->orderBy('damage_notes.id', 'desc')
             ->get();

@@ -31,6 +31,10 @@ const actions = {
         return window.httpClient.get('/api/damage-notes/not-approved');
     },
 
+    searchDamageNotes: ({ commit }, payload) => {
+        return window.httpClient.get(`/api/damage-notes/search?q=${payload.query}`);
+    },
+
     saveDamageNoteRequest: ({ commit }, payload) => {
         return window.httpClient.post('/api/damage-note-requests', payload.data);
     },
@@ -109,6 +113,14 @@ const actions = {
 
     deleteRegulationDocument: ({ commit }, id) => {
         return window.httpClient.delete(`/api/regulation-documents/${id}`);
+    },
+
+    loadVirtualTours: () => {
+        return window.httpClient.get('/api/virtual-tours');
+    },
+
+    saveVirtualTour: ({ commit }, payload) => {
+        return window.httpClient.post('/api/virtual-tours', payload.data);
     },
 
     loadUsers: () => {

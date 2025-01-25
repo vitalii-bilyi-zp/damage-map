@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\UsersController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\RegulationDocumentsController;
+use App\Http\Controllers\Api\VirtualToursController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,6 +55,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/damage-notes/approved', [DamageNotesController::class, 'getApproved']);
     Route::get('/damage-notes/not-approved', [DamageNotesController::class, 'getNotApproved']);
+    Route::get('/damage-notes/search', [DamageNotesController::class, 'search']);
     // Route::post('/damage-notes', [DamageNotesController::class, 'store']);
     Route::post('/damage-notes/import-file', [DamageNotesController::class, 'storeFromFile']);
     Route::get('/damage-notes/export-csv', [DamageNotesController::class, 'exportCsv']);
@@ -66,4 +68,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('/regulation-documents', [RegulationDocumentsController::class, 'store']);
     Route::delete('/regulation-documents/{regulationDocument}', [RegulationDocumentsController::class, 'destroy']);
+
+    Route::get('/virtual-tours', [VirtualToursController::class, 'index']);
+    Route::post('/virtual-tours', [VirtualToursController::class, 'store']);
 });

@@ -13,10 +13,10 @@
                     <v-card-text class="pa-4">
                         <v-row class="ma-0">
                             <v-col cols="3">
-                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 1 } })">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.tour.preview', params: { id: 1 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
-                                            src="/storage/images/mlyn_1.jpg"
+                                            src="/storage/images/slider/mlyn/mlyn_3_1.jpg"
                                             height="200px"
                                         ></v-img>
 
@@ -34,10 +34,10 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 2 } })">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.tour.preview', params: { id: 2 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
-                                            src="/storage/images/vokzal.jpg"
+                                            src="/storage/images/slider/vokzal/vokzal_2_1.jpg"
                                             height="200px"
                                         ></v-img>
 
@@ -55,10 +55,10 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 3 } })">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.tour.preview', params: { id: 3 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
-                                            src="/storage/images/zhinoch.jpg"
+                                            src="/storage/images/slider/zhinoch/zhinoch_2_1.jpg"
                                             height="200px"
                                         ></v-img>
 
@@ -76,10 +76,10 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 4 } })">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.tour.preview', params: { id: 4 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
-                                            src="/storage/images/cholov.jpg"
+                                            src="/storage/images/slider/cholovich/cholovich_2_1.jpg"
                                             height="200px"
                                         ></v-img>
 
@@ -97,10 +97,10 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 5 } })">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.tour.preview', params: { id: 5 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
-                                            src="/storage/images/torgov.jpg"
+                                            src="/storage/images/slider/torgov/torgov_2_1.jpg"
                                             height="200px"
                                         ></v-img>
 
@@ -118,10 +118,10 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 6 } })">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.tour.preview', params: { id: 6 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
-                                            src="/storage/images/huliaipilskyi_muzei.jpg"
+                                            src="/storage/images/slider/muzei/muzei_2_1.jpg"
                                             height="200px"
                                         ></v-img>
 
@@ -139,10 +139,10 @@
                             </v-col>
 
                             <v-col cols="3">
-                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.show', params: { id: 7 } })">
+                                <v-card class="tour-card" @click="$router.push({ name: 'virtual-tours.tour.preview', params: { id: 7 } })">
                                     <div class="tour-card__image-wrapper">
                                         <v-img
-                                            src="/storage/images/mlyn_nadiya.jpg"
+                                            src="/storage/images/slider/mlyn_nadiya/mlyn_2_1.jpg"
                                             height="200px"
                                         ></v-img>
 
