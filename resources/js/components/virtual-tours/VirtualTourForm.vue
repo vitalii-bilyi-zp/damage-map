@@ -67,6 +67,8 @@
                 rows="3"
             ></v-textarea>
 
+            <VirtualTourContentBuilder class="mb-5"/>
+
             <v-file-input
                 v-model="audioFile"
                 placeholder="Додайте файл аудіосупроводу"
@@ -99,11 +101,16 @@
 </template>
 
 <script>
+import VirtualTourContentBuilder from '@/js/components/virtual-tours/VirtualTourContentBuilder';
 import { required } from 'vuelidate/lib/validators';
 import { debounce } from '@/js/helpers';
 
 export default {
     name: 'VirtualTourForm',
+
+    components: {
+        VirtualTourContentBuilder
+    },
 
     props: {
 
@@ -273,6 +280,14 @@ export default {
 
 <style lang="scss">
 .damage-form__drag-upload {
+    .el-upload-dragger {
+        height: 130px;
+
+        .el-icon-upload {
+            margin: 16px 0;
+        }
+    }
+
     .el-upload-list__item {
         background-color: #F5F7FA;
 
