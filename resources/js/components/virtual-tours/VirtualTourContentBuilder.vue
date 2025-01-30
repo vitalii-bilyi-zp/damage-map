@@ -1,8 +1,10 @@
 <template>
     <div class="builder">
-        <component v-for="(item, index) in builderItems" :key="`${item.id}-${index}`" :is="item.component" class="mb-5"></component>
+        <draggable v-model="builderItems" ghost-class="builder-item--ghost">
+            <component v-for="(item, index) in builderItems" :key="`${item.id}-${index}`" :is="item.component" class="mb-5"></component>
+        </draggable>
 
-        <v-btn block color="primary" outlined class="builder__add-item" @click="openDialog">
+        <v-btn block color="primary" outlined class="builder__add-item" height="48" @click="openDialog">
             <v-icon dark>
                 mdi-plus
             </v-icon>
@@ -18,6 +20,7 @@ import VirtualTourContentBuilderText from '@/js/components/virtual-tours/Virtual
 import VirtualTourContentBuilderImage from '@/js/components/virtual-tours/VirtualTourContentBuilderImage';
 import VirtualTourContentBuilderSlider from '@/js/components/virtual-tours/VirtualTourContentBuilderSlider';
 import VirtualTourContentBuilder3d from '@/js/components/virtual-tours/VirtualTourContentBuilder3d';
+import draggable from 'vuedraggable';
 
 export default {
     name: 'VirtualTourContentBuilder',
@@ -27,7 +30,8 @@ export default {
         VirtualTourContentBuilderText,
         VirtualTourContentBuilderImage,
         VirtualTourContentBuilderSlider,
-        VirtualTourContentBuilder3d
+        VirtualTourContentBuilder3d,
+        draggable
     },
 
     props: {
@@ -62,6 +66,11 @@ export default {
 <style lang="scss" scoped>
 .builder__add-item {
     border-style: dashed;
+}
+
+.builder-item--ghost {
+    opacity: 0.5;
+    background: #e0e0e0;
 }
 </style>
 

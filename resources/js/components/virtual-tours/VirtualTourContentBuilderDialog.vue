@@ -31,7 +31,6 @@
                                 <div class="text-center">
                                     <img
                                         class="builder-dialog__card-image"
-                                        :class="item.imageClass"
                                         :src="`/storage/images/${item.image}`"
                                     />
                                 </div>
@@ -94,25 +93,21 @@ export default {
                     id: 'text',
                     name: 'Текст',
                     image: 'text.png',
-                    imageClass: 'builder-dialog__card-image--text'
                 },
                 {
                     id: 'image',
                     name: 'Зображення',
                     image: 'image.png',
-                    imageClass: 'builder-dialog__card-image--image'
                 },
                 {
                     id: 'slider',
                     name: 'Галерея',
                     image: 'gallery.png',
-                    imageClass: 'builder-dialog__card-image--slider'
                 },
                 {
                     id: '3d',
                     name: '3D Панорама',
                     image: '3d-camera.png',
-                    imageClass: 'builder-dialog__card-image--3d',
                     disabled: true,
                 }
             ],
@@ -171,26 +166,9 @@ export default {
 }
 
 .builder-dialog__card-image {
-    height: 100px;
+    height: 90px;
     width: auto;
-
-    &--text {
-
-    }
-
-    &--image {
-        height: 90px;
-        margin-top: 10px;
-    }
-
-    &--slider {
-
-    }
-
-    &--3d {
-        height: 90px;
-        margin-top: 8px;
-    }
+    margin-top: 10px;
 }
 
 .builder-dialog__card-text {

@@ -1,0 +1,23 @@
+.builder-item {
+    .v-expansion-panel {
+        background: transparent !important;
+    }
+
+    .v-expansion-panel-header {
+        padding: 10px 24px;
+    }
+
+    .v-expansion-panel--active > .v-expansion-panel-header {
+        min-height: initial;
+        border-bottom: 1px solid rgba(0, 0, 0, .12);
+    }
+
+    .v-expansion-panel-content__wrap {
+        padding-top: 16px;
+    }
+}
+
+.builder-item__header-image {
+    width: 20px;
+    height: auto;
+}
