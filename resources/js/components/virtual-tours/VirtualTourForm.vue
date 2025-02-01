@@ -1,82 +1,104 @@
 <template>
     <div class="damage-form">
+        <v-toolbar flat>
+            <v-tabs
+                v-model="tab"
+                grow
+            >
+                <v-tab>
+                    Загальна інформація
+                </v-tab>
+                <v-tab>
+                    Контент
+                </v-tab>
+            </v-tabs>
+        </v-toolbar>
+
+        <v-divider class="mb-5" />
+
         <v-form>
-            <el-upload
-                ref="fileUpload"
-                class="damage-form__drag-upload"
-                drag
-                action="https://jsonplaceholder.typicode.com/posts/"
-                :on-change="updateImageList"
-                :on-remove="handleImageRemove"
-                :auto-upload="false"
-                :limit="1"
-                accept="image/jpeg, image/png"
-            >
-                <i class="el-icon-upload"></i>
-                <div class="el-upload__text">Перетягніть зображення чи <em>натисніть сюди</em></div>
-                <div class="el-upload__tip mt-0" slot="tip">Оберіть зображення туру у <b>jpg</b> чи <b>png</b> форматі</div>
-            </el-upload>
+            <v-tabs-items v-model="tab">
+                <v-tab-item>
+                    <el-upload
+                        ref="fileUpload"
+                        class="damage-form__drag-upload"
+                        drag
+                        action="https://jsonplaceholder.typicode.com/posts/"
+                        :on-change="updateImageList"
+                        :on-remove="handleImageRemove"
+                        :auto-upload="false"
+                        :limit="1"
+                        accept="image/jpeg, image/png"
+                    >
+                        <i class="el-icon-upload"></i>
+                        <div class="el-upload__text">Перетягніть зображення чи <em>натисніть сюди</em></div>
+                        <div class="el-upload__tip mt-0" slot="tip">Додайте зображення туру у <b>jpg</b> чи <b>png</b> форматі</div>
+                    </el-upload>
 
-            <v-divider class="my-5"/>
+                    <v-divider class="my-5"/>
 
-            <v-autocomplete
-                v-model="damageNoteId"
-                :items="damageNoteOptions"
-                :loading="isSearching"
-                :search-input.sync="searchQuery"
-                :filter="damageNotesFilter"
-                label="Пошкоджений об'єкт"
-                dense
-                outlined
-                item-text="address"
-                item-value="id"
-                hide-no-data
-                hide-selected
-                clearable
-            >
-                <template v-slot:item="data">
-                    <template v-if="typeof data.item !== 'object'">
-                        <v-list-item-content v-text="data.item"></v-list-item-content>
-                    </template>
-                    <template v-else>
-                        <v-list-item-content>
-                            <v-list-item-title v-html="data.item.address"></v-list-item-title>
-                            <v-list-item-subtitle v-html="data.item.community"></v-list-item-subtitle>
-                        </v-list-item-content>
-                    </template>
-                </template>
-            </v-autocomplete>
+                    <v-autocomplete
+                        v-model="damageNoteId"
+                        :items="damageNoteOptions"
+                        :loading="isSearching"
+                        :search-input.sync="searchQuery"
+                        :filter="damageNotesFilter"
+                        label="Пошкоджений об'єкт"
+                        dense
+                        outlined
+                        item-text="address"
+                        item-value="id"
+                        hide-no-data
+                        hide-selected
+                        clearable
+                    >
+                        <template v-slot:item="data">
+                            <template v-if="typeof data.item !== 'object'">
+                                <v-list-item-content v-text="data.item"></v-list-item-content>
+                            </template>
+                            <template v-else>
+                                <v-list-item-content>
+                                    <v-list-item-title v-html="data.item.address"></v-list-item-title>
+                                    <v-list-item-subtitle v-html="data.item.community"></v-list-item-subtitle>
+                                </v-list-item-content>
+                            </template>
+                        </template>
+                    </v-autocomplete>
 
-            <v-text-field
-                v-model="title"
-                :error-messages="titleErrors"
-                label="Назва туру"
-                required
-                dense
-                outlined
-                maxlength="255"
-                @input="$v.title.$touch()"
-                @blur="$v.title.$touch()"
-            ></v-text-field>
+                    <v-text-field
+                        v-model="title"
+                        :error-messages="titleErrors"
+                        label="Назва туру"
+                        required
+                        dense
+                        outlined
+                        maxlength="255"
+                        @input="$v.title.$touch()"
+                        @blur="$v.title.$touch()"
+                    ></v-text-field>
 
-            <v-textarea
-                v-model="description"
-                label="Опис"
-                dense
-                outlined
-                rows="3"
-            ></v-textarea>
+                    <v-textarea
+                        v-model="description"
+                        label="Опис"
+                        dense
+                        outlined
+                        rows="3"
+                    ></v-textarea>
 
-            <VirtualTourContentBuilder class="mb-5"/>
+                    <v-file-input
+                        v-model="audioFile"
+                        placeholder="Додайте файл аудіосупроводу"
+                        dense
+                        filled
+                        prepend-icon="mdi-file-music"
+                        accept=".mp3"
+                    ></v-file-input>
+                </v-tab-item>
 
-            <v-file-input
-                v-model="audioFile"
-                placeholder="Додайте файл аудіосупроводу"
-                dense
-                filled
-                prepend-icon="mdi-file-music"
-                accept=".mp3"
-            ></v-file-input>
+                <v-tab-item>
+                    <VirtualTourContentBuilder class="mb-5"/>
+                </v-tab-item>
+            </v-tabs-items>
         </v-form>
 
         <v-divider/>
@@ -89,7 +111,7 @@
                 :disabled="formLoading"
                 @click="submit"
             >
-                Надіслати
+                Зберегти
                 <template v-slot:loader>
                     <span class="custom-loader">
                         <v-icon light>mdi-cached</v-icon>
@@ -119,6 +141,7 @@ export default {
     data() {
         return {
             formLoading: false,
+            tab: null,
             title: '',
             description: '',
             audioFile: null,
@@ -279,22 +302,6 @@ export default {
 </style>
 
 <style lang="scss">
-.damage-form__drag-upload {
-    .el-upload-dragger {
-        height: 130px;
 
-        .el-icon-upload {
-            margin: 16px 0;
-        }
-    }
-
-    .el-upload-list__item {
-        background-color: #F5F7FA;
-
-        .el-icon-close {
-            display: inline-block;
-        }
-    }
-}
 </style>
 

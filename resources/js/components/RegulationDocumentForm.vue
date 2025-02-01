@@ -31,7 +31,7 @@
                 :disabled="formLoading"
                 @click="submit"
             >
-                Надіслати
+                Зберегти
                 <template v-slot:loader>
                     <span class="custom-loader">
                         <v-icon light>mdi-cached</v-icon>

@@ -64,6 +64,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.builder {
+    padding: 2px;
+}
+
 .builder__add-item {
     border-style: dashed;
 }

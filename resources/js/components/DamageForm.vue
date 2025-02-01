@@ -193,7 +193,7 @@
 
             <v-divider/>
 
-            <div v-if="!isEditing" class="damage-form__file-upload">
+            <div v-if="!isEditing" class="pt-3">
                 <el-upload
                     ref="fileUpload"
                     action="https://jsonplaceholder.typicode.com/posts/"
@@ -203,6 +203,7 @@
                     :on-remove="handleImageRemove"
                     :auto-upload="false"
                     accept="image/jpeg, image/png"
+                    class="damage-form__file-upload"
                 >
                     <i class="el-icon-plus" />
                 </el-upload>
@@ -222,7 +223,7 @@
                 :disabled="formLoading"
                 @click="submit"
             >
-                Надіслати
+                Зберегти
                 <template v-slot:loader>
                     <span class="custom-loader">
                         <v-icon light>mdi-cached</v-icon>
@@ -602,8 +603,6 @@ export default {
 
 <style lang="scss">
 .damage-form__file-upload {
-    padding-top: 15px;
-
     .el-upload-list--picture-card {
         padding-left: 0;
     }
