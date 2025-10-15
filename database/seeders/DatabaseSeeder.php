@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             ObjectTypeSeeder::class,
             CommunitySeeder::class,
             DamageNoteRequestSeeder::class,
+            VirtualToursSeeder::class,
         ]);
     }
 }
