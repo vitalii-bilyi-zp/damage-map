@@ -26,12 +26,15 @@ class DamageNoteRequestsController extends Controller
             'date' => $request->date,
             'object_type_id' => $request->object_type_id,
             'community_id' => $request->community_id,
-            'city' => $request->city,
-            'street'  => $request->street,
-            'building_number' => $request->building_number,
-            'damage_type' => $request->damage_type,
-            'restoration_cost' => $request->restoration_cost,
-            'comment' => $request->comment
+            'city' => $request->city ?? null,
+            'street'  => $request->street ?? null,
+            'building_number' => $request->building_number ?? null,
+            'floors' => $request->floors,
+            'area' => $request->area,
+            'damage_type' => $request->damage_type ?? null,
+            'repair_type_id' => $request->repair_type_id ?? null,
+            'restoration_cost' => $request->restoration_cost ?? null,
+            'comment' => $request->comment ?? null
         ]);
 
         DamageNoteRequest::create([

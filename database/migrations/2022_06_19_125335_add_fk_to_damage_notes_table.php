@@ -24,6 +24,11 @@ return new class extends Migration
                 ->on('communities')
                 ->nullOnDelete()
                 ->cascadeOnUpdate();
+            $table->foreign('repair_type_id')
+                ->references('id')
+                ->on('repair_types')
+                ->nullOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

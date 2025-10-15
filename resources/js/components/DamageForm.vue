@@ -156,32 +156,74 @@
                 outlined
             ></v-text-field>
 
-            <v-select
-                v-model="damageType"
-                :items="damageTypeItems"
-                :error-messages="damageTypeErrors"
-                label="Тип пошкодження"
-                dense
-                required
-                outlined
-                item-text="name"
-                item-value="id"
-                @change="$v.damageType.$touch()"
-                @blur="$v.damageType.$touch()"
-            ></v-select>
-
             <v-text-field
-                v-model="restorationСost"
-                :error-messages="restorationСostErrors"
-                label="Вартість відновлення"
+                v-model="floors"
+                :error-messages="floorsErrors"
+                label="Кількість поверхів"
                 type="number"
                 dense
-                prefix="₴"
                 required
                 outlined
-                @input="$v.restorationСost.$touch()"
-                @blur="$v.restorationСost.$touch()"
-            ></v-text-field>
+                @input="$v.floors.$touch()"
+                @blur="$v.floors.$touch()"
+            />
+
+            <v-text-field
+                v-model="area"
+                :error-messages="areaErrors"
+                label="Площа (м²)"
+                type="number"
+                dense
+                suffix="м²"
+                required
+                outlined
+                @input="$v.area.$touch()"
+                @blur="$v.area.$touch()"
+            />
+
+            <template v-if="isAuthorized">
+                <v-select
+                    v-model="damageType"
+                    :items="damageTypeItems"
+                    :error-messages="damageTypeErrors"
+                    label="Тип пошкодження"
+                    dense
+                    required
+                    outlined
+                    item-text="name"
+                    item-value="id"
+                    @change="$v.damageType.$touch()"
+                    @blur="$v.damageType.$touch()"
+                ></v-select>
+
+                <v-select
+                    v-model="repairType"
+                    :items="repairTypeItems"
+                    :error-messages="repairTypeErrors"
+                    label="Тип ремонту"
+                    dense
+                    required
+                    outlined
+                    item-text="name"
+                    item-value="id"
+                    :disabled="!repairTypeItems || !repairTypeItems.length"
+                    @change="$v.repairType.$touch()"
+                    @blur="$v.repairType.$touch()"
+                />
+
+                <v-text-field
+                    v-model="restorationCost"
+                    :error-messages="restorationCostErrors"
+                    label="Вартість відновлення"
+                    type="number"
+                    dense
+                    prefix="₴"
+                    required
+                    outlined
+                    @input="$v.restorationCost.$touch()"
+                    @blur="$v.restorationCost.$touch()"
+                ></v-text-field>
+            </template>
 
             <v-textarea
                 v-model="comment"
@@ -236,7 +278,7 @@
 
 <script>
 import moment from 'moment';
-import { required, email } from 'vuelidate/lib/validators';
+import { required, email, numeric, minValue } from 'vuelidate/lib/validators';
 import {mask} from 'vue-the-mask';
 
 export default {
@@ -261,6 +303,10 @@ export default {
             type: Array,
             default: () => []
         },
+        repairTypeItems: {
+            type: Array,
+            default: () => []
+        },
         damageNote: {
             type: Object,
             default: null
@@ -281,22 +327,25 @@ export default {
             city: null,
             street: null,
             buildingNumber: null,
+            floors: null,
+            area: null,
             damageType: null,
             damageTypeItems: [
                 {
-                    id: 'high',
-                    name: 'Повне руйнування',
+                    id: 'low',
+                    name: 'Слабке руйнування',
                 },
                 {
                     id: 'medium',
                     name: 'Сильне руйнування',
                 },
                 {
-                    id: 'low',
-                    name: 'Слабке руйнування',
-                }
+                    id: 'high',
+                    name: 'Повне руйнування',
+                },
             ],
-            restorationСost: null,
+            repairType: null,
+            restorationCost: null,
             comment: null,
             file: null,
             images: [],
@@ -311,20 +360,26 @@ export default {
             objectCategory: { required },
             objectType: { required },
             community: { required },
-            damageType: { required },
-            restorationСost: { required },
+            area: { required, numeric, minValue: minValue(1) },
+            floors: { required, numeric, minValue: minValue(1) },
             file: { required },
-
-            formValidationGroup: ['date', 'objectCategory', 'objectType', 'community', 'damageType', 'restorationСost']
         };
 
-        if (!this.isAuthorized) {
+        if (this.isAuthorized) {
+            rules = Object.assign(rules, {
+                damageType: { required },
+                repairType: { required },
+                restorationCost: { required },
+
+                formValidationGroup: ['date', 'objectCategory', 'objectType', 'community', 'floors', 'area', 'damageType', 'repairType', 'restorationCost']
+            });
+        } else {
             rules = Object.assign(rules, {
                 fullName: { required },
                 email: { required, email },
                 phone: { required },
 
-                formValidationGroup: ['fullName', 'email', 'phone', 'date', 'objectCategory', 'objectType', 'community', 'damageType', 'restorationСost']
+                formValidationGroup: ['fullName', 'email', 'phone', 'date', 'objectCategory', 'objectType', 'community', 'floors', 'area']
             });
         }
 
@@ -337,6 +392,10 @@ export default {
         },
 
         fullNameErrors() {
+            if (this.isEditing) {
+                return [];
+            }
+
             const errors = [];
             if (!this.$v.fullName.$dirty) return errors;
             !this.$v.fullName.required && errors.push('Це поле обов\'язкове');
@@ -344,6 +403,10 @@ export default {
         },
 
         emailErrors() {
+            if (this.isEditing) {
+                return [];
+            }
+
             const errors = [];
             if (!this.$v.email.$dirty) return errors;
             !this.$v.email.required && errors.push('Це поле обов\'язкове');
@@ -352,6 +415,10 @@ export default {
         },
 
         phoneErrors() {
+            if (this.isEditing) {
+                return [];
+            }
+
             const errors = [];
             if (!this.$v.phone.$dirty) return errors;
             !this.$v.phone.required && errors.push('Це поле обов\'язкове');
@@ -386,6 +453,24 @@ export default {
             return errors;
         },
 
+        floorsErrors() {
+            const errors = [];
+            if (!this.$v.floors.$dirty) return errors;
+            !this.$v.floors.required && errors.push('Це поле обов\'язкове');
+            this.$v.floors.required && !this.$v.floors.numeric && errors.push('Повинно бути числом');
+            this.$v.floors.numeric && !this.$v.floors.minValue && errors.push('Мінімум 1');
+            return errors;
+        },
+
+        areaErrors() {
+            const errors = [];
+            if (!this.$v.area.$dirty) return errors;
+            !this.$v.area.required && errors.push('Це поле обов\'язкове');
+            this.$v.area.required && !this.$v.area.numeric && errors.push('Повинно бути числом');
+            this.$v.area.numeric && !this.$v.area.minValue && errors.push('Мінімум 1 м²');
+            return errors;
+        },
+
         damageTypeErrors() {
             const errors = [];
             if (!this.$v.damageType.$dirty) return errors;
@@ -393,10 +478,17 @@ export default {
             return errors;
         },
 
-        restorationСostErrors() {
+        repairTypeErrors() {
             const errors = [];
-            if (!this.$v.restorationСost.$dirty) return errors;
-            !this.$v.restorationСost.required && errors.push('Це поле обов\'язкове')
+            if (!this.$v.repairType.$dirty) return errors;
+            !this.$v.repairType.required && errors.push('Це поле обов\'язкове');
+            return errors;
+        },
+
+        restorationCostErrors() {
+            const errors = [];
+            if (!this.$v.restorationCost.$dirty) return errors;
+            !this.$v.restorationCost.required && errors.push('Це поле обов\'язкове')
             return errors;
         },
 
@@ -495,8 +587,11 @@ export default {
                 city: this.city,
                 street: this.street,
                 buildingNumber: this.buildingNumber,
+                floors: this.floors,
+                area: this.area,
                 damageType: this.damageType,
-                restorationСost: this.restorationСost,
+                repairType: this.repairType,
+                restorationCost: this.restorationCost,
                 comment: this.comment,
                 images: this.images,
             };
@@ -513,8 +608,11 @@ export default {
             this.city = this.damageNote ? this.damageNote.city : null;
             this.street = this.damageNote ? this.damageNote.street : null;
             this.buildingNumber = this.damageNote ? this.damageNote.buildingNumber : null;
+            this.floors = this.damageNote ? this.damageNote.floors : null;
+            this.area = this.damageNote ? this.damageNote.area : null;
             this.damageType = this.damageNote ? this.damageNote.damageType : null;
-            this.restorationСost = this.damageNote ? this.damageNote.restorationСost : null;
+            this.repairType = this.damageNote ? this.damageNote.repairType : null;
+            this.restorationCost = this.damageNote ? this.damageNote.restorationCost : null;
             this.comment = this.damageNote ? this.damageNote.comment : null;
         },
 
@@ -530,8 +628,11 @@ export default {
             this.city = null;
             this.street = null;
             this.buildingNumber = null;
+            this.floors = null;
+            this.area = null;
             this.damageType = null;
-            this.restorationСost = null;
+            this.repairType = null;
+            this.restorationCost = null;
             this.comment = null;
             this.images = [];
             this.dialogImageUrl = '';

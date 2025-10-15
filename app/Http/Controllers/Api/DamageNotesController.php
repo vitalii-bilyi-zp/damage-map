@@ -114,7 +114,10 @@ class DamageNotesController extends Controller
     //         'city' => $request->city,
     //         'street'  => $request->street,
     //         'building_number' => $request->building_number,
+    //         'floors' => $request->floors,
+    //         'area' => $request->area,
     //         'damage_type' => $request->damage_type,
+    //         'repair_type_id' => $request->repair_type_id,
     //         'restoration_cost' => $request->restoration_cost,
     //         'comment' => $request->comment
     //     ]);
@@ -316,7 +319,10 @@ class DamageNotesController extends Controller
             'city' => $request->city ?? $damageNote->city,
             'street'  => $request->street ?? $damageNote->street,
             'building_number' => $request->building_number ?? $damageNote->building_number,
+            'floors' => $request->floors ?? $damageNote->floors,
+            'area' => $request->area ?? $damageNote->area,
             'damage_type' => $request->damage_type ?? $damageNote->damage_type,
+            'repair_type_id' => $request->repair_type_id ?? $damageNote->repair_type_id,
             'restoration_cost' => $request->restoration_cost ?? $damageNote->restoration_cost,
             'comment' => $request->comment ?? $damageNote->comment
         ]);

@@ -59,6 +59,7 @@
                             :file-uploading="fileUploading"
                             :object-type-items="objectTypeItems"
                             :community-items="communityItems"
+                            :repair-type-items="repairTypeItems"
                             @submit-file="submitFile"
                             @submit-form="submitForm"
                         />
@@ -82,8 +83,10 @@ export default {
         return {
             objectTypesLoading: false,
             communitiesLoading: false,
+            repairTypesLoading: false,
             objectTypeItems: [],
             communityItems: [],
+            repairTypeItems: [],
             snackbarSuccess: false,
             snackbarError: false,
             fileUploading: false,
@@ -102,6 +105,7 @@ export default {
     mounted() {
         this.loadObjectTypes();
         this.loadCommunities();
+        this.loadRepairTypes();
     },
 
     methods: {
@@ -133,6 +137,20 @@ export default {
                 });
         },
 
+        loadRepairTypes() {
+            this.repairTypesLoading = true;
+            this.$store.dispatch('loadRepairTypes')
+                .then((response) => {
+                    this.repairTypeItems = response.data || [];
+                })
+                .catch(() => {
+                    //
+                })
+                .finally(() => {
+                    this.repairTypesLoading = false;
+                });
+        },
+
         submitFile(data) {
             this.$refs.damageForm.formLoading = true;
             this.$store.dispatch('saveDamageNotesFromFile', { data })
@@ -149,27 +167,36 @@ export default {
         },
 
         submitForm(data) {
-            let formattedData = new FormData();
+            let fd = new FormData();
 
-            data.fullName && formattedData.append('full_name', data.fullName);
-            data.email && formattedData.append('email', data.email);
-            data.phone && formattedData.append('phone', data.phone);
-            formattedData.append('date', data.date);
-            formattedData.append('object_type_id', data.objectType);
-            formattedData.append('community_id', data.community);
-            formattedData.append('city', data.city);
-            formattedData.append('street', data.street);
-            formattedData.append('building_number', data.buildingNumber);
-            formattedData.append('damage_type', data.damageType);
-            formattedData.append('restoration_cost', data.restorationСost);
-            formattedData.append('comment', data.comment);
+            const appendIfSet = (key, val) => {
+                if (val !== null && val !== undefined && val !== '') {
+                    fd.append(key, String(val));
+                }
+            };
 
-            data.images.forEach((image, key) => {
-                formattedData.append(`images[${key}]`, image);
+            appendIfSet('full_name', data.fullName);
+            appendIfSet('email', data.email);
+            appendIfSet('phone', data.phone);
+            fd.append('date', data.date);
+            fd.append('object_type_id', data.objectType);
+            fd.append('community_id', data.community);
+            appendIfSet('city', data.city);
+            appendIfSet('street', data.street);
+            appendIfSet('building_number', data.buildingNumber);
+            appendIfSet('floors', data.floors);
+            appendIfSet('area', data.area);
+            appendIfSet('damage_type', data.damageType);
+            appendIfSet('repair_type_id', data.repairType);
+            appendIfSet('restoration_cost', data.restorationCost);
+            appendIfSet('comment', data.comment);
+
+            (data.images || []).forEach((image, key) => {
+                fd.append(`images[${key}]`, image);
             });
 
             this.$refs.damageForm.formLoading = true;
-            this.$store.dispatch('saveDamageNoteRequest', { data: formattedData })
+            this.$store.dispatch('saveDamageNoteRequest', { data: fd })
                 .then(() => {
                     this.$refs.damageForm.clearForm();
                     this.snackbarSuccess = true;

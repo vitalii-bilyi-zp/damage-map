@@ -23,6 +23,10 @@ const actions = {
         return window.httpClient.get('/api/communities');
     },
 
+    loadRepairTypes: () => {
+        return window.httpClient.get('/api/repair-types');
+    },
+
     loadApprovedDamageNotes: () => {
         return window.httpClient.get('/api/damage-notes/approved');
     },

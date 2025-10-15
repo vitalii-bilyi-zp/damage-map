@@ -43,8 +43,10 @@
                         <DamageForm
                             v-else
                             ref="damageForm"
+                            :is-authorized="isAuthorized"
                             :object-type-items="objectTypeItems"
                             :community-items="communityItems"
+                            :repair-type-items="repairTypeItems"
                             :damage-note="damageNote"
                             @submit-form="submitForm"
                         />
@@ -73,18 +75,27 @@ export default {
             isLoading: false,
             objectTypesLoading: false,
             communitiesLoading: false,
+            repairTypesLoading: false,
             objectTypeItems: [],
             communityItems: [],
+            repairTypeItems: [],
             damageNote: null,
             snackbarSuccess: false,
             snackbarError: false,
         }
     },
 
+    computed: {
+        isAuthorized() {
+            return this.$store.getters.isAuthorized;
+        },
+    },
+
     mounted() {
         this.loadDamageNote();
         this.loadObjectTypes();
         this.loadCommunities();
+        this.loadRepairTypes();
     },
 
     methods: {
@@ -113,6 +124,20 @@ export default {
                 })
                 .finally(() => {
                     this.communitiesLoading = false;
+                });
+        },
+
+        loadRepairTypes() {
+            this.repairTypesLoading = true;
+            this.$store.dispatch('loadRepairTypes')
+                .then((response) => {
+                    this.repairTypeItems = response.data || [];
+                })
+                .catch(() => {
+                    //
+                })
+                .finally(() => {
+                    this.repairTypesLoading = false;
                 });
         },
 
@@ -146,8 +171,11 @@ export default {
                 city: data.city,
                 street: data.street,
                 buildingNumber: data.building_number,
+                floors: data.floors,
+                area: data.area,
                 damageType: data.damage_type,
-                restorationСost: data.restoration_cost,
+                repairType: data.repair_type_id,
+                restorationCost: data.restoration_cost,
                 comment: data.comment,
             }
         },
@@ -160,8 +188,11 @@ export default {
                 city: data.city,
                 street: data.street,
                 building_number: data.buildingNumber,
+                floors: data.floors,
+                area: data.area,
                 damage_type: data.damageType,
-                restoration_cost: data.restorationСost,
+                repair_type_id: data.repairType,
+                restoration_cost: data.restorationCost,
                 comment: data.comment,
             };
 

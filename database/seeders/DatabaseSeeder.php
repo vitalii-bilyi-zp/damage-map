@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             ObjectCategorySeeder::class,
             ObjectTypeSeeder::class,
             CommunitySeeder::class,
+            RepairTypesSeeder::class,
             DamageNoteRequestSeeder::class,
             VirtualToursSeeder::class,
         ]);

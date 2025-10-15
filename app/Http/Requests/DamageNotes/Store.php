@@ -32,12 +32,15 @@ class Store extends FormRequest
             'city' => 'nullable|string|max:255',
             'street' => 'nullable|string|max:255',
             'building_number' => 'nullable|string|max:255',
+            'floors' => 'required|integer|min:1|max:100',
+            'area' => 'required|numeric|min:1|max:1000000',
             'damage_type' => [
-                'required',
+                'nullable',
                 'string',
                 Rule::in(array_keys(DamageNote::DAMAGE_TYPES_MAPPING)),
             ],
-            'restoration_cost' => 'required|numeric',
+            'repair_type_id' => 'nullable|integer|exists:repair_types,id',
+            'restoration_cost' => 'nullable|numeric',
             'comment' => 'nullable|string|max:1000'
         ];
     }

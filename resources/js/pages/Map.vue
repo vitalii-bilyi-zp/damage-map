@@ -281,7 +281,7 @@ export default {
                             "fill-color": [
                                 "interpolate",
                                 ["linear"],
-                                ["get", "restorationСost"],
+                                ["get", "restorationCost"],
                                 0,
                                 "#fffe5d",
                                 125000000,
@@ -364,7 +364,7 @@ export default {
                             "fill-color": [
                                 "interpolate",
                                 ["linear"],
-                                ["get", "restorationСost"],
+                                ["get", "restorationCost"],
                                 0,
                                 "#FCFCFB",
                                 31250000,
@@ -445,7 +445,7 @@ export default {
                             "fill-color": [
                                 "interpolate",
                                 ["linear"],
-                                ["get", "restorationСost"],
+                                ["get", "restorationCost"],
                                 0,
                                 "#fdfdb0",
                                 50000,
@@ -487,7 +487,7 @@ export default {
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationСost)}</span> грн.</td>
+                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationCost)}</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -509,7 +509,7 @@ export default {
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationСost)}</span> грн.</td>
+                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationCost)}</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -537,7 +537,7 @@ export default {
                                     <tbody>
                                         <tr>
                                             <td>Вартість відновлення</td>
-                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationСost)}</span> грн.</td>
+                                            <td><span>${new Intl.NumberFormat('en-US').format(properties.restorationCost)}</span> грн.</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -567,10 +567,10 @@ export default {
             }
 
             const newFeatures = oldFeatures.map((item) => {
-                let restorationСost = 0;
+                let restorationCost = 0;
 
                 if (regionsMapping[item.properties.region]) {
-                    restorationСost = +regionsMapping[item.properties.region].restoration_cost || 0;
+                    restorationCost = +regionsMapping[item.properties.region].restoration_cost || 0;
                 }
 
                 return {
@@ -578,7 +578,7 @@ export default {
                     properties: {
                         fid: item.properties.fid,
                         region: item.properties.region,
-                        restorationСost,
+                        restorationCost,
                     },
                 };
             });
@@ -620,10 +620,10 @@ export default {
             }
 
             const newFeatures = oldFeatures.map((item) => {
-                let restorationСost = 0;
+                let restorationCost = 0;
 
                 if (districtsMapping[item.properties.rayon]) {
-                    restorationСost = +districtsMapping[item.properties.rayon].restoration_cost || 0;
+                    restorationCost = +districtsMapping[item.properties.rayon].restoration_cost || 0;
                 }
 
                 return {
@@ -631,7 +631,7 @@ export default {
                     properties: {
                         fid: item.properties.fid,
                         rayon: item.properties.rayon,
-                        restorationСost,
+                        restorationCost,
                     },
                 };
             });
@@ -676,10 +676,10 @@ export default {
             }
 
             const newFeatures = oldFeatures.map((item) => {
-                let restorationСost = 0;
+                let restorationCost = 0;
 
                 if (communitiesMapping[item.properties.hromada]) {
-                    restorationСost = +communitiesMapping[item.properties.hromada].restoration_cost || 0;
+                    restorationCost = +communitiesMapping[item.properties.hromada].restoration_cost || 0;
                 }
 
                 return {
@@ -688,7 +688,7 @@ export default {
                         region: item.properties.region,
                         rayon: item.properties.rayon,
                         hromada: item.properties.hromada,
-                        restorationСost,
+                        restorationCost,
                     },
                 };
             });

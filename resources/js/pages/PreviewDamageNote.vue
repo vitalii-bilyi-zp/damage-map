@@ -66,7 +66,7 @@
                                                         <v-list-item two-line>
                                                             <v-list-item-content>
                                                                 <v-list-item-subtitle class="mb-1">Оціночна вартість відновлення</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ formatCurrency(damageNote.restorationСost) }}</v-list-item-title>
+                                                                <v-list-item-title>{{ formatCurrency(damageNote.restorationCost) }}</v-list-item-title>
                                                             </v-list-item-content>
                                                         </v-list-item>
                                                     </v-col>
@@ -133,7 +133,7 @@
                                                         <v-list-item two-line class="mb-4">
                                                             <v-list-item-content class="damage-note-funds">
                                                                 <v-list-item-subtitle class="damage-note-funds__title mb-3">Оціночна вартість відновлення</v-list-item-subtitle>
-                                                                <v-list-item-title class="damage-note-funds__value">{{ formatCurrency(damageNote.restorationСost) }}</v-list-item-title>
+                                                                <v-list-item-title class="damage-note-funds__value">{{ formatCurrency(damageNote.restorationCost) }}</v-list-item-title>
                                                             </v-list-item-content>
                                                         </v-list-item>
 
@@ -293,7 +293,7 @@ export default {
                 return 0;
             }
 
-            return Math.floor(Math.random() * this.damageNote.restorationСost) + 1;
+            return Math.floor(Math.random() * this.damageNote.restorationCost) + 1;
         },
 
         chartData() {
@@ -304,7 +304,7 @@ export default {
                 };
             }
 
-            let progress = (this.mockedRestorationFunds / this.damageNote.restorationСost) * 100;
+            let progress = (this.mockedRestorationFunds / this.damageNote.restorationCost) * 100;
             progress = Math.round(progress * 100) / 100; // round to two decimal places
             const remaining = 100 - progress;
 
@@ -391,7 +391,7 @@ export default {
                 street: data.street,
                 buildingNumber: data.building_number,
                 damageType: data.damage_type,
-                restorationСost: data.restoration_cost,
+                restorationCost: data.restoration_cost,
                 comment: data.comment,
                 images: data.damage_note_images,
             }
