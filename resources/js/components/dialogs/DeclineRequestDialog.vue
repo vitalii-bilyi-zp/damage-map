@@ -122,17 +122,17 @@ export default {
             },
             damageTypeItems: [
                 {
-                    id: 'high',
-                    name: 'Повне руйнування',
+                    id: 'low',
+                    name: 'Легке',
                 },
                 {
                     id: 'medium',
-                    name: 'Сильне руйнування',
+                    name: 'Середнє',
                 },
                 {
-                    id: 'low',
-                    name: 'Слабке руйнування',
-                }
+                    id: 'high',
+                    name: 'Тяжке',
+                },
             ],
         };
     },

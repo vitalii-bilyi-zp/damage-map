@@ -103,7 +103,7 @@
 
         <v-divider/>
 
-        <div class="damage-form__actions">
+        <div class="d-flex pt-4">
             <v-spacer></v-spacer>
             <v-btn
                 color="success"
@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import VirtualTourContentBuilder from '@/js/components/virtual-tours/VirtualTourContentBuilder';
+import VirtualTourContentBuilder from '@/js/components/virtual-tour/VirtualTourContentBuilder';
 import { required } from 'vuelidate/lib/validators';
 import { debounce } from '@/js/helpers';
 
@@ -257,11 +257,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.damage-form__actions {
-    display: flex;
-    padding-top: 16px;
-}
-
 .custom-loader {
     animation: loader 1s infinite;
     display: flex;

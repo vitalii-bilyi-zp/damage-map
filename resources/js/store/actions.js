@@ -211,6 +211,10 @@ const actions = {
                 });
         });
     },
+
+    predictRestorationCost: ({ commit }, payload) => {
+        return window.httpClient.post('/api/predict-restoration-cost', payload.data);
+    },
 };
 
 export default actions;

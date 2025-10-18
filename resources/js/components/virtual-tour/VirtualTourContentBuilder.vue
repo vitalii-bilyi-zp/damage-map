@@ -15,11 +15,11 @@
 </template>
 
 <script>
-import VirtualTourContentBuilderDialog from '@/js/components/virtual-tours/VirtualTourContentBuilderDialog';
-import VirtualTourContentBuilderText from '@/js/components/virtual-tours/VirtualTourContentBuilderText';
-import VirtualTourContentBuilderImage from '@/js/components/virtual-tours/VirtualTourContentBuilderImage';
-import VirtualTourContentBuilderSlider from '@/js/components/virtual-tours/VirtualTourContentBuilderSlider';
-import VirtualTourContentBuilder3d from '@/js/components/virtual-tours/VirtualTourContentBuilder3d';
+import VirtualTourContentBuilderDialog from '@/js/components/virtual-tour/VirtualTourContentBuilderDialog';
+import VirtualTourContentBuilderText from '@/js/components/virtual-tour/VirtualTourContentBuilderText';
+import VirtualTourContentBuilderImage from '@/js/components/virtual-tour/VirtualTourContentBuilderImage';
+import VirtualTourContentBuilderSlider from '@/js/components/virtual-tour/VirtualTourContentBuilderSlider';
+import VirtualTourContentBuilder3d from '@/js/components/virtual-tour/VirtualTourContentBuilder3d';
 import draggable from 'vuedraggable';
 
 export default {

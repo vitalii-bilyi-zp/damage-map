@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\DamageNoteRequest;
 use App\Models\DamageNoteImage;
+use App\Models\ObjectType;
+use App\Models\Community;
+use App\Models\RepairType;
 
 class DamageNote extends Model
 {
@@ -16,9 +19,9 @@ class DamageNote extends Model
     const HIGH_DAMAGE = 'high';
 
     const DAMAGE_TYPES_MAPPING = [
-        self::LOW_DAMAGE => 'Слабке руйнування',
-        self::MEDIUM_DAMAGE => 'Сильне руйнування',
-        self::HIGH_DAMAGE => 'Повне руйнування'
+        self::LOW_DAMAGE => 'Легке',
+        self::MEDIUM_DAMAGE => 'Середнє',
+        self::HIGH_DAMAGE => 'Тяжке'
     ];
 
     /**
@@ -27,7 +30,18 @@ class DamageNote extends Model
      * @var array
      */
     protected $fillable = [
-        'date', 'object_type_id', 'community_id', 'city', 'street', 'building_number', 'floors', 'area', 'damage_type', 'repair_type_id', 'restoration_cost', 'comment'
+        'date',
+        'object_type_id',
+        'community_id',
+        'city',
+        'street',
+        'building_number',
+        'floors',
+        'area',
+        'damage_type',
+        'repair_type_id',
+        'restoration_cost',
+        'comment'
     ];
 
     /**
@@ -46,6 +60,8 @@ class DamageNote extends Model
      */
     protected $casts = [
         'date' => 'date',
+        'area' => 'decimal:2',
+        'restoration_cost' => 'decimal:2',
     ];
 
     public function damageNoteRequest()
@@ -56,5 +72,20 @@ class DamageNote extends Model
     public function damageNoteImages()
     {
         return $this->hasMany(DamageNoteImage::class);
+    }
+
+    public function objectType()
+    {
+        return $this->belongsTo(ObjectType::class);
+    }
+
+    public function community()
+    {
+        return $this->belongsTo(Community::class);
+    }
+
+    public function repairType()
+    {
+        return $this->belongsTo(RepairType::class);
     }
 }

@@ -297,10 +297,16 @@ class DamageNotesController extends Controller
     }
 
     public function show(DamageNotesShow $request, DamageNote $damageNote): JsonResponse {
-        $damageNote->load(['damageNoteRequest', 'damageNoteImages']);
-        if (isset($damageNote->object_type_id)) {
-            $damageNote->object_type = ObjectType::find($damageNote->object_type_id);
-        }
+        $damageNote->load([
+            'damageNoteRequest',
+            'damageNoteImages',
+            'objectType',
+            'objectType.objectCategory',
+            'community',
+            'community.district',
+            'community.district.region',
+            'repairType'
+        ]);
 
         $damageNote->damageNoteImages->transform(function ($item, $key) {
             $item->file_path = Storage::disk('damage_note_images')->url($item->hash_file_name);

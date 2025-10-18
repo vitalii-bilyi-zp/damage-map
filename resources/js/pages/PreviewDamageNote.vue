@@ -27,11 +27,17 @@
                                     </v-tab>
                                     <v-tab key="tab2" class="damage-note-tabs__tab">
                                         <v-icon left>
+                                            mdi-cash-sync
+                                        </v-icon>
+                                        Вартість відновлення
+                                    </v-tab>
+                                    <v-tab key="tab3" class="damage-note-tabs__tab">
+                                        <v-icon left>
                                             mdi-cash-multiple
                                         </v-icon>
                                         Фінансування
                                     </v-tab>
-                                    <v-tab key="tab3" class="damage-note-tabs__tab">
+                                    <v-tab key="tab4" class="damage-note-tabs__tab">
                                         <v-icon left>
                                             mdi-image
                                         </v-icon>
@@ -45,87 +51,20 @@
                                     <v-tab-item key="tab1">
                                         <v-card flat>
                                             <v-card-text>
-                                                <v-row>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Дата пошкодження</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ damageNote.date }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Тип пошкодження</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ damageTypeLabel }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Оціночна вартість відновлення</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ formatCurrency(damageNote.restorationCost) }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                </v-row>
-
-                                                <v-divider/>
-
-                                                <v-row>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Місто / селище</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ damageNote.city }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Вулиця</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ damageNote.street }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Будівля</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ damageNote.buildingNumber }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                </v-row>
-
-                                                <v-divider/>
-
-                                                <v-row>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Категорія об’єкта</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ objectCategoryLabel }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                    <v-col cols="12" sm="4">
-                                                        <v-list-item two-line>
-                                                            <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-1">Тип об’єкта</v-list-item-subtitle>
-                                                                <v-list-item-title>{{ objectTypeLabel }}</v-list-item-title>
-                                                            </v-list-item-content>
-                                                        </v-list-item>
-                                                    </v-col>
-                                                </v-row>
+                                                <DamageNoteGeneralInfo :damage-note="damageNote" />
                                             </v-card-text>
                                         </v-card>
                                     </v-tab-item>
 
                                     <v-tab-item key="tab2">
+                                        <v-card flat>
+                                            <v-card-text>
+                                                <DamageNoteRestorationCost :damage-note="damageNote" />
+                                            </v-card-text>
+                                        </v-card>
+                                    </v-tab-item>
+
+                                    <v-tab-item key="tab3">
                                         <v-card flat>
                                             <v-card-text>
                                                 <v-row>
@@ -147,7 +86,7 @@
                                                     <v-col cols="12" sm="6">
                                                         <v-list-item two-line>
                                                             <v-list-item-content>
-                                                                <v-list-item-subtitle class="mb-3 text-center">Фінансове покриття</v-list-item-subtitle>
+                                                                <v-list-item-subtitle class="damage-note-funds__title mb-3 mx-auto text-center">Фінансове покриття</v-list-item-subtitle>
                                                                 <div class="damage-note-doughnut__wrapper">
                                                                     <DoughnutChart :chart-data="chartData" :options="chartOptions" class="damage-note-doughnut" />
                                                                     <span class="damage-note-doughnut__percent">
@@ -162,7 +101,7 @@
                                         </v-card>
                                     </v-tab-item>
 
-                                    <v-tab-item key="tab3">
+                                    <v-tab-item key="tab4">
                                         <div class="damage-note-gallery">
                                             <ul v-if="damageNote.images && damageNote.images.length" class="el-upload-list el-upload-list--picture-card">
                                                 <li class="el-upload-list__item is-ready" v-for="image in damageNote.images" :key="image.id">
@@ -197,6 +136,8 @@
 </template>
 
 <script>
+import DamageNoteGeneralInfo from '@/js/components/damage-note/tabs/DamageNoteGeneralInfo.vue';
+import DamageNoteRestorationCost from '@/js/components/damage-note/tabs/DamageNoteRestorationCost.vue';
 import DoughnutChart from '@/js/components/charts/DoughnutChart.vue';
 import moment from 'moment';
 import { formatUAH } from '@/js/helpers';
@@ -205,6 +146,8 @@ export default {
     name: 'PreviewDamageNote',
 
     components: {
+        DamageNoteGeneralInfo,
+        DamageNoteRestorationCost,
         DoughnutChart,
     },
 
@@ -213,25 +156,21 @@ export default {
     data() {
         return {
             isLoading: false,
-            objectTypesLoading: false,
-            communitiesLoading: false,
             tab: 'tab1',
             damageNote: null,
-            objectTypeItems: [],
-            communityItems: [],
             damageTypeItems: [
                 {
-                    id: 'high',
-                    name: 'Повне руйнування',
+                    id: 'low',
+                    name: 'Легке',
                 },
                 {
                     id: 'medium',
-                    name: 'Сильне руйнування',
+                    name: 'Середнє',
                 },
                 {
-                    id: 'low',
-                    name: 'Слабке руйнування',
-                }
+                    id: 'high',
+                    name: 'Тяжке',
+                },
             ],
 
             chartOptions: {
@@ -258,36 +197,6 @@ export default {
     },
 
     computed: {
-        damageTypeLabel() {
-            if (!this.damageNote) {
-                return null;
-            }
-
-            let damageType = this.damageTypeItems.find((item) => item.id === this.damageNote.damageType);
-
-            return damageType && damageType.name;
-        },
-
-        objectCategoryLabel() {
-            if (!this.damageNote || !this.objectTypeItems || !this.objectTypeItems.length) {
-                return null;
-            }
-
-            let objectCategory = this.objectTypeItems.find((item) => item.object_category_id === this.damageNote.objectCategory);
-
-            return objectCategory && objectCategory.object_category && objectCategory.object_category.name;
-        },
-
-        objectTypeLabel() {
-            if (!this.damageNote || !this.objectTypeItems || !this.objectTypeItems.length) {
-                return null;
-            }
-
-            let objectType = this.objectTypeItems.find((item) => item.id === this.damageNote.objectType);
-
-            return objectType && objectType.name;
-        },
-
         mockedRestorationFunds() {
             if (!this.damageNote) {
                 return 0;
@@ -323,41 +232,11 @@ export default {
 
     mounted() {
         this.loadDamageNote();
-        this.loadObjectTypes();
-        // this.loadCommunities();
     },
 
     methods: {
         formatCurrency(amount) {
             return formatUAH(amount);
-        },
-
-        loadObjectTypes() {
-            this.objectTypesLoading = true;
-            this.$store.dispatch('loadObjectTypes')
-                .then((response) => {
-                    this.objectTypeItems = response.data || [];
-                })
-                .catch(() => {
-                    //
-                })
-                .finally(() => {
-                    this.objectTypesLoading = false;
-                });
-        },
-
-        loadCommunities() {
-            this.communitiesLoading = true;
-            this.$store.dispatch('loadCommunities')
-                .then((response) => {
-                    this.communityItems = response.data || [];
-                })
-                .catch(() => {
-                    //
-                })
-                .finally(() => {
-                    this.communitiesLoading = false;
-                });
         },
 
         loadDamageNote() {
@@ -384,14 +263,19 @@ export default {
                 email: data.damage_note_request.email,
                 phone: data.damage_note_request.phone,
                 date: data.date && moment(data.date).format('YYYY-MM-DD'),
-                objectCategory: data.object_type && data.object_type.object_category_id,
-                objectType: data.object_type_id,
-                community: data.community_id,
+                objectCategory: data.object_type && data.object_type.object_category,
+                objectType: data.object_type,
+                community: data.community,
+                district: data.community && data.community.district,
+                region: data.community && data.community.district && data.community.district.region,
                 city: data.city,
                 street: data.street,
                 buildingNumber: data.building_number,
+                floors: data.floors,
+                area: +data.area,
                 damageType: data.damage_type,
-                restorationCost: data.restoration_cost,
+                repairType: data.repair_type,
+                restorationCost: +data.restoration_cost,
                 comment: data.comment,
                 images: data.damage_note_images,
             }
@@ -435,7 +319,8 @@ export default {
     }
 
     .damage-note-funds__title {
-        max-width: 220px;
+        max-width: 250px;
+        font-size: 1rem;
         white-space: initial;
         line-height: 1.5;
     }

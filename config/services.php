@@ -31,4 +31,9 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'restoration' => [
+        'url' => env('PY_PREDICT_URL', 'http://127.0.0.1:5000'),
+        'api_key' => env('PY_API_KEY'),
+        'timeout' => (int) env('PY_TIMEOUT', 8),
+    ],
 ];

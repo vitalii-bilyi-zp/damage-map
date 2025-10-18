@@ -257,7 +257,7 @@
 
         <v-divider/>
 
-        <div class="damage-form__actions">
+        <div class="d-flex pt-4">
             <v-spacer></v-spacer>
             <v-btn
                 color="success"
@@ -333,15 +333,15 @@ export default {
             damageTypeItems: [
                 {
                     id: 'low',
-                    name: 'Слабке руйнування',
+                    name: 'Легке',
                 },
                 {
                     id: 'medium',
-                    name: 'Сильне руйнування',
+                    name: 'Середнє',
                 },
                 {
                     id: 'high',
-                    name: 'Повне руйнування',
+                    name: 'Тяжке',
                 },
             ],
             repairType: null,
@@ -360,8 +360,8 @@ export default {
             objectCategory: { required },
             objectType: { required },
             community: { required },
-            area: { required, numeric, minValue: minValue(1) },
             floors: { required, numeric, minValue: minValue(1) },
+            area: { required, numeric, minValue: minValue(1) },
             file: { required },
         };
 
@@ -658,11 +658,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.damage-form__actions {
-    display: flex;
-    padding-top: 16px;
-}
-
 .custom-loader {
     animation: loader 1s infinite;
     display: flex;

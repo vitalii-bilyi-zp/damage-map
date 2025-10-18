@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import VirtualTourForm from '@/js/components/virtual-tours/VirtualTourForm';
+import VirtualTourForm from '@/js/components/virtual-tour/VirtualTourForm';
 
 export default {
     name: 'CreateVirtualTour',

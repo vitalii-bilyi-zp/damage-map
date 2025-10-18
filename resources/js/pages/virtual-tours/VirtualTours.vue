@@ -69,7 +69,7 @@
 </template>
 
 <script>
-    import ConfirmDialog from '@/js/components/ConfirmDialog';
+    import ConfirmDialog from '@/js/components/dialogs/ConfirmDialog';
 
     export default {
         name: "VirtualTours",

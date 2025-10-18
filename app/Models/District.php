@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Community;
+use App\Models\Region;
 
 class District extends Model
 {
@@ -37,5 +38,10 @@ class District extends Model
     public function communities()
     {
         return $this->hasMany(Community::class, 'district_id', 'id');
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
     }
 }

@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\RegulationDocumentsController;
 use App\Http\Controllers\Api\VirtualToursController;
+use App\Http\Controllers\Api\RestorationCostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,4 +74,6 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/virtual-tours', [VirtualToursController::class, 'index']);
     Route::post('/virtual-tours', [VirtualToursController::class, 'store']);
+
+    Route::post('/predict-restoration-cost', [RestorationCostController::class, 'predict']);
 });
