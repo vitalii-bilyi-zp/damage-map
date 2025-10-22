@@ -27,6 +27,7 @@ return new class extends Migration
             $table->enum('damage_type', array_keys(DamageNote::DAMAGE_TYPES_MAPPING))->nullable();
             $table->bigInteger('repair_type_id')->unsigned()->index()->nullable();
             $table->decimal('restoration_cost', 15, 2)->nullable();
+            $table->decimal('predicted_restoration_cost', 15, 2)->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
         });

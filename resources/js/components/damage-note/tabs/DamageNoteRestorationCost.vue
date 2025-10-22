@@ -139,49 +139,51 @@
                 @change="$v.form.repairType.$touch()"
                 @blur="$v.form.repairType.$touch()"
             />
+        </v-form>
 
-            <v-divider/>
+        <v-divider/>
 
-            <div class="pt-2">
-                <v-row>
-                    <v-col cols="12" sm="6">
-                        <v-list-item two-line class="mb-4">
+        <div class="pt-2">
+            <v-row>
+                <v-col cols="12" sm="6">
+                    <v-list-item two-line class="mb-4">
+                        <v-list-item-content class="damage-note-funds">
+                            <v-list-item-subtitle class="damage-note-funds__title mb-3">Оціночна вартість відновлення</v-list-item-subtitle>
+                            <v-list-item-title class="damage-note-funds__value">
+                                {{ damageNote.restorationCost === null ? '???' : formatCurrency(damageNote.restorationCost) }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-col>
+                <v-col cols="12" sm="6">
+                    <v-spacer></v-spacer>
+                    <div>
+                        <v-list-item two-line class="mb-4 pl-0">
                             <v-list-item-content class="damage-note-funds">
-                                <v-list-item-subtitle class="damage-note-funds__title mb-3">Оціночна вартість відновлення</v-list-item-subtitle>
-                                <v-list-item-title class="damage-note-funds__value">{{ formatCurrency(damageNote.restorationCost) }}</v-list-item-title>
+                                <v-list-item-subtitle class="damage-note-funds__title mb-3">Прогнозована вартість відновлення</v-list-item-subtitle>
+                                <v-list-item-title class="damage-note-funds__value">
+                                    {{ predictedRestorationCost === null ? '???' : formatCurrency(predictedRestorationCost) }}
+                                </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
-                    </v-col>
-                    <v-col cols="12" sm="6">
-                        <v-spacer></v-spacer>
-                        <div>
-                            <v-list-item two-line class="mb-4 pl-0">
-                                <v-list-item-content class="damage-note-funds">
-                                    <v-list-item-subtitle class="damage-note-funds__title mb-3">Прогнозована вартість відновлення</v-list-item-subtitle>
-                                    <v-list-item-title class="damage-note-funds__value">
-                                        {{ predictedRestorationCost === null ? '???' : formatCurrency(predictedRestorationCost) }}
-                                    </v-list-item-title>
-                                </v-list-item-content>
-                            </v-list-item>
 
-                            <v-btn
-                                color="success"
-                                :loading="formLoading"
-                                :disabled="formLoading"
-                                @click="submit"
-                            >
-                                Розрахувати
-                                <template v-slot:loader>
-                                    <span class="custom-loader">
-                                        <v-icon light>mdi-cached</v-icon>
-                                    </span>
-                                </template>
-                            </v-btn>
-                        </div>
-                    </v-col>
-                </v-row>
-            </div>
-        </v-form>
+                        <v-btn
+                            color="success"
+                            :loading="formLoading"
+                            :disabled="formLoading"
+                            @click="submit"
+                        >
+                            Розрахувати
+                            <template v-slot:loader>
+                                <span class="custom-loader">
+                                    <v-icon light>mdi-cached</v-icon>
+                                </span>
+                            </template>
+                        </v-btn>
+                    </div>
+                </v-col>
+            </v-row>
+        </div>
     </div>
 </template>
 
@@ -386,16 +388,17 @@ export default {
         },
 
         initForm() {
-            this.form.objectCategory = this.damageNote ? this.damageNote.objectCategory.id : null;
-            this.form.objectType = this.damageNote ? this.damageNote.objectType.id : null;
-            this.form.community = this.damageNote ? this.damageNote.community.id : null;
+            this.form.objectCategory = this.damageNote ? this.damageNote.objectCategory?.id : null;
+            this.form.objectType = this.damageNote ? this.damageNote.objectType?.id : null;
+            this.form.community = this.damageNote ? this.damageNote.community?.id : null;
             this.form.city = this.damageNote ? this.damageNote.city : null;
             this.form.street = this.damageNote ? this.damageNote.street : null;
             this.form.buildingNumber = this.damageNote ? this.damageNote.buildingNumber : null;
-            this.form.floors = this.damageNote ? this.damageNote.floors : null;
-            this.form.area = this.damageNote ? this.damageNote.area : null;
+            this.form.floors = this.damageNote ? parseFloat(this.damageNote.floors) : null;
+            this.form.area = this.damageNote ? parseFloat(this.damageNote.area) : null;
             this.form.damageType = this.damageNote ? this.damageNote.damageType : null;
-            this.form.repairType = this.damageNote ? this.damageNote.repairType.id : null;
+            this.form.repairType = this.damageNote ? this.damageNote.repairType?.id : null;
+            this.predictedRestorationCost = this.damageNote ? this.damageNote.predictedRestorationCost : null;
         },
 
         formatCurrency(amount) {

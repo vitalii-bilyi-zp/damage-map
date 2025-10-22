@@ -12,16 +12,16 @@
             <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
-                        <v-list-item-subtitle class="mb-1">Тип пошкодження</v-list-item-subtitle>
-                        <v-list-item-title>{{ damageTypeLabel }}</v-list-item-title>
+                        <v-list-item-subtitle class="mb-1">Категорія об’єкта</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.objectCategory ? damageNote.objectCategory.name : '-' }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-col>
             <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
-                        <v-list-item-subtitle class="mb-1">Оціночна вартість відновлення</v-list-item-subtitle>
-                        <v-list-item-title>{{ formatCurrency(damageNote.restorationCost) }}</v-list-item-title>
+                        <v-list-item-subtitle class="mb-1">Тип об’єкта</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.objectType ? damageNote.objectType.name : '-' }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-col>
@@ -62,18 +62,46 @@
             <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
-                        <v-list-item-subtitle class="mb-1">Категорія об’єкта</v-list-item-subtitle>
-                        <v-list-item-title>{{ damageNote.objectCategory ? damageNote.objectCategory.name : '-' }}</v-list-item-title>
+                        <v-list-item-subtitle class="mb-1">Тип пошкодження</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageTypeLabel }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-col>
-            <v-col cols="12" sm="4">
+            <!-- <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
-                        <v-list-item-subtitle class="mb-1">Тип об’єкта</v-list-item-subtitle>
-                        <v-list-item-title>{{ damageNote.objectType ? damageNote.objectType.name : '-' }}</v-list-item-title>
+                        <v-list-item-subtitle class="mb-1">Оціночна вартість відновлення</v-list-item-subtitle>
+                        <v-list-item-title>{{ formatCurrency(damageNote.restorationCost) }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+            </v-col> -->
+        </v-row>
+
+        <v-divider/>
+
+        <v-row>
+            <v-col cols="12" sm="6">
+                <v-list-item two-line class="mb-4">
+                    <v-list-item-content class="damage-note-funds">
+                        <v-list-item-subtitle class="damage-note-funds__title mb-3">Оціночна вартість відновлення</v-list-item-subtitle>
+                        <v-list-item-title class="damage-note-funds__value">
+                            {{ damageNote.restorationCost === null ? '???' : formatCurrency(damageNote.restorationCost) }}
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="6">
+                <v-spacer></v-spacer>
+                <div>
+                    <v-list-item two-line class="mb-4 pl-0">
+                        <v-list-item-content class="damage-note-funds">
+                            <v-list-item-subtitle class="damage-note-funds__title mb-3">Прогнозована вартість відновлення</v-list-item-subtitle>
+                            <v-list-item-title class="damage-note-funds__value">
+                                {{ damageNote.predictedRestorationCost === null ? '???' : formatCurrency(damageNote.predictedRestorationCost) }}
+                            </v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </div>
             </v-col>
         </v-row>
     </div>
@@ -132,6 +160,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+    .damage-note-funds__title {
+        font-size: 1rem;
+        white-space: initial;
+        line-height: 1.5;
+    }
 
+    .damage-note-funds__value {
+        font-size: 40px;
+        font-weight: 700;
+    }
 </style>
 

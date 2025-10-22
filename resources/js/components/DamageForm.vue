@@ -608,8 +608,8 @@ export default {
             this.city = this.damageNote ? this.damageNote.city : null;
             this.street = this.damageNote ? this.damageNote.street : null;
             this.buildingNumber = this.damageNote ? this.damageNote.buildingNumber : null;
-            this.floors = this.damageNote ? this.damageNote.floors : null;
-            this.area = this.damageNote ? this.damageNote.area : null;
+            this.floors = this.damageNote ? parseFloat(this.damageNote.floors) : null;
+            this.area = this.damageNote ? parseFloat(this.damageNote.area) : null;
             this.damageType = this.damageNote ? this.damageNote.damageType : null;
             this.repairType = this.damageNote ? this.damageNote.repairType : null;
             this.restorationCost = this.damageNote ? this.damageNote.restorationCost : null;

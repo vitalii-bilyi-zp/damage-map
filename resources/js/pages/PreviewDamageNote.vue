@@ -272,10 +272,11 @@ export default {
                 street: data.street,
                 buildingNumber: data.building_number,
                 floors: data.floors,
-                area: +data.area,
+                area: data.area,
                 damageType: data.damage_type,
                 repairType: data.repair_type,
-                restorationCost: +data.restoration_cost,
+                restorationCost: data.restoration_cost,
+                predictedRestorationCost: data.predicted_restoration_cost,
                 comment: data.comment,
                 images: data.damage_note_images,
             }

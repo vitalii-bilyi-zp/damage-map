@@ -41,6 +41,7 @@ class DamageNote extends Model
         'damage_type',
         'repair_type_id',
         'restoration_cost',
+        'predicted_restoration_cost',
         'comment'
     ];
 
