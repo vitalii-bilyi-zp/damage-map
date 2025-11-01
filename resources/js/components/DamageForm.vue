@@ -278,7 +278,7 @@
 
 <script>
 import moment from 'moment';
-import { required, email, numeric, minValue } from 'vuelidate/lib/validators';
+import { required, email, minValue } from 'vuelidate/lib/validators';
 import {mask} from 'vue-the-mask';
 
 export default {
@@ -360,8 +360,8 @@ export default {
             objectCategory: { required },
             objectType: { required },
             community: { required },
-            floors: { required, numeric, minValue: minValue(1) },
-            area: { required, numeric, minValue: minValue(1) },
+            floors: { required, minValue: minValue(1) },
+            area: { required, minValue: minValue(1) },
             file: { required },
         };
 
@@ -457,8 +457,7 @@ export default {
             const errors = [];
             if (!this.$v.floors.$dirty) return errors;
             !this.$v.floors.required && errors.push('Це поле обов\'язкове');
-            this.$v.floors.required && !this.$v.floors.numeric && errors.push('Повинно бути числом');
-            this.$v.floors.numeric && !this.$v.floors.minValue && errors.push('Мінімум 1');
+            this.$v.floors.required && !this.$v.floors.minValue && errors.push('Мінімум 1');
             return errors;
         },
 
@@ -466,8 +465,7 @@ export default {
             const errors = [];
             if (!this.$v.area.$dirty) return errors;
             !this.$v.area.required && errors.push('Це поле обов\'язкове');
-            this.$v.area.required && !this.$v.area.numeric && errors.push('Повинно бути числом');
-            this.$v.area.numeric && !this.$v.area.minValue && errors.push('Мінімум 1 м²');
+            this.$v.area.required && !this.$v.area.minValue && errors.push('Мінімум 1 м²');
             return errors;
         },
 

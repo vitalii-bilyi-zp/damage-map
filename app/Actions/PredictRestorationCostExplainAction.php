@@ -2,14 +2,14 @@
 
 namespace App\Actions;
 
-use App\Models\Community;
+use Illuminate\Support\Facades\Http;
 use App\Models\ObjectType;
+use App\Models\Community;
 use App\Models\RepairType;
 use App\Models\DamageNote;
-use Illuminate\Support\Facades\Http;
 use App\Exceptions\UpstreamRequestException;
 
-class PredictRestorationCostAction
+class PredictRestorationCostExplainAction
 {
     public function execute(array $data): array
     {
@@ -28,7 +28,7 @@ class PredictRestorationCostAction
             'repair_type' => (string) $repairType,
         ];
 
-        $url = rtrim(config('services.restoration.url'), '/') . '/predict';
+        $url = rtrim(config('services.restoration.url'), '/') . '/predict_explain';
         $apiKey = config('services.restoration.api_key');
         $timeout = (int) config('services.restoration.timeout', 8);
 
@@ -50,10 +50,30 @@ class PredictRestorationCostAction
 
             $body = $resp->json() ?? [];
 
+            $predicted = isset($body['predicted_cost']) ? (float) $body['predicted_cost'] : null;
+            $baseValue = isset($body['base_value']) ? (float) $body['base_value'] : null;
+            $currency = $body['currency'] ?? 'UAH';
+            $model = $body['model'] ?? 'unknown';
+            $contributions = collect($body['contributions'] ?? [])
+                ->map(function ($c) {
+                    return [
+                        'group' => (string) ($c['group'] ?? 'unknown'),
+                        'percent' => isset($c['percent']) ? (float) $c['percent'] : 0.0,
+                        'contribution' => array_key_exists('contribution', $c) && $c['contribution'] !== null
+                            ? (float) $c['contribution']
+                            : null,
+                    ];
+                })
+                ->sortByDesc('percent')
+                ->values()
+                ->all();
+
             return [
-                'predicted_cost' => $body['predicted_cost'] ?? null,
-                'currency' => $body['currency'] ?? 'UAH',
-                'model' => $body['model'] ?? 'unknown',
+                'predicted_cost' => $predicted,
+                'currency' => $currency,
+                'model' => $model,
+                'base_value' => $baseValue,
+                'contributions' => $contributions,
             ];
         } catch (UpstreamRequestException $e) {
             throw $e;

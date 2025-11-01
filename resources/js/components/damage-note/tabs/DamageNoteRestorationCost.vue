@@ -143,7 +143,7 @@
 
         <v-divider/>
 
-        <div class="pt-2">
+        <div class="px-2">
             <v-row>
                 <v-col cols="12" sm="6">
                     <v-list-item two-line class="mb-4">
@@ -183,16 +183,43 @@
                     </div>
                 </v-col>
             </v-row>
+            <v-row v-if="chartData && chartData.datasets && chartData.datasets.length" class="justify-center">
+                <v-col cols="12" sm="6">
+                    <PieChart :chart-data="chartData" :options="chartOptions" class="statistic-card__chart" />
+                </v-col>
+            </v-row>
         </div>
     </div>
 </template>
 
 <script>
-import { required, numeric, minValue } from 'vuelidate/lib/validators';
+import PieChart from '@/js/components/charts/PieChart.vue';
+import { required, minValue } from 'vuelidate/lib/validators';
 import { formatUAH } from '@/js/helpers';
+
+const COLORS = [
+    '#0aadd0',
+    '#e43e6e',
+    '#01c498',
+    '#ffbe07',
+    '#4e40de',
+    '#7f2084',
+    '#795548',
+    '#9e9e9e',
+    '#ff5722',
+    '#3f51b5',
+    '#8bc34a',
+    '#ff9800',
+    '#009688',
+    '#607d8b'
+];
 
 export default {
     name: 'DamageNoteRestorationCost',
+
+    components: {
+        PieChart,
+    },
 
     props: {
         damageNote: {
@@ -239,6 +266,15 @@ export default {
                     name: 'Тяжке',
                 },
             ],
+
+            chartData: {
+                labels: [],
+                datasets: []
+            },
+            chartOptions: {
+                responsive: true,
+                maintainAspectRatio: false
+            },
         }
     },
 
@@ -248,8 +284,8 @@ export default {
                 objectCategory: { required },
                 objectType: { required },
                 community: { required },
-                floors: { required, numeric, minValue: minValue(1) },
-                area: { required, numeric, minValue: minValue(1) },
+                floors: { required, minValue: minValue(1) },
+                area: { required, minValue: minValue(1) },
                 damageType: { required },
                 repairType: { required },
             }
@@ -282,8 +318,7 @@ export default {
             const errors = [];
             if (!this.$v.form.floors.$dirty) return errors;
             !this.$v.form.floors.required && errors.push('Це поле обов\'язкове');
-            this.$v.form.floors.required && !this.$v.form.floors.numeric && errors.push('Повинно бути числом');
-            this.$v.form.floors.numeric && !this.$v.form.floors.minValue && errors.push('Мінімум 1');
+            this.$v.form.floors.required && !this.$v.form.floors.minValue && errors.push('Мінімум 1');
             return errors;
         },
 
@@ -291,8 +326,7 @@ export default {
             const errors = [];
             if (!this.$v.form.area.$dirty) return errors;
             !this.$v.form.area.required && errors.push('Це поле обов\'язкове');
-            this.$v.form.area.required && !this.$v.form.area.numeric && errors.push('Повинно бути числом');
-            this.$v.form.area.numeric && !this.$v.form.area.minValue && errors.push('Мінімум 1 м²');
+            this.$v.form.area.required && !this.$v.form.area.minValue && errors.push('Мінімум 1 м²');
             return errors;
         },
 
@@ -424,6 +458,10 @@ export default {
             this.$store.dispatch('predictRestorationCost', { data })
                 .then((response) => {
                     this.predictedRestorationCost = response.data.predicted_cost;
+
+                    if (response.data.pie) {
+                        this.setChartData(response.data.pie);
+                    }
                 })
                 .catch(() => {
                     this.snackbarError = true;
@@ -443,6 +481,25 @@ export default {
                 repair_type_id: this.form.repairType,
             };
         },
+
+        setChartData(data) {
+            let labels = [];
+            let datasets = [{
+                backgroundColor: [],
+                data: []
+            }];
+
+            Object.keys(data).forEach((key, index) => {
+                labels.push(key);
+                datasets[0].backgroundColor.push(COLORS[index]);
+                datasets[0].data.push(data[key]);
+            });
+
+            this.chartData = Object.assign({}, this.chartData, {
+                labels,
+                datasets
+            });
+        }
     }
 }
 </script>
