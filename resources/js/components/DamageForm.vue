@@ -15,223 +15,259 @@
         </v-form>
 
         <v-form v-else>
-            <template v-if="isEditing || !isAuthorized">
-                <v-text-field
-                    v-model="fullName"
-                    :error-messages="fullNameErrors"
-                    :disabled="isEditing"
-                    label="ПІБ"
-                    dense
-                    required
-                    outlined
-                    maxlength="255"
-                    @input="$v.fullName.$touch()"
-                    @blur="$v.fullName.$touch()"
-                ></v-text-field>
-
-                <v-text-field
-                    v-model="email"
-                    :error-messages="emailErrors"
-                    :disabled="isEditing"
-                    label="E-mail"
-                    type="email"
-                    append-icon="mdi-email"
-                    dense
-                    required
-                    outlined
-                    maxlength="255"
-                    @input="$v.email.$touch()"
-                    @blur="$v.email.$touch()"
-                ></v-text-field>
-
-                <v-text-field
-                    v-model="phone"
-                    :error-messages="phoneErrors"
-                    :disabled="isEditing"
-                    v-mask="'+38 (0##) ### - ## - ##'"
-                    label="Телефон"
-                    type="tel"
-                    append-icon="mdi-phone"
-                    dense
-                    required
-                    outlined
-                    maxlength="255"
-                    @input="$v.phone.$touch()"
-                    @blur="$v.phone.$touch()"
-                ></v-text-field>
-            </template>
-
-            <v-menu
-                v-model="dateMenu"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                offset-y
-                min-width="280px"
-            >
-                <template v-slot:activator="{ on }">
+            <!-- Контактні дані -->
+            <v-row v-if="isEditing || !isAuthorized">
+                <v-col cols="12" sm="4">
                     <v-text-field
-                        v-on="on"
-                        v-model="date"
-                        :error-messages="dateErrors"
-                        label="Дата"
+                        v-model="fullName"
+                        :error-messages="fullNameErrors"
+                        :disabled="isEditing"
+                        label="ПІБ"
+                        dense
+                        required
+                        outlined
+                        maxlength="255"
+                        @input="$v.fullName.$touch()"
+                        @blur="$v.fullName.$touch()"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="email"
+                        :error-messages="emailErrors"
+                        :disabled="isEditing"
+                        label="E-mail"
+                        type="email"
+                        append-icon="mdi-email"
+                        dense
+                        required
+                        outlined
+                        maxlength="255"
+                        @input="$v.email.$touch()"
+                        @blur="$v.email.$touch()"
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="phone"
+                        :error-messages="phoneErrors"
+                        :disabled="isEditing"
+                        v-mask="'+38 (0##) ### - ## - ##'"
+                        label="Телефон"
+                        type="tel"
+                        append-icon="mdi-phone"
+                        dense
+                        required
+                        outlined
+                        maxlength="255"
+                        @input="$v.phone.$touch()"
+                        @blur="$v.phone.$touch()"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
+
+            <!-- Дата та тип об'єкта -->
+            <v-row>
+                <v-col cols="12" sm="4">
+                    <v-menu
+                        v-model="dateMenu"
+                        :close-on-content-click="false"
+                        transition="scale-transition"
+                        offset-y
+                        min-width="280px"
+                    >
+                        <template v-slot:activator="{ on }">
+                            <v-text-field
+                                v-on="on"
+                                v-model="date"
+                                :error-messages="dateErrors"
+                                label="Дата пошкодження"
+                                dense
+                                outlined
+                                readonly
+                                append-icon="mdi-calendar"
+                                @blur="$v.date.$touch()"
+                            ></v-text-field>
+                        </template>
+                        <v-date-picker
+                            v-model="date"
+                            min="2022-02-24"
+                            :max="new Date().toISOString().substr(0, 10)"
+                            locale="uk-UA"
+                            @input="dateMenu = false"
+                        ></v-date-picker>
+                    </v-menu>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-select
+                        v-model="objectCategory"
+                        :items="objectCategoryItemsComputed"
+                        :error-messages="objectCategoryErrors"
+                        label="Категорія об'єкта"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        :disabled="!objectCategoryItemsComputed || !objectCategoryItemsComputed.length"
+                        @change="onObjectCategoryChange"
+                        @blur="$v.objectCategory.$touch()"
+                    ></v-select>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-select
+                        v-model="objectType"
+                        :items="objectTypeItemsComputed"
+                        :error-messages="objectTypeErrors"
+                        label="Тип об'єкта"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        :disabled="!objectCategory || !objectTypeItemsComputed || !objectTypeItemsComputed.length"
+                        @change="$v.objectType.$touch()"
+                        @blur="$v.objectType.$touch()"
+                    ></v-select>
+                </v-col>
+            </v-row>
+
+            <!-- Адреса -->
+            <v-row>
+                <v-col cols="12" sm="4">
+                    <v-autocomplete
+                        v-model="community"
+                        :items="communityItems"
+                        :error-messages="communityErrors"
+                        label="Територіальна громада"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        :disabled="!communityItems || !communityItems.length"
+                        @change="$v.community.$touch()"
+                        @blur="$v.community.$touch()"
+                    ></v-autocomplete>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="city"
+                        label="Місто / селище"
                         dense
                         outlined
-                        readonly
-                        append-icon="mdi-calendar"
-                        @blur="$v.date.$touch()"
                     ></v-text-field>
-                </template>
-                <v-date-picker
-                    v-model="date"
-                    min="2022-02-24"
-                    :max="new Date().toISOString().substr(0, 10)"
-                    locale="uk-UA"
-                    @input="dateMenu = false"
-                ></v-date-picker>
-            </v-menu>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="street"
+                        label="Вулиця"
+                        dense
+                        outlined
+                    ></v-text-field>
+                </v-col>
+            </v-row>
 
-            <v-select
-                v-model="objectCategory"
-                :items="objectCategoryItemsComputed"
-                :error-messages="objectCategoryErrors"
-                label="Категорія об’єкта"
-                dense
-                required
-                outlined
-                item-text="name"
-                item-value="id"
-                :disabled="!objectCategoryItemsComputed || !objectCategoryItemsComputed.length"
-                @change="onObjectCategoryChange"
-                @blur="$v.objectCategory.$touch()"
-            ></v-select>
+            <!-- Будівля та характеристики -->
+            <v-row>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="buildingNumber"
+                        label="Номер будівлі"
+                        dense
+                        outlined
+                    ></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="floors"
+                        :error-messages="floorsErrors"
+                        label="Кількість поверхів"
+                        type="number"
+                        dense
+                        required
+                        outlined
+                        @input="$v.floors.$touch()"
+                        @blur="$v.floors.$touch()"
+                    />
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="area"
+                        :error-messages="areaErrors"
+                        label="Площа (м²)"
+                        type="number"
+                        dense
+                        suffix="м²"
+                        required
+                        outlined
+                        @input="$v.area.$touch()"
+                        @blur="$v.area.$touch()"
+                    />
+                </v-col>
+            </v-row>
 
-            <v-select
-                v-model="objectType"
-                :items="objectTypeItemsComputed"
-                :error-messages="objectTypeErrors"
-                label="Тип об’єкта"
-                dense
-                required
-                outlined
-                item-text="name"
-                item-value="id"
-                :disabled="!objectCategory || !objectTypeItemsComputed || !objectTypeItemsComputed.length"
-                @change="$v.objectType.$touch()"
-                @blur="$v.objectType.$touch()"
-            ></v-select>
+            <!-- Тип пошкодження та ремонту (для авторизованих) -->
+            <v-row v-if="isAuthorized">
+                <v-col cols="12" sm="4">
+                    <v-select
+                        v-model="damageType"
+                        :items="damageTypeItems"
+                        :error-messages="damageTypeErrors"
+                        label="Тип пошкодження"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        @change="$v.damageType.$touch()"
+                        @blur="$v.damageType.$touch()"
+                    ></v-select>
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-select
+                        v-model="repairType"
+                        :items="repairTypeItems"
+                        :error-messages="repairTypeErrors"
+                        label="Тип ремонту"
+                        dense
+                        required
+                        outlined
+                        item-text="name"
+                        item-value="id"
+                        :disabled="!repairTypeItems || !repairTypeItems.length"
+                        @change="$v.repairType.$touch()"
+                        @blur="$v.repairType.$touch()"
+                    />
+                </v-col>
+                <v-col cols="12" sm="4">
+                    <v-text-field
+                        v-model="restorationCost"
+                        :error-messages="restorationCostErrors"
+                        label="Вартість відновлення"
+                        type="number"
+                        dense
+                        prefix="₴"
+                        required
+                        outlined
+                        @input="$v.restorationCost.$touch()"
+                        @blur="$v.restorationCost.$touch()"
+                    ></v-text-field>
+                </v-col>
+            </v-row>
 
-            <v-autocomplete
-                v-model="community"
-                :items="communityItems"
-                :error-messages="communityErrors"
-                label="Територіальна громада"
-                dense
-                required
-                outlined
-                item-text="name"
-                item-value="id"
-                :disabled="!communityItems || !communityItems.length"
-                @change="$v.community.$touch()"
-                @blur="$v.community.$touch()"
-            ></v-autocomplete>
-
-            <v-text-field
-                v-model="city"
-                label="Місто / селище"
-                dense
-                outlined
-            ></v-text-field>
-
-            <v-text-field
-                v-model="street"
-                label="Вулиця"
-                dense
-                outlined
-            ></v-text-field>
-
-            <v-text-field
-                v-model="buildingNumber"
-                label="Будівля"
-                dense
-                outlined
-            ></v-text-field>
-
-            <v-text-field
-                v-model="floors"
-                :error-messages="floorsErrors"
-                label="Кількість поверхів"
-                type="number"
-                dense
-                required
-                outlined
-                @input="$v.floors.$touch()"
-                @blur="$v.floors.$touch()"
-            />
-
-            <v-text-field
-                v-model="area"
-                :error-messages="areaErrors"
-                label="Площа (м²)"
-                type="number"
-                dense
-                suffix="м²"
-                required
-                outlined
-                @input="$v.area.$touch()"
-                @blur="$v.area.$touch()"
-            />
-
-            <template v-if="isAuthorized">
-                <v-select
-                    v-model="damageType"
-                    :items="damageTypeItems"
-                    :error-messages="damageTypeErrors"
-                    label="Тип пошкодження"
-                    dense
-                    required
-                    outlined
-                    item-text="name"
-                    item-value="id"
-                    @change="$v.damageType.$touch()"
-                    @blur="$v.damageType.$touch()"
-                ></v-select>
-
-                <v-select
-                    v-model="repairType"
-                    :items="repairTypeItems"
-                    :error-messages="repairTypeErrors"
-                    label="Тип ремонту"
-                    dense
-                    required
-                    outlined
-                    item-text="name"
-                    item-value="id"
-                    :disabled="!repairTypeItems || !repairTypeItems.length"
-                    @change="$v.repairType.$touch()"
-                    @blur="$v.repairType.$touch()"
-                />
-
-                <v-text-field
-                    v-model="restorationCost"
-                    :error-messages="restorationCostErrors"
-                    label="Вартість відновлення"
-                    type="number"
-                    dense
-                    prefix="₴"
-                    required
-                    outlined
-                    @input="$v.restorationCost.$touch()"
-                    @blur="$v.restorationCost.$touch()"
-                ></v-text-field>
-            </template>
-
-            <v-textarea
-                v-model="comment"
-                label="Коментар"
-                dense
-                outlined
-                rows="3"
-            ></v-textarea>
+            <!-- Коментар -->
+            <v-row>
+                <v-col cols="12">
+                    <v-textarea
+                        v-model="comment"
+                        label="Коментар"
+                        dense
+                        outlined
+                        rows="3"
+                    ></v-textarea>
+                </v-col>
+            </v-row>
 
             <v-divider/>
 

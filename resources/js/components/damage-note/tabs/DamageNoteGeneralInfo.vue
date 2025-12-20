@@ -33,6 +33,35 @@
             <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
+                        <v-list-item-subtitle class="mb-1">Регіон</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.community && damageNote.community.district && damageNote.community.district.region ? damageNote.community.district.region.name : '-' }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+                <v-list-item two-line>
+                    <v-list-item-content>
+                        <v-list-item-subtitle class="mb-1">Район</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.community && damageNote.community.district ? damageNote.community.district.name : '-' }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+                <v-list-item two-line>
+                    <v-list-item-content>
+                        <v-list-item-subtitle class="mb-1">Територіальна громада</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.community ? damageNote.community.name : '-' }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-col>
+        </v-row>
+
+        <v-divider/>
+
+        <v-row>
+            <v-col cols="12" sm="4">
+                <v-list-item two-line>
+                    <v-list-item-content>
                         <v-list-item-subtitle class="mb-1">Місто / селище</v-list-item-subtitle>
                         <v-list-item-title>{{ damageNote.city }}</v-list-item-title>
                     </v-list-item-content>
@@ -62,19 +91,40 @@
             <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
+                        <v-list-item-subtitle class="mb-1">Кількість поверхів</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.floors || '-' }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+                <v-list-item two-line>
+                    <v-list-item-content>
+                        <v-list-item-subtitle class="mb-1">Площа (м²)</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.area ? damageNote.area + ' м²' : '-' }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-col>
+        </v-row>
+
+        <v-divider/>
+
+        <v-row>
+            <v-col cols="12" sm="4">
+                <v-list-item two-line>
+                    <v-list-item-content>
                         <v-list-item-subtitle class="mb-1">Тип пошкодження</v-list-item-subtitle>
                         <v-list-item-title>{{ damageTypeLabel }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
             </v-col>
-            <!-- <v-col cols="12" sm="4">
+            <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
-                        <v-list-item-subtitle class="mb-1">Оціночна вартість відновлення</v-list-item-subtitle>
-                        <v-list-item-title>{{ formatCurrency(damageNote.restorationCost) }}</v-list-item-title>
+                        <v-list-item-subtitle class="mb-1">Тип ремонту</v-list-item-subtitle>
+                        <v-list-item-title>{{ damageNote.repairType ? damageNote.repairType.name : '-' }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
-            </v-col> -->
+            </v-col>
         </v-row>
 
         <v-divider/>

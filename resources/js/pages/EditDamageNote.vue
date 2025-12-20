@@ -215,7 +215,7 @@ export default {
 <style lang="scss" scoped>
 .damage-note-card {
     width: 100%;
-    max-width: 500px;
+    max-width: 750px;
     margin: 0 auto;
 }
 </style>
