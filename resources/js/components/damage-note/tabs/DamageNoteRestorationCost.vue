@@ -161,8 +161,8 @@
                         <v-list-item two-line class="mb-4 pl-0">
                             <v-list-item-content class="damage-note-funds">
                                 <v-list-item-subtitle class="damage-note-funds__title mb-3">Прогнозована вартість відновлення</v-list-item-subtitle>
-                                <v-list-item-title class="damage-note-funds__value">
-                                    {{ predictedRestorationCost === null ? '???' : formatCurrency(predictedRestorationCost) }}
+                                <v-list-item-title class="damage-note-funds__value" :class="{ 'warning--text': adjustedCost !== null }">
+                                    {{ displayedPredictedCost === null ? '???' : formatCurrency(displayedPredictedCost) }}
                                 </v-list-item-title>
                             </v-list-item-content>
                         </v-list-item>
@@ -183,17 +183,99 @@
                     </div>
                 </v-col>
             </v-row>
-            <v-row v-if="chartData && chartData.datasets && chartData.datasets.length" class="justify-center">
-                <v-col cols="12" sm="6">
-                    <PieChart :chart-data="chartData" :options="chartOptions" class="statistic-card__chart" />
-                </v-col>
-            </v-row>
+            <!-- Tabs: visible after first calculation -->
+            <template v-if="predictionMade">
+                <v-divider class="my-4" />
+
+                <v-tabs v-model="activeTab" dense>
+                    <v-tab>SHAP-внески</v-tab>
+                    <v-tab>Інфляційне коригування</v-tab>
+                </v-tabs>
+
+                <v-tabs-items v-model="activeTab">
+                    <!-- Tab 1: Pie chart -->
+                    <v-tab-item>
+                        <v-row v-if="chartData && chartData.datasets && chartData.datasets.length" class="justify-center mt-2">
+                            <v-col cols="12" sm="6">
+                                <PieChart :chart-data="chartData" :options="chartOptions" class="statistic-card__chart" />
+                            </v-col>
+                        </v-row>
+                        <div v-else class="text-center grey--text py-4 caption">
+                            Дані недоступні
+                        </div>
+                    </v-tab-item>
+
+                    <!-- Tab 2: Inflation correction -->
+                    <v-tab-item>
+                        <div class="pt-4">
+                            <v-row>
+                                <v-col cols="12" sm="6">
+                                    <v-select
+                                        v-model="work_year"
+                                        :items="availableYears"
+                                        label="Рік початку робіт"
+                                        clearable
+                                        outlined
+                                        dense
+                                    />
+                                </v-col>
+
+                                <v-col cols="12" sm="6">
+                                    <v-select
+                                        v-model="work_month"
+                                        :items="availableMonths"
+                                        item-text="label"
+                                        item-value="value"
+                                        label="Місяць початку робіт"
+                                        clearable
+                                        outlined
+                                        dense
+                                        :disabled="!work_year"
+                                        @change="onMonthSelected"
+                                    />
+                                </v-col>
+                            </v-row>
+
+                            <template v-if="adjustedCost">
+                                <v-row class="mb-2">
+                                    <v-col cols="12">
+                                        <div class="caption grey--text">Прогнозована вартість (скоригована)</div>
+                                        <div class="text-h6 warning--text font-weight-bold">
+                                            {{ formatCurrency(adjustedCost) }} грн
+                                            <v-progress-circular
+                                                v-if="inflationLoading"
+                                                indeterminate
+                                                size="16"
+                                                width="2"
+                                                class="ml-2"
+                                            />
+                                        </div>
+                                        <div class="caption grey--text">{{ inflationHint }}</div>
+                                    </v-col>
+                                </v-row>
+
+                                <bar-chart
+                                    v-if="scenarioChartData"
+                                    :chart-data="scenarioChartData"
+                                    :options="scenarioChartOptions"
+                                    :height="160"
+                                />
+                            </template>
+
+                            <v-row v-else-if="inflationLoading" justify="center" class="my-4">
+                                <v-progress-circular indeterminate color="primary" />
+                            </v-row>
+                        </div>
+                    </v-tab-item>
+                </v-tabs-items>
+            </template>
         </div>
     </div>
 </template>
 
 <script>
 import PieChart from '@/js/components/charts/PieChart.vue';
+import BarChart from '@/js/components/charts/BarChart.vue';
 import { required, minValue } from 'vuelidate/lib/validators';
 import { formatUAH } from '@/js/helpers';
 
@@ -219,6 +301,7 @@ export default {
 
     components: {
         PieChart,
+        BarChart,
     },
 
     props: {
@@ -274,6 +357,57 @@ export default {
             chartOptions: {
                 responsive: true,
                 maintainAspectRatio: false
+            },
+
+            activeTab: 0,
+
+            // Inflation correction state
+            predictionMade: false,
+            basePredictedCost: null,
+            work_year: null,
+            work_month: null,
+            adjustedCost: null,
+            inflationK: null,
+            inflationLoading: false,
+            scenarioChartData: null,
+
+            YEARS: [2024, 2025, 2026, 2027],
+            MONTHS: [
+                { value: 1,  label: 'Січень' },
+                { value: 2,  label: 'Лютий' },
+                { value: 3,  label: 'Березень' },
+                { value: 4,  label: 'Квітень' },
+                { value: 5,  label: 'Травень' },
+                { value: 6,  label: 'Червень' },
+                { value: 7,  label: 'Липень' },
+                { value: 8,  label: 'Серпень' },
+                { value: 9,  label: 'Вересень' },
+                { value: 10, label: 'Жовтень' },
+                { value: 11, label: 'Листопад' },
+                { value: 12, label: 'Грудень' },
+            ],
+            scenarioChartOptions: {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: { display: false },
+                tooltips: {
+                    callbacks: {
+                        label: (item) => {
+                            return new Intl.NumberFormat('uk-UA').format(item.yLabel) + ' грн';
+                        }
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            callback: (value) => (value / 1_000_000).toFixed(0) + ' млн',
+                            fontSize: 10,
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: { fontSize: 10, maxRotation: 45 }
+                    }]
+                }
             },
         }
     },
@@ -362,12 +496,57 @@ export default {
             }
 
             return this.objectTypeItems.filter((item) => item.object_category_id === this.form.objectCategory);
-        }
+        },
+
+        currentYear() {
+            return new Date().getFullYear();
+        },
+        currentMonth() {
+            return new Date().getMonth() + 1;
+        },
+
+        availableYears() {
+            return this.YEARS.filter(year => year >= this.currentYear);
+        },
+
+        availableMonths() {
+            if (!this.work_year) return this.MONTHS;
+            if (this.work_year === this.currentYear) {
+                return this.MONTHS.filter(m => m.value >= this.currentMonth);
+            }
+            return this.MONTHS;
+        },
+
+        displayedPredictedCost() {
+            return this.adjustedCost ?? this.basePredictedCost;
+        },
+
+        inflationHint() {
+            if (!this.adjustedCost || !this.inflationK || !this.basePredictedCost) return '';
+            const delta = ((this.inflationK - 1) * 100).toFixed(1);
+            const base  = this.formatCurrency(this.basePredictedCost);
+            const month = this.MONTHS.find(x => x.value === this.work_month)?.label || '';
+            return `Базовий: ${base} · ×${this.inflationK.toFixed(4)} (+${delta}%) · ${month} ${this.work_year}`;
+        },
     },
 
     watch: {
         damageNote() {
             this.initForm();
+        },
+
+        work_year() {
+            if (this.work_month) {
+                const stillAvailable = this.availableMonths.some(
+                    m => m.value === this.work_month
+                );
+                if (!stillAvailable) {
+                    this.work_month = null;
+                }
+            }
+            this.adjustedCost     = null;
+            this.inflationK       = null;
+            this.scenarioChartData = null;
         },
     },
 
@@ -462,6 +641,15 @@ export default {
                     if (response.data.pie) {
                         this.setChartData(response.data.pie);
                     }
+
+                    this.predictionMade = true;
+                    this.basePredictedCost = response.data.predicted_cost;
+                    this.activeTab = 0;
+                    this.work_year = null;
+                    this.work_month = null;
+                    this.adjustedCost = null;
+                    this.inflationK = null;
+                    this.scenarioChartData = null;
                 })
                 .catch(() => {
                     this.snackbarError = true;
@@ -479,6 +667,80 @@ export default {
                 area: this.form.area,
                 damage_type: this.form.damageType,
                 repair_type_id: this.form.repairType,
+            };
+        },
+
+        async onMonthSelected() {
+            if (!this.work_year || !this.work_month) return;
+
+            this.inflationLoading = true;
+            this.scenarioChartData = null;
+
+            try {
+                const now          = new Date();
+                const currentYear  = now.getFullYear();
+                const currentMonth = now.getMonth() + 1;
+
+                const periods = [];
+                [2024, 2025, 2026, 2027].forEach(year => {
+                    [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].forEach(month => {
+                        if (year < currentYear) return;
+                        if (year === currentYear && month < currentMonth) return;
+                        periods.push({ year, month });
+                    });
+                });
+
+                const payload = {
+                    object_type_id: this.form.objectType,
+                    community_id:   this.form.community,
+                    repair_type_id: this.form.repairType,
+                    damage_type:    this.form.damageType,
+                    area:           this.form.area,
+                    floors:         this.form.floors,
+                    periods,
+                };
+
+                const response = await window.httpClient.post(
+                    '/api/predict-restoration-cost/scenario-comparison',
+                    payload
+                );
+
+                const scenarios = response.data.scenarios;
+
+                const selected = scenarios.find(
+                    s => s.year === this.work_year && s.month === this.work_month
+                );
+                if (selected) {
+                    this.adjustedCost = selected.adjusted_cost;
+                    this.inflationK   = selected.inflation_k;
+                }
+
+                this.scenarioChartData = this.buildChartData(scenarios);
+
+            } catch (error) {
+                console.error('Inflation scenario error:', error);
+            } finally {
+                this.inflationLoading = false;
+            }
+        },
+
+        buildChartData(scenarios) {
+            const monthName = (m) => this.MONTHS.find(x => x.value === m)?.label || m;
+            const labels = scenarios.map(s => `${monthName(s.month)} ${s.year}`);
+            const values = scenarios.map(s => Math.round(s.adjusted_cost));
+            const colors = scenarios.map(s =>
+                s.year === this.work_year && s.month === this.work_month
+                    ? '#F57F17'
+                    : 'rgba(25, 118, 210, 0.4)'
+            );
+
+            return {
+                labels,
+                datasets: [{
+                    data:            values,
+                    backgroundColor: colors,
+                    borderRadius:    3,
+                }]
             };
         },
 

@@ -36,6 +36,8 @@ class Predict extends FormRequest
                 Rule::in(array_keys(DamageNote::DAMAGE_TYPES_MAPPING)),
             ],
             'repair_type_id' => 'required|integer|exists:repair_types,id',
+            'work_year' => ['nullable', 'integer', 'min:2020', 'max:2040', 'required_with:work_month'],
+            'work_month' => ['nullable', 'integer', 'min:1', 'max:12', 'required_with:work_year'],
         ];
     }
 }

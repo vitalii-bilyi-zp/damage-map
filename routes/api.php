@@ -75,5 +75,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/virtual-tours', [VirtualToursController::class, 'index']);
     Route::post('/virtual-tours', [VirtualToursController::class, 'store']);
 
+    Route::post('/predict-restoration-cost/scenario-comparison', [RestorationCostController::class, 'scenarioComparison']);
     Route::post('/predict-restoration-cost', [RestorationCostController::class, 'predict']);
+    Route::get('/inflation-indices', [RestorationCostController::class, 'inflationIndices']);
 });

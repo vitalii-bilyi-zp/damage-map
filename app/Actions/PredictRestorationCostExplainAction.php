@@ -27,6 +27,9 @@ class PredictRestorationCostExplainAction
             'region' => (string) $region,
             'repair_type' => (string) $repairType,
         ];
+        $payload['work_year'] = $data['work_year'] ?? null;
+        $payload['work_month'] = $data['work_month'] ?? null;
+        $payload['inflation_indices'] = \App\Models\InflationIndex::getAllForPayload();
 
         $url = rtrim(config('services.restoration.url'), '/') . '/predict_explain';
         $apiKey = config('services.restoration.api_key');
@@ -70,10 +73,16 @@ class PredictRestorationCostExplainAction
 
             return [
                 'predicted_cost' => $predicted,
-                'currency' => $currency,
-                'model' => $model,
-                'base_value' => $baseValue,
-                'contributions' => $contributions,
+                'adjusted_cost'  => $body['adjusted_cost']  ?? $predicted,
+                'inflation_k'    => $body['inflation_k']    ?? 1.0,
+                'base_year'      => $body['base_year']      ?? 2024,
+                'work_year'    => $body['work_year']    ?? ($data['work_year']    ?? 2024),
+                'work_month'   => $body['work_month']   ?? ($data['work_month'] ?? 1),
+                'base_month'     => $body['base_month'] ?? 1,
+                'currency'       => $currency,
+                'model'          => $model,
+                'base_value'     => $baseValue,
+                'contributions'  => $contributions,
             ];
         } catch (UpstreamRequestException $e) {
             throw $e;

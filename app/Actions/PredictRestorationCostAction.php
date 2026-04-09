@@ -28,6 +28,10 @@ class PredictRestorationCostAction
             'repair_type' => (string) $repairType,
         ];
 
+        $payload['work_year'] = $data['work_year'] ?? null;
+        $payload['work_month'] = $data['work_month'] ?? null;
+        $payload['inflation_indices'] = \App\Models\InflationIndex::getAllForPayload();
+
         $url = rtrim(config('services.restoration.url'), '/') . '/predict';
         $apiKey = config('services.restoration.api_key');
         $timeout = (int) config('services.restoration.timeout', 8);
@@ -50,10 +54,20 @@ class PredictRestorationCostAction
 
             $body = $resp->json() ?? [];
 
+            $predicted = isset($body['predicted_cost']) ? (float) $body['predicted_cost'] : null;
+            $currency = $body['currency'] ?? 'UAH';
+            $model = $body['model'] ?? 'unknown';
+
             return [
-                'predicted_cost' => $body['predicted_cost'] ?? null,
-                'currency' => $body['currency'] ?? 'UAH',
-                'model' => $body['model'] ?? 'unknown',
+                'predicted_cost' => $predicted,
+                'adjusted_cost'  => $body['adjusted_cost']  ?? $predicted,
+                'inflation_k'    => $body['inflation_k']    ?? 1.0,
+                'base_year'      => $body['base_year']      ?? 2024,
+                'work_year'      => $body['work_year']      ?? ($data['work_year']    ?? 2024),
+                'work_month'     => $body['work_month']     ?? ($data['work_month'] ?? 1),
+                'base_month'     => $body['base_month']     ?? 1,
+                'currency'       => $currency,
+                'model'          => $model,
             ];
         } catch (UpstreamRequestException $e) {
             throw $e;

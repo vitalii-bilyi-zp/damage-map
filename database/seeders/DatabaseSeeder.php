@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             RepairTypesSeeder::class,
             DamageNoteRequestSeeder::class,
             VirtualToursSeeder::class,
+            InflationIndexSeeder::class,
         ]);
     }
 }
