@@ -2,35 +2,45 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use App\Models\User;
 use App\Models\DamageNote;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DamageNote>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DamageNoteRequest>
  */
 class DamageNoteRequestFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition()
+    public function definition(): array
     {
-        $userId = User::inRandomOrder()->first()->id;
-
         return [
-            'full_name' => null,
-            'email' => null,
-            'phone' => null,
-            'damage_note_id' => DamageNote::inRandomOrder()->first()->id,
-            'creator_id' => $userId,
-            'approver_id' => $userId,
+            'full_name'        => null,
+            'email'            => null,
+            'phone'            => null,
+            'damage_note_id'   => DamageNote::factory(),
+            'creator_id'       => User::factory(),
+            'approver_id'      => null,
             'approver_comment' => null,
-            'approved_at' => Carbon::now(),
-            'declined_at' => null
+            'approved_at'      => null,
+            'declined_at'      => null,
         ];
+    }
+
+    public function approved(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'approver_id' => User::factory(),
+            'approved_at' => Carbon::now(),
+            'declined_at' => null,
+        ]);
+    }
+
+    public function pending(): static
+    {
+        return $this->state(fn(array $attributes) => [
+            'approved_at' => null,
+            'declined_at' => null,
+        ]);
     }
 }
