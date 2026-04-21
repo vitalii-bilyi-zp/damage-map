@@ -141,7 +141,7 @@ class RestorationCostIntegrationTest extends TestCase
 
         $objectType = ObjectType::factory()->create(['name' => 'Житловий будинок']);
         $community  = Community::factory()->create();
-        $repairType = RepairType::factory()->create(['name' => 'Капітальний']);
+        $repairType = RepairType::factory()->create(['name' => 'Капітальний ремонт', 'code' => 'capital_repair']);
 
         $response = $this->postJson(
             '/api/damage-note-requests',

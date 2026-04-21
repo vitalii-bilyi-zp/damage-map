@@ -10,7 +10,7 @@ class ObjectTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'name'               => $this->faker->unique()->word() . ' type',
+            'name'               => 'type_' . substr($this->faker->unique()->uuid(), 0, 8),
             'object_category_id' => ObjectCategory::factory(),
         ];
     }

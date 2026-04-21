@@ -391,7 +391,7 @@ class DamageNotesController extends Controller
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('districts', 'communities.district_id', '=', 'districts.id')
             ->join('regions', 'districts.region_id', '=', 'regions.id')
-            ->groupBy('regions.id')
+            ->groupBy('regions.id', 'regions.name')
             ->select(DB::raw('regions.name, SUM(damage_notes.restoration_cost) AS restoration_cost'));
 
         if ($request->get('object_type_id')) {
@@ -411,7 +411,7 @@ class DamageNotesController extends Controller
         $query = DamageNote::query()
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
             ->join('districts', 'communities.district_id', '=', 'districts.id')
-            ->groupBy('districts.id')
+            ->groupBy('districts.id', 'districts.name')
             ->select(DB::raw('districts.name, SUM(damage_notes.restoration_cost) AS restoration_cost'));
 
         if ($request->get('object_type_id')) {
@@ -430,7 +430,7 @@ class DamageNotesController extends Controller
     {
         $query = DamageNote::query()
             ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
-            ->groupBy('communities.id')
+            ->groupBy('communities.id', 'communities.name')
             ->select(DB::raw('communities.name, SUM(damage_notes.restoration_cost) AS restoration_cost'));
 
         if ($request->get('object_type_id')) {

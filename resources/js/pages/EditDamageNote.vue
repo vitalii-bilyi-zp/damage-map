@@ -175,6 +175,7 @@ export default {
                 area: data.area,
                 damageType: data.damage_type,
                 repairType: data.repair_type_id,
+                heritageStatus: data.heritage_status || 'none',
                 restorationCost: data.restoration_cost,
                 comment: data.comment,
             }
@@ -192,6 +193,7 @@ export default {
                 area: data.area,
                 damage_type: data.damageType,
                 repair_type_id: data.repairType,
+                heritage_status: data.heritageStatus,
                 restoration_cost: data.restorationCost,
                 comment: data.comment,
             };

@@ -275,6 +275,7 @@ export default {
                 area: data.area,
                 damageType: data.damage_type,
                 repairType: data.repair_type,
+                heritageStatus: data.heritage_status || 'none',
                 restorationCost: data.restoration_cost,
                 predictedRestorationCost: data.predicted_restoration_cost,
                 comment: data.comment,

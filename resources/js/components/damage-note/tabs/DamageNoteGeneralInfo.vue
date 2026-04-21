@@ -112,6 +112,14 @@
             <v-col cols="12" sm="4">
                 <v-list-item two-line>
                     <v-list-item-content>
+                        <v-list-item-subtitle class="mb-1">Статус культурної спадщини</v-list-item-subtitle>
+                        <v-list-item-title>{{ heritageStatusLabel }}</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+                <v-list-item two-line>
+                    <v-list-item-content>
                         <v-list-item-subtitle class="mb-1">Тип пошкодження</v-list-item-subtitle>
                         <v-list-item-title>{{ damageTypeLabel }}</v-list-item-title>
                     </v-list-item-content>
@@ -198,6 +206,17 @@ export default {
             let damageType = this.damageTypeItems.find((item) => item.id === this.damageNote.damageType);
 
             return damageType && damageType.name;
+        },
+
+        heritageStatusLabel() {
+            const map = {
+                none:     'Без статусу',
+                local:    'Місцеве значення',
+                regional: 'Регіональне значення',
+                national: 'Національне значення',
+                world:    'Світове значення',
+            };
+            return map[this.damageNote && this.damageNote.heritageStatus] || 'Без статусу';
         },
     },
 

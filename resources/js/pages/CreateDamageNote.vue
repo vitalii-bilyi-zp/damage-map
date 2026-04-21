@@ -188,6 +188,7 @@ export default {
             appendIfSet('area', data.area);
             appendIfSet('damage_type', data.damageType);
             appendIfSet('repair_type_id', data.repairType);
+            appendIfSet('heritage_status', data.heritageStatus);
             appendIfSet('restoration_cost', data.restorationCost);
             appendIfSet('comment', data.comment);
 

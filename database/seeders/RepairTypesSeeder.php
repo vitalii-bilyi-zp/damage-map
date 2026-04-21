@@ -14,15 +14,18 @@ class RepairTypesSeeder extends Seeder
      */
     public function run()
     {
-        $categories = [
-            'Поточний',
-            'Капітальний',
-            'Повна реконструкція'
+        $types = [
+            ['name' => 'Поточний ремонт',                    'code' => 'current_repair'],
+            ['name' => 'Капітальний ремонт',                 'code' => 'capital_repair'],
+            ['name' => 'Реставрація',                        'code' => 'restoration'],
+            ['name' => 'Знесення з новим будівництвом',      'code' => 'demolition_rebuild'],
+            ['name' => 'Консервація',                        'code' => 'conservation'],
         ];
 
-        foreach ($categories as $value) {
+        foreach ($types as $data) {
             RepairType::updateOrCreate(
-                ['name' => $value],
+                ['code' => $data['code']],
+                ['name' => $data['name'], 'code' => $data['code']]
             );
         }
     }

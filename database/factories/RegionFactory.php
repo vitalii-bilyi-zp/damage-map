@@ -9,7 +9,7 @@ class RegionFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->state() . ' oblast',
+            'name' => $this->faker->unique()->city() . ' oblast',
         ];
     }
 }

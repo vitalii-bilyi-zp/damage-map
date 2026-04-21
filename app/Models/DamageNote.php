@@ -24,6 +24,32 @@ class DamageNote extends Model
         self::HIGH_DAMAGE => 'Тяжке'
     ];
 
+    const HERITAGE_NONE     = 'none';
+    const HERITAGE_LOCAL    = 'local';
+    const HERITAGE_REGIONAL = 'regional';
+    const HERITAGE_NATIONAL = 'national';
+    const HERITAGE_WORLD    = 'world';
+
+    const HERITAGE_STATUSES_MAPPING = [
+        self::HERITAGE_NONE     => 'Без статусу',
+        self::HERITAGE_LOCAL    => 'Місцеве значення',
+        self::HERITAGE_REGIONAL => 'Регіональне значення',
+        self::HERITAGE_NATIONAL => 'Національне значення',
+        self::HERITAGE_WORLD    => 'Світове значення',
+    ];
+
+    /**
+     * Допустимі коди типів ремонту для кожного рівня спадщини.
+     * null означає «всі типи дозволені».
+     */
+    const HERITAGE_ALLOWED_REPAIR_CODES = [
+        self::HERITAGE_NONE     => null,
+        self::HERITAGE_LOCAL    => null,
+        self::HERITAGE_REGIONAL => ['current_repair', 'capital_repair', 'restoration', 'conservation'],
+        self::HERITAGE_NATIONAL => ['restoration', 'conservation'],
+        self::HERITAGE_WORLD    => ['restoration'],
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,7 +68,8 @@ class DamageNote extends Model
         'repair_type_id',
         'restoration_cost',
         'predicted_restoration_cost',
-        'comment'
+        'comment',
+        'heritage_status'
     ];
 
     /**

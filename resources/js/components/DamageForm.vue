@@ -207,39 +207,58 @@
                 </v-col>
             </v-row>
 
-            <!-- Тип пошкодження та ремонту (для авторизованих) -->
-            <v-row v-if="isAuthorized">
+            <!-- Статус культурної спадщини -->
+            <v-row>
                 <v-col cols="12" sm="4">
                     <v-select
-                        v-model="damageType"
-                        :items="damageTypeItems"
-                        :error-messages="damageTypeErrors"
-                        label="Тип пошкодження"
+                        v-model="heritageStatus"
+                        :items="heritageStatusItems"
+                        label="Статус культурної спадщини"
                         dense
-                        required
                         outlined
                         item-text="name"
                         item-value="id"
-                        @change="$v.damageType.$touch()"
-                        @blur="$v.damageType.$touch()"
+                        @change="onHeritageStatusChange"
                     ></v-select>
                 </v-col>
-                <v-col cols="12" sm="4">
-                    <v-select
-                        v-model="repairType"
-                        :items="repairTypeItems"
-                        :error-messages="repairTypeErrors"
-                        label="Тип ремонту"
-                        dense
-                        required
-                        outlined
-                        item-text="name"
-                        item-value="id"
-                        :disabled="!repairTypeItems || !repairTypeItems.length"
-                        @change="$v.repairType.$touch()"
-                        @blur="$v.repairType.$touch()"
-                    />
-                </v-col>
+
+                <template v-if="isAuthorized">
+                    <v-col cols="12" sm="4">
+                        <v-select
+                            v-model="damageType"
+                            :items="damageTypeItems"
+                            :error-messages="damageTypeErrors"
+                            label="Тип пошкодження"
+                            dense
+                            required
+                            outlined
+                            item-text="name"
+                            item-value="id"
+                            @change="$v.damageType.$touch()"
+                            @blur="$v.damageType.$touch()"
+                        ></v-select>
+                    </v-col>
+                    <v-col cols="12" sm="4">
+                        <v-select
+                            v-model="repairType"
+                            :items="repairTypeItemsFiltered"
+                            :error-messages="repairTypeErrors"
+                            label="Тип ремонту"
+                            dense
+                            required
+                            outlined
+                            item-text="name"
+                            item-value="id"
+                            :disabled="!repairTypeItemsFiltered || !repairTypeItemsFiltered.length"
+                            @change="$v.repairType.$touch()"
+                            @blur="$v.repairType.$touch()"
+                        />
+                    </v-col>
+                </template>
+            </v-row>
+
+            <!-- Тип пошкодження та ремонту (для авторизованих) -->
+            <v-row v-if="isAuthorized">
                 <v-col cols="12" sm="4">
                     <v-text-field
                         v-model="restorationCost"
@@ -317,6 +336,14 @@ import moment from 'moment';
 import { required, email, minValue } from 'vuelidate/lib/validators';
 import {mask} from 'vue-the-mask';
 
+const HERITAGE_ALLOWED_REPAIR_CODES = {
+    none:     null,
+    local:    null,
+    regional: ['current_repair', 'capital_repair', 'restoration', 'conservation'],
+    national: ['restoration', 'conservation'],
+    world:    ['restoration'],
+};
+
 export default {
     name: 'DamageForm',
 
@@ -342,6 +369,10 @@ export default {
         repairTypeItems: {
             type: Array,
             default: () => []
+        },
+        initialHeritageStatus: {
+            type: String,
+            default: 'none'
         },
         damageNote: {
             type: Object,
@@ -381,6 +412,14 @@ export default {
                 },
             ],
             repairType: null,
+            heritageStatus: 'none',
+            heritageStatusItems: [
+                { id: 'none',     name: 'Без статусу' },
+                { id: 'local',    name: 'Місцеве значення' },
+                { id: 'regional', name: 'Регіональне значення' },
+                { id: 'national', name: 'Національне значення' },
+                { id: 'world',    name: 'Світове значення' },
+            ],
             restorationCost: null,
             comment: null,
             file: null,
@@ -551,12 +590,29 @@ export default {
             }
 
             return this.objectTypeItems.filter((item) => item.object_category_id === this.objectCategory);
-        }
+        },
+
+        repairTypeItemsFiltered() {
+            const allowed = HERITAGE_ALLOWED_REPAIR_CODES[this.heritageStatus];
+            if (!allowed) return this.repairTypeItems;
+            return this.repairTypeItems.filter((t) => allowed.includes(t.code));
+        },
     },
 
     watch: {
         damageNote() {
             this.initForm();
+        },
+
+        heritageStatus(val) {
+            const allowed = HERITAGE_ALLOWED_REPAIR_CODES[val];
+            if (allowed && this.repairType) {
+                const current = this.repairTypeItems.find((t) => t.id === this.repairType);
+                if (current && !allowed.includes(current.code)) {
+                    this.repairType = null;
+                    if (this.$v.repairType) this.$v.repairType.$reset();
+                }
+            }
         },
     },
 
@@ -569,6 +625,10 @@ export default {
             this.objectType = null;
             this.$v.objectType.$reset();
             this.$v.objectCategory.$touch();
+        },
+
+        onHeritageStatusChange() {
+            // скидання відбувається через watch
         },
 
         submit() {
@@ -625,6 +685,7 @@ export default {
                 area: this.area,
                 damageType: this.damageType,
                 repairType: this.repairType,
+                heritageStatus: this.heritageStatus,
                 restorationCost: this.restorationCost,
                 comment: this.comment,
                 images: this.images,
@@ -646,6 +707,7 @@ export default {
             this.area = this.damageNote ? parseFloat(this.damageNote.area) : null;
             this.damageType = this.damageNote ? this.damageNote.damageType : null;
             this.repairType = this.damageNote ? this.damageNote.repairType : null;
+            this.heritageStatus = this.damageNote ? (this.damageNote.heritageStatus || 'none') : 'none';
             this.restorationCost = this.damageNote ? this.damageNote.restorationCost : null;
             this.comment = this.damageNote ? this.damageNote.comment : null;
         },
@@ -666,6 +728,7 @@ export default {
             this.area = null;
             this.damageType = null;
             this.repairType = null;
+            this.heritageStatus = 'none';
             this.restorationCost = null;
             this.comment = null;
             this.images = [];

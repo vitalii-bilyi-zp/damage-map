@@ -29,6 +29,7 @@ return new class extends Migration
             $table->decimal('restoration_cost', 15, 2)->nullable();
             $table->decimal('predicted_restoration_cost', 15, 2)->nullable();
             $table->text('comment')->nullable();
+            $table->enum('heritage_status', ['none', 'local', 'regional', 'national', 'world'])->default('none');
             $table->timestamps();
         });
     }

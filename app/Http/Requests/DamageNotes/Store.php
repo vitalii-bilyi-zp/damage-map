@@ -5,6 +5,7 @@ namespace App\Http\Requests\DamageNotes;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Models\DamageNote;
+use App\Models\RepairType;
 
 class Store extends FormRequest
 {
@@ -41,7 +42,38 @@ class Store extends FormRequest
             ],
             'repair_type_id' => 'nullable|integer|exists:repair_types,id',
             'restoration_cost' => 'nullable|numeric',
-            'comment' => 'nullable|string|max:1000'
+            'comment' => 'nullable|string|max:1000',
+            'heritage_status' => [
+                'nullable',
+                'string',
+                Rule::in(array_keys(DamageNote::HERITAGE_STATUSES_MAPPING)),
+            ],
         ];
+    }
+
+    public function withValidator($validator): void
+    {
+        $validator->after(function ($validator) {
+            $heritage = $this->input('heritage_status', DamageNote::HERITAGE_NONE);
+            $repairTypeId = $this->input('repair_type_id');
+
+            if (!$repairTypeId) {
+                return;
+            }
+
+            $allowedCodes = DamageNote::HERITAGE_ALLOWED_REPAIR_CODES[$heritage] ?? null;
+            if ($allowedCodes === null) {
+                return;
+            }
+
+            $repairType = RepairType::find($repairTypeId);
+            if ($repairType && !in_array($repairType->code, $allowedCodes)) {
+                $statusLabel = DamageNote::HERITAGE_STATUSES_MAPPING[$heritage] ?? $heritage;
+                $validator->errors()->add(
+                    'repair_type_id',
+                    "Обраний тип ремонту недопустимий для об'єктів зі статусом спадщини «{$statusLabel}»."
+                );
+            }
+        });
     }
 }

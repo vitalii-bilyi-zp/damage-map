@@ -24,7 +24,7 @@ class Index extends FormRequest
     public function rules()
     {
         return [
-            //
+            'heritage_status' => 'nullable|string|in:none,local,regional,national,world',
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RepairTypes\Index as RepairTypesIndex;
+use App\Models\DamageNote;
 use App\Models\RepairType;
 
 use F9Web\ApiResponseHelpers;
@@ -15,8 +16,16 @@ class RepairTypesController extends Controller
 
     public function index(RepairTypesIndex $request): JsonResponse
     {
-        $repairTypes = RepairType::all();
+        $query = RepairType::query();
 
-        return $this->setDefaultSuccessResponse([])->respondWithSuccess($repairTypes);
+        $heritageStatus = $request->input('heritage_status');
+        if ($heritageStatus && array_key_exists($heritageStatus, DamageNote::HERITAGE_ALLOWED_REPAIR_CODES)) {
+            $allowedCodes = DamageNote::HERITAGE_ALLOWED_REPAIR_CODES[$heritageStatus];
+            if ($allowedCodes !== null) {
+                $query->whereIn('code', $allowedCodes);
+            }
+        }
+
+        return $this->setDefaultSuccessResponse([])->respondWithSuccess($query->get());
     }
 }

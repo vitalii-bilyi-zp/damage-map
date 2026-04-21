@@ -9,7 +9,7 @@ class ObjectCategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->word() . ' category',
+            'name' => 'category_' . substr($this->faker->unique()->uuid(), 0, 8),
         ];
     }
 }

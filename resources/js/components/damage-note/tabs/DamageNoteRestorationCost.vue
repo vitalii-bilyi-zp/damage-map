@@ -127,7 +127,7 @@
 
             <v-select
                 v-model="form.repairType"
-                :items="repairTypeItems"
+                :items="repairTypeItemsFiltered"
                 :error-messages="repairTypeErrors"
                 label="Тип ремонту"
                 dense
@@ -135,7 +135,7 @@
                 outlined
                 item-text="name"
                 item-value="id"
-                :disabled="!repairTypeItems || !repairTypeItems.length"
+                :disabled="!repairTypeItemsFiltered || !repairTypeItemsFiltered.length"
                 @change="$v.form.repairType.$touch()"
                 @blur="$v.form.repairType.$touch()"
             />
@@ -278,6 +278,14 @@ import PieChart from '@/js/components/charts/PieChart.vue';
 import BarChart from '@/js/components/charts/BarChart.vue';
 import { required, minValue } from 'vuelidate/lib/validators';
 import { formatUAH } from '@/js/helpers';
+
+const HERITAGE_ALLOWED_REPAIR_CODES = {
+    none:     null,
+    local:    null,
+    regional: ['current_repair', 'capital_repair', 'restoration', 'conservation'],
+    national: ['restoration', 'conservation'],
+    world:    ['restoration'],
+};
 
 const COLORS = [
     '#0aadd0',
@@ -498,6 +506,16 @@ export default {
             return this.objectTypeItems.filter((item) => item.object_category_id === this.form.objectCategory);
         },
 
+        heritageStatus() {
+            return (this.damageNote && this.damageNote.heritageStatus) || 'none';
+        },
+
+        repairTypeItemsFiltered() {
+            const allowed = HERITAGE_ALLOWED_REPAIR_CODES[this.heritageStatus];
+            if (!allowed) return this.repairTypeItems;
+            return this.repairTypeItems.filter((t) => allowed.includes(t.code));
+        },
+
         currentYear() {
             return new Date().getFullYear();
         },
@@ -533,6 +551,17 @@ export default {
     watch: {
         damageNote() {
             this.initForm();
+        },
+
+        heritageStatus(val) {
+            const allowed = HERITAGE_ALLOWED_REPAIR_CODES[val];
+            if (allowed && this.form.repairType) {
+                const current = this.repairTypeItems.find((t) => t.id === this.form.repairType);
+                if (current && !allowed.includes(current.code)) {
+                    this.form.repairType = null;
+                    this.$v.form.repairType.$reset();
+                }
+            }
         },
 
         work_year() {

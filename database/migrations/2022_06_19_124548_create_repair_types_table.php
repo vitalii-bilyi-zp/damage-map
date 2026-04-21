@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('repair_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('code', 50)->nullable()->unique();
             $table->timestamps();
         });
     }
