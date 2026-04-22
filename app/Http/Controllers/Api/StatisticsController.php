@@ -177,7 +177,7 @@ class StatisticsController extends Controller
                     ->join('regions', 'districts.region_id', '=', 'regions.id')
                     ->where('regions.id', '=', $request->get('region_id'));
             })
-            ->groupBy('damage_notes.object_type_id');
+            ->groupBy('damage_notes.object_type_id', 'object_types.name');
 
         $aggregation = null;
         if ($request->get('dimension_type') === self::RESTORATION_COST_DIMENSION) {
@@ -229,30 +229,30 @@ class StatisticsController extends Controller
                 $dataQuery->select('object_categories.name AS title')
                     ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
                     ->join('object_categories', 'object_types.object_category_id', '=', 'object_categories.id')
-                    ->groupBy('object_categories.id');
+                    ->groupBy('object_categories.id', 'object_categories.name');
                 break;
             case self::OBJECT_TYPE_CUBE_DIMENSION:
                 $dataQuery->select('object_types.name AS title')
                     ->join('object_types', 'damage_notes.object_type_id', '=', 'object_types.id')
-                    ->groupBy('object_types.id');
+                    ->groupBy('object_types.id', 'object_types.name');
                 break;
             case self::REGION_CUBE_DIMENSION:
                 $dataQuery->select('regions.name AS title')
                     ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
                     ->join('districts', 'communities.district_id', '=', 'districts.id')
                     ->join('regions', 'districts.region_id', '=', 'regions.id')
-                    ->groupBy('regions.id');
+                    ->groupBy('regions.id', 'regions.name');
                 break;
             case self::DISTRICT_CUBE_DIMENSION:
                 $dataQuery->select('districts.name AS title')
                     ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
                     ->join('districts', 'communities.district_id', '=', 'districts.id')
-                    ->groupBy('districts.id');
+                    ->groupBy('districts.id', 'districts.name');
                 break;
             case self::COMMUNITY_CUBE_DIMENSION:
                 $dataQuery->select('communities.name AS title')
                     ->join('communities', 'damage_notes.community_id', '=', 'communities.id')
-                    ->groupBy('communities.id');
+                    ->groupBy('communities.id', 'communities.name');
                 break;
             case self::DAMAGE_TYPE_CUBE_DIMENSION:
                 $dataQuery->select('damage_notes.damage_type AS title')
